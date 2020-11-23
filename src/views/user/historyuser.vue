@@ -49,7 +49,16 @@
                 icon="file-earmark-text"
                 variant="danger"
               ></b-icon>
-              <!-- แก้ไข -->
+        
+            </template>
+            <template  v-slot:cell(de)="row">
+              
+              <!-- <div v-for="(item,index) in itemss" :key="index">
+                <div v-if="item.FIX_ID == row.item.FIX_ID">                  -->
+              <b-button variant="success"  @click="info3(row.item, row.index, $event.target)">ให้คะเเนน</b-button>
+              <!-- </div>
+              </div> -->
+           
             </template>
           </b-table>
           <!-- ปุ่มรายละเอียด -->
@@ -83,12 +92,41 @@
               </b-row>
             </b-container>
           </b-modal>
-          <!-- ปุ่มแก้ไข -->
-
-          <!-- ปุ่มลบ -->
+          <!-- ให้คะเเนน -->
+<b-modal :id="infoModal3.id" size="lg" ref="modal-3" hide-footer>
+            <b-container fluid>
+              <!-- productdetail -->
+              <div align="center"><b>รายละเอียด</b></div>
+              <b-row>
+                <b-col cols="4">ประเภท : </b-col>
+                <b-col cols="8">{{ itemss[productdetail].TYPE_NAME }}</b-col>
+              </b-row>
+              <b-row>
+                <b-col cols="4">รหัสครุภัณฑ์ : </b-col>
+                <b-col cols="8">{{ itemss[productdetail].PRODUCT_CODE }}</b-col>
+              </b-row>
+              <b-row>
+                <b-col cols="4">ยี่ห้อ : </b-col>
+                <b-col cols="8">{{ itemss[productdetail].BRAND_NAME }}</b-col>
+              </b-row>
+              <b-row>
+                <b-col cols="4">รุ่น : </b-col>
+                <b-col cols="8">{{ itemss[productdetail].PRODUCT_GEN }}</b-col>
+              </b-row>
+              <b-row>
+                <b-col cols="4">วันที่เเจ้งซ่อม : </b-col>
+                <b-col cols="8">{{ itemss[productdetail].DATE }}</b-col>
+              </b-row>
+              <b-row>
+                <b-col cols="4">ปัญหาการเเจ้งซ่อม : </b-col>
+                <b-col cols="8">{{ itemss[productdetail].FIX_DETAIL }}</b-col>
+              </b-row>
+            </b-container>
+          </b-modal>
+       
         </b-container>
       </div>
-      <!-- จบ -->
+
     </div>
   </div>
 </template>
@@ -109,18 +147,24 @@ export default {
       { key: "PRODUCT_CODE", label: "เลขครุภัณฑ์", class: "text-center" },
       // { key: "PRODUCT_BRAND", label: "ยี่ห้อ", class: "text-center" },
       // { key: "PRODUCT_GEN", label: "รุ่น", class: "text-center" },
-      { key: "TYPE_NAME", label: "ประเภท", class: "text-center" },
+      // { key: "TYPE_NAME", label: "ประเภท", class: "text-center" },
       { key: "DATE", label: "วันที่แจ้งซ่อม", class: "text-center" ,formatter:"format_datetime"},
       { key: "detail", label: "รายละเอียด", class: "text-center" },
       { key: "FIX_STATUS", label: "สถานะ", class: "text-center" },
-      { key: "BACK_DATE", label: "วันที่ให้คืน", class: "text-center" },
-      { key: "BACK_MEMBER", label: "ผู้ให้คืน", class: "text-center" }
+      { key: "BACK_DATE", label: "วันที่ให้คืน", class: "text-center",formatter:"format_datetime1" },
+      { key: "BACK_MEMBER", label: "ผู้ให้คืน", class: "text-center" },
+      { key: "de", label: "รายละเอียด", class: "text-center" },
     ],
     productdetail: 0,
     filter: null,
     filterOn: [],
     infoModal2: {
       id: "info-modal2",
+      title: "",
+      content: ""
+    },
+    infoModal3: {
+      id: "info-modal3",
       title: "",
       content: ""
     }
@@ -146,6 +190,11 @@ export default {
       var time = moment(data).format(" HH:mm น.");
       return dm + year + time;
     },
+     format_datetime1(data) {
+   var dm = moment(data).format("DD/MM/");
+      var year = parseInt(moment(data).format("YYYY")) + 543;
+      return dm + year;
+    },
     showlogin() {
       this.login = localStorage.getItem("USER");
       console.log(this.login);
@@ -160,6 +209,14 @@ export default {
       this.infoModal2.title = item.name;
       this.infoModal2.content = JSON.stringify(item, null, 2);
       this.$root.$emit("bv::show::modal", this.infoModal2.id, button);
+    },
+    info3(item, index, button) {
+      console.log(item.FIX_ID);
+      this.productdetail = index;
+      console.log(index);
+      this.infoModal3.title = item.name;
+      this.infoModal3.content = JSON.stringify(item, null, 2);
+      this.$root.$emit("bv::show::modal", this.infoModal3.id, button);
     }
   }
 };
