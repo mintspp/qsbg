@@ -100,6 +100,22 @@ app.post('/insertPRODUCT', (req, res) => {
     })
 });
 
+app.post('/insertFIXCOMMENT', (req, res) => {
+    const {
+        body
+    } = req;
+    // console.log(body);
+    mysqlConnection.query(`insert into comments (FIX_ID,COMMENT,COMMENT_STAR,COMMENT_TYPE) 
+            values ('${body.FIX_ID}','${body.COMMENT}','${body.COMMENT_STAR}','${body.COMMENT_TYPE}') `, (err, rows, fields) => {
+        if (!err) {
+            console.log(rows);
+            res.send(rows);
+        } else {
+            console.log(err);
+        }
+    })
+});
+
 app.post('/updatePRODUCT', async (req, res) => {
     const {
         body
@@ -356,11 +372,12 @@ app.post('/selectfixdetails', (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM fix
+    mysqlConnection.query(`SELECT CONCAT(fix.FIX_ID) AS fixid,fix.PRODUCT_ID,fix.MEMBER_ID,fix.FIX_DETAIL,fix.BACK_MEMBER,fix.BACK_DATE,fix.BACK_DATE,BACK_ADMIN,fixhistory.*,product.*,brand.*,type.*,comments.* FROM fix
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
+    LEFT JOIN comments ON fix.FIX_ID = comments.FIX_ID
     WHERE fix.MEMBER_ID = ${body.MEMBER_ID} AND fixhistory.FIX_STATUS = "การรับคืนสำเร็จ"`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);

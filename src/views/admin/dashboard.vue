@@ -33,7 +33,7 @@
             <div style="margin: 10px">
               <h4>ข้อมูลการเเจ้งซ่อมครุภัณฑ์</h4>
             </div>
-            <canvas id="graph2" width="200" height="150"></canvas>
+            <canvas id="graph2" width="150" height="100"></canvas>
           </div>
           <div style="margin: 20px">
             <md-table md-card>
@@ -56,15 +56,6 @@
                   item.fixcount
                 }}</md-table-cell>
               </md-table-row>
-              <!-- <md-table-row
-                style="background-color: #f1912a"
-                slot="md-table-row"
-              >
-                <md-table-cell md-label="สำนักงาน">รวม</md-table-cell>
-                <md-table-cell md-label="การเเจ้งซ่อม">{{
-                  itemcount
-                }}</md-table-cell>
-              </md-table-row> -->
             </md-table>
           </div>
         </b-col>
@@ -73,7 +64,7 @@
             <div style="margin: 10px">
               <h4>ข้อมูลยี่ห้อการเเจ้งซ่อมครุภัณฑ์</h4>
             </div>
-            <canvas id="graph3" width="200" height="150"></canvas>
+            <canvas id="graph3" width="150" height="100"></canvas>
           </div>
           <div style="margin: 20px">
             <md-table md-card>
