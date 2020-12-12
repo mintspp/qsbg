@@ -27,67 +27,67 @@
         </b-col>
       </b-row>
       <div v-if="items != '' && itemss != ''">
-      <b-row>
-        <b-col cols="6">
-          <div class="wrapper" style="margin: 20px; margin-top: 20px">
-            <div style="margin: 10px">
-              <h4>ข้อมูลการเเจ้งซ่อมครุภัณฑ์</h4>
+        <b-row>
+          <b-col cols="6">
+            <div class="wrapper" style="margin: 20px; margin-top: 20px">
+              <div style="margin: 10px">
+                <h4>ข้อมูลการเเจ้งซ่อมครุภัณฑ์</h4>
+              </div>
+              <canvas id="graph2" width="150" height="100"></canvas>
             </div>
-            <canvas id="graph2" width="150" height="100"></canvas>
-          </div>
-          <div style="margin: 20px">
-            <md-table md-card>
-              <md-table-row
-                style="background-color: #80ad47"
-                slot="md-table-row"
-              >
-                <md-table-cell>สำนักงาน</md-table-cell>
-                <md-table-cell>การเเจ้งซ่อม(จำนวน)</md-table-cell>
-              </md-table-row>
-              <md-table-row
-                slot="md-table-row"
-                v-for="(item, index) in items"
-                :key="index"
-              >
-                <md-table-cell md-label="สำนักงาน">{{
-                  item.workmb
-                }}</md-table-cell>
-                <md-table-cell md-label="การเเจ้งซ่อม">{{
-                  item.fixcount
-                }}</md-table-cell>
-              </md-table-row>
-            </md-table>
-          </div>
-        </b-col>
-        <b-col cols="6">
-          <div class="wrapper" style="margin: 20px; margin-top: 20px">
-            <div style="margin: 10px">
-              <h4>ข้อมูลยี่ห้อการเเจ้งซ่อมครุภัณฑ์</h4>
+            <div style="margin: 20px">
+              <md-table md-card>
+                <md-table-row
+                  style="background-color: #80ad47"
+                  slot="md-table-row"
+                >
+                  <md-table-cell>สำนักงาน</md-table-cell>
+                  <md-table-cell>การเเจ้งซ่อม(จำนวน)</md-table-cell>
+                </md-table-row>
+                <md-table-row
+                  slot="md-table-row"
+                  v-for="(item, index) in items"
+                  :key="index"
+                >
+                  <md-table-cell md-label="สำนักงาน">{{
+                    item.workmb
+                  }}</md-table-cell>
+                  <md-table-cell md-label="การเเจ้งซ่อม">{{
+                    item.fixcount
+                  }}</md-table-cell>
+                </md-table-row>
+              </md-table>
             </div>
-            <canvas id="graph3" width="150" height="100"></canvas>
-          </div>
-          <div style="margin: 20px">
-            <md-table md-card>
-              <md-table-row
-                style="background-color: #ffad32"
-                slot="md-table-row"
-              >
-                <md-table-cell>ยี่ห้อ</md-table-cell>
-                <md-table-cell>จำนวน</md-table-cell>
-              </md-table-row>
-              <md-table-row
-                slot="md-table-row"
-                v-for="(item, index) in itemss"
-                :key="index"
-              >
-                <md-table-cell md-label="สำนักงาน">{{
-                  item.brandname
-                }}</md-table-cell>
-                <md-table-cell md-label="การเเจ้งซ่อม">{{
-                  item.brandfixcount
-                }}</md-table-cell>
-              </md-table-row>
-              <!-- <md-table-row
+          </b-col>
+          <b-col cols="6">
+            <div class="wrapper" style="margin: 20px; margin-top: 20px">
+              <div style="margin: 10px">
+                <h4>ข้อมูลยี่ห้อการเเจ้งซ่อมครุภัณฑ์</h4>
+              </div>
+              <canvas id="graph3" width="150" height="100"></canvas>
+            </div>
+            <div style="margin: 20px">
+              <md-table md-card>
+                <md-table-row
+                  style="background-color: #ffad32"
+                  slot="md-table-row"
+                >
+                  <md-table-cell>ยี่ห้อ</md-table-cell>
+                  <md-table-cell>จำนวน</md-table-cell>
+                </md-table-row>
+                <md-table-row
+                  slot="md-table-row"
+                  v-for="(item, index) in itemss"
+                  :key="index"
+                >
+                  <md-table-cell md-label="สำนักงาน">{{
+                    item.brandname
+                  }}</md-table-cell>
+                  <md-table-cell md-label="การเเจ้งซ่อม">{{
+                    item.brandfixcount
+                  }}</md-table-cell>
+                </md-table-row>
+                <!-- <md-table-row
                 style="background-color: #f1912a"
                 slot="md-table-row"
               >
@@ -96,19 +96,50 @@
                   itemcountbrand
                 }}</md-table-cell>
               </md-table-row> -->
-            </md-table>
-          </div>
-        </b-col>
-      </b-row>
+              </md-table>
+            </div>
+          </b-col>
+        </b-row>
+        
       </div>
       <div v-else>
-          <div>
-    <b-icon icon="exclamation-circle-fill" variant="warning" style="width: 120px; height: 120px;margin-top:200px;"></b-icon>
-    <div align="center">
-      <h5>ไม่มีการเเจ้งซ่อม</h5>
-    </div>
-  </div>
-         
+        <div>
+          <b-icon
+            icon="exclamation-circle-fill"
+            variant="warning"
+            style="width: 120px; height: 120px; margin-top: 200px"
+          ></b-icon>
+          <div align="center">
+            <h5>ไม่มีการเเจ้งซ่อม</h5>
+          </div>
+        </div>
+      </div>
+      <div  style="margin: 20px">
+        <h4>ข้อมูลการเเสดงความคิดเห็น</h4>
+        <div style="margin: 10px">
+            <b-table
+              class="table table-striped"
+              show-empty
+              small
+              stacked="md"
+              :items="comment"
+              :fields="field"
+              :per-page="perPage"
+              :current-page="currentPage"
+            >
+            </b-table>
+          </div>
+          <div style="margin: 5px">
+            <b-pagination
+              v-model="currentPage"
+              :total-rows="totalRows"
+              :per-page="perPage"
+              align="fill"
+              size="sm"
+              class="my-0"
+            ></b-pagination>
+            <br><br>
+          </div>
       </div>
     </div>
   </div>
@@ -126,6 +157,18 @@ export default {
     login: "",
     YEAR: "2563",
     MONTH: "0",
+    comment: null,
+    field: [
+      { key: "FIX_ID", label: "รหัสการเเจ้งซ่อม" },
+      { key: "COMMENT", label: "ความคิดเห็น" },
+      {
+        key: "COMMENT_STAR",
+        label: "คะเเนน",
+      },
+    ],
+    totalRows: 1,
+    currentPage: 1,
+    perPage: 10,
     month: [
       { value: "0", text: "ทุกเดือน" },
       { value: "1", text: "มกราคม" },
@@ -160,6 +203,13 @@ export default {
   }),
   created() {
     this.showlogin();
+
+    axios.post("http://localhost:5000/commentsss").then((response) => {
+      console.log(response.data);
+      this.comment = response.data;
+      console.log(this.comment);
+       this.totalRows = this.comment.length;
+    });
   },
 
   async mounted() {
@@ -286,8 +336,6 @@ export default {
             const element = this.items[index];
             workmb.push(element.workmb);
             fixcount.push(element.fixcount);
-
-           
           }
         });
       var ctx = document.getElementById("graph2").getContext("2d");
@@ -335,7 +383,6 @@ export default {
 
             brandname.push(element.brandname);
             brandfixcount.push(element.brandfixcount);
-          
           }
         });
       var ctxx = document.getElementById("graph3").getContext("2d");

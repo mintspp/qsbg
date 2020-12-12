@@ -253,6 +253,35 @@ app.post('/selectPRODUCT', (req, res) => {
     })
 });
 
+app.post('/commentsss', (req, res) => {
+    const {
+        body
+    } = req;
+    mysqlConnection.query(`SELECT * FROM comments`, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows);
+            // console.log('5555555555555555555');
+        } else {
+            console.log(err);
+        }
+    })
+});
+
+app.post('/notification', (req, res) => {
+    const {
+        body
+    } = req;
+    mysqlConnection.query(`SELECT product.*,DAY(PRODUCT_EXP) AS D_EXP,MONTH(PRODUCT_EXP) AS M_EXP,YEAR(PRODUCT_EXP) AS Y_EXP FROM product
+    `, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows);
+            // console.log('5555555555555555555');
+        } else {
+            console.log(err);
+        }
+    })
+});
+
 app.post('/selectFIX', (req, res) => {
     const {
         body
