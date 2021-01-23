@@ -42,7 +42,7 @@ export default {
     showlogin() {
       this.login = localStorage.getItem("ADMIN");
       console.log(this.login);
-    },
+    }
   },
 };
 </script>

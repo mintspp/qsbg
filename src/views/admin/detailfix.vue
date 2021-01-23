@@ -157,7 +157,7 @@ export default {
     ],
 
     fields: [
-      { key: "FIX_ID", label: "ลำดับ", class: "text-center" },
+      // { key: "FIX_ID", label: "ลำดับ", class: "text-center" },
       { key: "PRODUCT_CODE", label: "เลขครุภัณฑ์", class: "text-center" },
       { key: "MEMBER_NAME", label: "ผู้แจ้งซ่อม", class: "text-center" },
       {

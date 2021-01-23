@@ -9,18 +9,11 @@
 
     <div>
       <b-container fluid>
-        <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
         <b-row>
-          <b-col cols="6" class="my-2">
-            <!-- ค้นหา -->
-            <b-form-input
-              v-model="filter"
-              type="search"
-              id="filterInput"
-              placeholder="ค้นหา"
-            ></b-form-input>
-          </b-col>
           <b-col cols="6">
+ <div align="left"><h1>ข้อมูลครุภัณฑ์</h1></div>    
+          </b-col>
+         <b-col cols="6">
             <div align="right" style="margin-right:10px;margin-top:6px;">
               <b-button variant="success" @click="showModal"
                 >เพิ่มครุภัณฑ์</b-button
@@ -29,12 +22,17 @@
                 ref="my-modal"
                 size="lg"
                 hide-footer
-                title="เพิ่มครุภัณฑ์"
+                
               >
                 <div class="d-block text-center">
+                   <div align="center"><b><h4>กรอกข้อมูลครุภัณฑ์</h4></b></div>
                   <b-row>
-                    <b-col cols="12">ประเภท</b-col>
-                    <b-col cols="12"
+                    <b-col cols="6">ประเภท</b-col>
+                     <b-col cols="6">ชื่อผู้ครอบครอง</b-col>
+                  </b-row>
+                  <b-row>
+                   
+                    <b-col cols="6"
                       ><b-form-select v-model="TYPE_ID">
                         <b-form-select-option
                           v-for="(type, index) in type"
@@ -46,6 +44,19 @@
                         >
                       </b-form-select></b-col
                     >
+                    <b-col cols="6">
+                      <b-form-select v-model="MEMBER_ID">
+                        <b-form-select-option
+                          v-for="(member, index) in member"
+                          :key="index"
+                          v-model="member.MEMBER_ID"
+                          :value="member.MEMBER_ID"
+                          >{{ member.MEMBER_ID + " : "
+                          }}{{ member.MEMBER_NAME + " (สำนักงาน : "
+                          }}{{ member.MEMBER_WORK + ")" }}</b-form-select-option
+                        >
+                      </b-form-select>
+                    </b-col>
                   </b-row>
 
                   <b-row>
@@ -90,22 +101,7 @@
                       ></b-form-datepicker>
                     </b-col>
                   </b-row>
-                  <b-row>
-                    <b-col cols="12">ชื่อผู้ครอบครอง</b-col>
-                    <b-col cols="12">
-                      <b-form-select v-model="MEMBER_ID">
-                        <b-form-select-option
-                          v-for="(member, index) in member"
-                          :key="index"
-                          v-model="member.MEMBER_ID"
-                          :value="member.MEMBER_ID"
-                          >{{ member.MEMBER_ID + " : "
-                          }}{{ member.MEMBER_NAME + " (สำนักงาน : "
-                          }}{{ member.MEMBER_WORK + ")" }}</b-form-select-option
-                        >
-                      </b-form-select>
-                    </b-col>
-                  </b-row>
+                  
                   <!-- ----- v-if PRODUCT_TYPE เพื่อเปิด cpu ram hd win ----- -->
                   <div v-if="TYPE_ID == 1 || TYPE_ID == 4">
                     <div align="left" style="margin-top:5px;">อื่นๆ...</div>
@@ -159,7 +155,26 @@
             </div>
           </b-col>
         </b-row>
+          
+         <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
+        <b-row>
+          <b-col cols="6" class="my-2">
+            <!-- ค้นหา -->
+            <b-form-input
+              v-model="filter"
+              type="search"
+              id="filterInput"
+              placeholder="ค้นหา"
+            ></b-form-input>
+          
+          </b-col>
+           <b-col cols="6">
+        <div align="right" style="margin-right:10px;"><h5>จำนวนทั้งหมด {{itemss}} ครุภัณฑ์</h5> </div>
+          </b-col>
+          
+        </b-row>
         <br />
+         
         <b-table
           show-empty
           small
@@ -201,7 +216,7 @@
         <b-modal :id="infoModal1.id" size="lg" ref="modal-1" hide-footer>
           <b-container fluid>
             <div>
-              <div align="center"><b>รายละเอียด</b></div>
+              <div align="center"><b><h4>รายละเอียด</h4></b></div>
               <b-row>
                 <b-col cols="5" align="right">CPU :</b-col>
                 <b-col cols="7">{{ items[productdetail].PC_CPU }}</b-col>
@@ -230,7 +245,7 @@
           hide-footer
         >
           <b-container fluid>
-            <div align="center"><b>เเก้ไขข้อมูล</b></div>
+            <div align="center"><b><h4>เเก้ไขข้อมูล</h4></b></div>
             <b-row style="margin-top:5px;">
               <b-col cols="4" align="right">เลขครุภัณฑ์ :</b-col>
               <b-col cols="8">
@@ -387,7 +402,7 @@ export default {
   },
   data: () => ({
     login: "",
-
+itemss:"",
     MEMBER_ID: "",
     PRODUCT_CODE: "",
     BRAND_ID: "",
@@ -412,7 +427,7 @@ export default {
       }
     ],
     fields: [
-      { key: "PRODUCT_ID", label: "ลำดับ", class: "text-center" },
+      // { key: "PRODUCT_ID", label: "ลำดับ", class: "text-center" },
       { key: "PRODUCT_CODE", label: "เลขครุภัณฑ์", class: "text-center" },
       { key: "BRAND_NAME", label: "ยี่ห้อ", class: "text-center" },
       { key: "MEMBER_NAME", label: "ผู้ครอบครอง", class: "text-center" },
@@ -445,7 +460,7 @@ export default {
     axios.post("http://localhost:5000/selectPRODUCTadmin").then(response => {
       console.log(response);
       this.items = response.data;
-      console.log(this.items);
+      this.itemss =response.data.length
     });
     axios.post("http://localhost:5000/selecttype").then(response => {
       console.log(response.data);
@@ -595,5 +610,9 @@ export default {
 *::after {
   z-index: 9999 !important;
   box-sizing: border-box;
+}
+h5, .h5 {
+    font-size: 1.25rem;
+    margin-top: 20px;
 }
 </style>

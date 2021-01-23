@@ -107,7 +107,7 @@ export default {
     ],
     items: null,
     fields: [
-      { key: "FIX_ID", label: "ลำดับ", class: "text-center" },
+      // { key: "FIX_ID", label: "ลำดับ", class: "text-center" },
       { key: "PRODUCT_CODE", label: "เลขครุภัณฑ์", class: "text-center" },
       // { key: "PRODUCT_BRAND", label: "ยี่ห้อ", class: "text-center" },
       // { key: "PRODUCT_GEN", label: "รุ่น", class: "text-center" },
