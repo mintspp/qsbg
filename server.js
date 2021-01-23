@@ -271,15 +271,36 @@ app.post('/notification', (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT product.*,DAY(PRODUCT_EXP) AS D_EXP,MONTH(PRODUCT_EXP) AS M_EXP,YEAR(PRODUCT_EXP) AS Y_EXP FROM product
+    mysqlConnection.query(`SELECT *FROM product
+    LEFT JOIN type ON type.TYPE_ID = product.TYPE_ID
+    LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
     `, (err, rows, fields) => {
         if (!err) {
-            res.send(rows);
-            // console.log('5555555555555555555');
+            var product = []
+            for (let index = 0; index < rows.length; index++) {
+                const element = rows[index];
+                // console.log(new Date() > new Date(element.PRODUCT_EXP));
+                if (new Date() > new Date(element.PRODUCT_EXP)) {
+                    console.log(element);
+                    product.push(element)
+                }
+            }
+            const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
+
+            lineNotify.notify({
+                message: '\n' +'สินค้ารหัส'+' '+product.map((x)=>{return x.PRODUCT_CODE})+' '+'หมดอายุ'+ '\n'  +'วันที่หมดอายุ : '+ product.map((x)=>{return x.PRODUCT_EXP}) + '\n'  +'ประเภท : '+ product.map((x)=>{return x.TYPE_NAME})+ '\n' +'ยี่ห้อ : '+ product.map((x)=>{return x.BRAND_NAME}) ,
+            }).then(() => {
+                console.log('send completed!');
+            }).catch((err) => {
+                console.log(err);
+            });
+            res.send(product);
+
         } else {
             console.log(err);
         }
     })
+    
 });
 
 app.post('/selectFIX', (req, res) => {
@@ -432,6 +453,27 @@ app.post('/updatestatus', async (req, res) => {
         }
     })
 });
+
+app.post('/upprofile', async (req, res) => {
+    const {
+        body
+    } = req;
+    //console.log(body);
+    mysqlConnection.query(`UPDATE member
+    SET MEMBER_NAME = '${body.MEMBER_NAME}',
+    MEMBER_TELL = '${body.MEMBER_TELL}',
+    MEMBER_EMAIL = '${body.MEMBER_EMAIL}',
+    MEMBER_USERNAME = '${body.MEMBER_USERNAME}',
+    MEMBER_PASSWORD = '${body.MEMBER_PASSWORD}'
+    WHERE MEMBER_ID ='${body.MEMBER_ID}';`, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows);
+        } else {
+            console.log(err);
+        }
+    })
+});
+
 app.post('/updatestatus1', async (req, res) => {
     const {
         body
@@ -630,7 +672,7 @@ app.post('/selectfixdashboard', (req, res) => {
 
 
 });
- 
+
 
 app.post('/selectfixbrand', (req, res) => {
     const {

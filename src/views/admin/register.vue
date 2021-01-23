@@ -359,7 +359,7 @@ export default {
     ],
 
     fields: [
-      { key: "MEMBER_ID", label: "ลำดับ", class: "text-center" },
+      // { key: "MEMBER_ID", label: "ลำดับ", class: "text-center" },
       { key: "MEMBER_NAME", label: "ชื่อ", class: "text-center" },
       { key: "MEMBER_WORK", label: "งาน", class: "text-center" },
       // { key: "MEMBER_TELL", label: "เบอร์โทร", class: "text-center" },

@@ -153,7 +153,7 @@ export default {
     login: "",
     itemss: null,
     fieldss: [
-      { key: "fixid", label: "ลำดับ", class: "text-center" },
+      // { key: "fixid", label: "ลำดับ", class: "text-center" },
       { key: "PRODUCT_CODE", label: "เลขครุภัณฑ์", class: "text-center" },
       {
         key: "DATE",
