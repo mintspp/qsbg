@@ -5,31 +5,24 @@
         <b-navbar-brand>QSBG</b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-<b-navbar-nav class="ml-auto">
-   <b-nav-item-dropdown left>
-             <template v-slot:button-content>
-                จัดการข้อมูล
-              </template>
-              <b-dropdown-item @click="goregister" >
-               ข้อมูลสมาชิก
-              </b-dropdown-item>
-              <b-dropdown-item @click="goindex">
-              ข้อมูลครุภัณฑ์
-              </b-dropdown-item>
-               <b-dropdown-item @click="gosetting">
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item-dropdown left>
+            <template v-slot:button-content> จัดการข้อมูล </template>
+            <b-dropdown-item @click="goregister">
+              ข้อมูลสมาชิก
+            </b-dropdown-item>
+            <b-dropdown-item @click="goindex"> ข้อมูลครุภัณฑ์ </b-dropdown-item>
+            <b-dropdown-item @click="gosetting">
               ข้อมูลยี่ห้อ/ประเภท
-              </b-dropdown-item>
-            </b-nav-item-dropdown>
-  </b-navbar-nav>
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+        </b-navbar-nav>
         <b-collapse id="nav-collapse" is-nav>
-         
           <b-navbar-nav>
-           
             <b-nav-item @click="gohistory"
               >ประวัติการแจ้งซ่อมครุภัณฑ์</b-nav-item
             >
             <b-nav-item @click="godashboard">สรุปยอดครุภัณฑ์</b-nav-item>
-           
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
@@ -38,11 +31,12 @@
               <!-- Using 'button-content' slot -->
               <!-- person-fill -->
               <template v-slot:button-content>
-                <b-badge variant="danger">{{count.length}}</b-badge>
+                <b-badge variant="danger">{{ count.length }}</b-badge>
                 <b-icon icon="bell-fill" scale="1"></b-icon>
               </template>
               <b-dropdown-item @click="godetailfix">
-                <b-badge variant="danger">{{count.length}}</b-badge>แจ้งซ่อมครุภัณฑ์
+                <b-badge variant="danger">{{ count.length }}</b-badge
+                >แจ้งซ่อมครุภัณฑ์
               </b-dropdown-item>
               <b-dropdown-item @click="gonotification">
                 <b-badge variant="danger">0</b-badge>แจ้งประกันหมดอายุ
@@ -57,15 +51,11 @@
               </template>
               <b-dropdown-item @click="goprofile">โปรไฟล์</b-dropdown-item>
               <b-dropdown-item @click="showModal1">ออกจากระบบ</b-dropdown-item>
-              <b-modal
-                ref="my-modal1"
-                hide-footer
-               
-              >
+              <b-modal ref="my-modal1" hide-footer>
                 <b-container fluid>
                   <b-row>
                     <b-col cols="12" align="center">
-                      <div style="margin-bottom:20px;">
+                      <div style="margin-bottom: 20px">
                         <h5>คุณต้องการออกจากระบบใช่หรือไม่</h5>
                       </div>
                     </b-col>
@@ -73,12 +63,14 @@
                 </b-container>
                 <b-row>
                   <b-col cols="6">
-                    <div style="margin-left:50px;margin-right:10px;">
-                      <b-button variant="success" @click="logout" block>ใช่</b-button>
+                    <div style="margin-left: 50px; margin-right: 10px">
+                      <b-button variant="success" @click="logout" block
+                        >ใช่</b-button
+                      >
                     </div>
                   </b-col>
                   <b-col cols="6">
-                    <div style="margin-left:10px;margin-right:50px;">
+                    <div style="margin-left: 10px; margin-right: 50px">
                       <b-button variant="danger" block @click="hidemodal"
                         >ไม่ใช่</b-button
                       >
@@ -99,18 +91,18 @@ import axios from "axios";
 export default {
   name: "Nav",
   data: () => ({
-    login:"",
-    count:null,
+    login: "",
+    count: null,
   }),
-  mounted(){
-    axios.post("http://localhost:5000/selectfixcount").then(response => {
+  mounted() {
+    axios.post("http://localhost:5000/selectfixcount").then((response) => {
       console.log(response.data);
       this.count = response.data;
       console.log(this.count.length);
     });
   },
   methods: {
-    logout(){
+    logout() {
       localStorage.clear();
       this.$router.push({ path: "/" });
     },
@@ -143,8 +135,8 @@ export default {
     },
     gosetting() {
       this.$router.push({ path: "/adminsetting" });
-    }
-  }
+    },
+  },
 };
 </script>
 

@@ -445,6 +445,7 @@ export default {
     axios.post("http://localhost:5000/selectPRODUCTadmin").then(response => {
       console.log(response);
       this.items = response.data;
+      console.log(this.items);
     });
     axios.post("http://localhost:5000/selecttype").then(response => {
       console.log(response.data);

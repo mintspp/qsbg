@@ -65,7 +65,8 @@ app.post('/selectPRODUCTadmin', (req, res) => {
     mysqlConnection.query(`SELECT * FROM product
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
-    JOIN member ON product.MEMBER_ID = member.MEMBER_ID `, (err, rows, fields) => {
+    JOIN member ON product.MEMBER_ID = member.MEMBER_ID
+    ORDER BY product.PRODUCT_ID `, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {

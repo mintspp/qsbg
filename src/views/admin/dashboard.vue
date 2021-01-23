@@ -42,7 +42,7 @@
                   slot="md-table-row"
                 >
                   <md-table-cell>สำนักงาน</md-table-cell>
-                  <md-table-cell>การเเจ้งซ่อม(จำนวน)</md-table-cell>
+                  <md-table-cell>การเเจ้งซ่อม (จำนวน)</md-table-cell>
                 </md-table-row>
                 <md-table-row
                   slot="md-table-row"
@@ -73,7 +73,7 @@
                   slot="md-table-row"
                 >
                   <md-table-cell>ยี่ห้อ</md-table-cell>
-                  <md-table-cell>จำนวน</md-table-cell>
+                  <md-table-cell>การแจ้งซ่อม (จำนวน)</md-table-cell>
                 </md-table-row>
                 <md-table-row
                   slot="md-table-row"
