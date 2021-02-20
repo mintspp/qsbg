@@ -11,7 +11,7 @@
       <b-container fluid>
         <b-row>
           <b-col cols="6">
- <div align="left"><h1>ข้อมูลครุภัณฑ์</h1></div>    
+ <div align="left"><h2>ข้อมูลครุภัณฑ์</h2></div>    
           </b-col>
          <b-col cols="6">
             <div align="right" style="margin-right:10px;margin-top:6px;">

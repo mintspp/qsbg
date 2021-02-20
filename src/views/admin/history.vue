@@ -8,6 +8,7 @@
     <!-- เริ่ม -->
     <div>
       <b-container fluid>
+        <div align="left"><h2>ประวัติการแจ้งซ่อม</h2></div>   
         <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
         <b-row>
           <b-col cols="6" class="my-2">

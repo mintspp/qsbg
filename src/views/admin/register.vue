@@ -8,20 +8,13 @@
     <!-- เริ่ม -->
     <div>
       <b-container fluid>
-        <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
-        <b-row>
-          <b-col lg="6" class="my-2">
-            <!-- ค้นหา -->
-            <b-form-input
-              v-model="filter"
-              type="search"
-              id="filterInput"
-              placeholder="ค้นหา"
-            ></b-form-input>
+          <br />
+          <b-row>
+         <b-col cols="6">
+ <div align="left"><h2>ข้อมูลสมาชิก</h2></div>    
           </b-col>
-
           <b-col cols="6">
-            <div align="right" style="margin-right:10px;margin-top:6px;">
+<div align="right" style="margin-right:10px;margin-top:6px;">
               <b-button variant="success" @click="showModal"
                 >สมัครสมาชิก</b-button
               >
@@ -36,7 +29,7 @@
                       <div style="margin-right:50px;">
                         <b-form-input
                           v-model="MEMBER_NAME"
-                          placeholder="Enter your name"
+                          placeholder="ใส่ชื่อ"
                         ></b-form-input>
                       </div>
                     </b-col>
@@ -50,7 +43,8 @@
                       <div style="margin-right:50px;">
                         <b-form-select
                           v-model="MEMBER_WORK"
-                          :options="options1"
+                         :options="options1"
+                       
                         ></b-form-select>
                       </div>
                     </b-col>
@@ -64,7 +58,7 @@
                       <div style="margin-right:50px;">
                         <b-form-input
                           v-model="MEMBER_TELL"
-                          placeholder="Enter your name"
+                          placeholder="ใส่เบอร์โทร"
                         ></b-form-input>
                       </div>
                     </b-col>
@@ -78,7 +72,7 @@
                       <div style="margin-right:50px;">
                         <b-form-input
                           v-model="MEMBER_EMAIL"
-                          placeholder="Enter your name"
+                          placeholder="ใส่อีเมล"
                         ></b-form-input>
                       </div>
                     </b-col>
@@ -92,7 +86,7 @@
                       <div style="margin-right:50px;">
                         <b-form-input
                           v-model="MEMBER_USERNAME"
-                          placeholder="Enter your name"
+                          placeholder="ใส่ชื่อผู้ใช้งาน"
                         ></b-form-input>
                       </div>
                     </b-col>
@@ -106,7 +100,7 @@
                       <div style="margin-right:50px;">
                         <b-form-input
                           v-model="MEMBER_PASSWORD"
-                          placeholder="Enter your name"
+                          placeholder="ใส่รหัสผ่าน"
                         ></b-form-input>
                       </div>
                     </b-col>
@@ -123,7 +117,27 @@
               </b-modal>
             </div>
           </b-col>
+          </b-row>
+           <b-row>
+          <b-col cols="6" class="my-2">
+            <!-- ค้นหา -->
+            <b-form-input
+              v-model="filter"
+              type="search"
+              id="filterInput"
+              placeholder="ค้นหา"
+            ></b-form-input>
+          
+          </b-col>
+           <b-col cols="6">
+        <div align="right" style="margin-right:10px;"><h5>จำนวนทั้งหมด {{itemss}} สมาชิก</h5> </div>
+          </b-col>
+          
         </b-row>
+        
+        <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
+         
+        
         <br />
         <b-table
           show-empty
@@ -337,6 +351,7 @@ export default {
       { value: "สำนักงานที่ 3", text: "สำนักงานที่ 3" },
       { value: "สำนักงานที่ 4", text: "สำนักงานที่ 4" }
     ],
+    itemss:"",
     login: "",
     MEMBER_NAME: "",
     MEMBER_STATUS: "user",
@@ -393,7 +408,9 @@ export default {
     axios.post("http://localhost:5000/selectMEMBER").then(response => {
       console.log(response.data);
       this.items = response.data;
+       this.itemss =response.data.length
     });
+  
   },
   created() {
     this.showlogin();

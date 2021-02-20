@@ -15,7 +15,7 @@
           type="search"
           v-model="search"
           @keyup="searchproduct()"
-          placeholder="Search terms"
+          placeholder="รหัสครุภัณฑ์"
         ></b-form-input>
       </b-input-group>
     </div>

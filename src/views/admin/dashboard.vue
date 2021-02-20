@@ -1,10 +1,13 @@
 <template>
   <div id="app" v-if="login == 1">
     <Nav />
-    <div style="margin: 20px">
+    <div style="margin: 20px; margin-top: 80px">
+      <div align="left">
+        <h2>สรุปยอดครุภัณฑ์</h2>
+      </div> <br>
       <b-row>
-        <b-col cols="4">
-          <div align="left" style="margin-top: 70px">
+        <b-col cols="4" align="left">
+          <div align="left">
             <h5>ประจำปี</h5>
             <b-form-select
               @change="select()"
@@ -15,7 +18,7 @@
           </div>
         </b-col>
         <b-col cols="4">
-          <div align="left" style="margin-top: 70px">
+          <div align="left" >
             <h5>ประจำเดือน</h5>
             <b-form-select
               @change="select()"
@@ -100,7 +103,6 @@
             </div>
           </b-col>
         </b-row>
-        
       </div>
       <div v-else>
         <div>
@@ -114,32 +116,33 @@
           </div>
         </div>
       </div>
-      <div  style="margin: 20px">
+      <br>
+      <div style="margin: 20px">
         <h4>ข้อมูลการเเสดงความคิดเห็น</h4>
         <div style="margin: 10px">
-            <b-table
-              class="table table-striped"
-              show-empty
-              small
-              stacked="md"
-              :items="comment"
-              :fields="field"
-              :per-page="perPage"
-              :current-page="currentPage"
-            >
-            </b-table>
-          </div>
-          <div style="margin: 5px">
-            <b-pagination
-              v-model="currentPage"
-              :total-rows="totalRows"
-              :per-page="perPage"
-              align="fill"
-              size="sm"
-              class="my-0"
-            ></b-pagination>
-            <br><br>
-          </div>
+          <b-table
+            class="table table-striped"
+            show-empty
+            small
+            stacked="md"
+            :items="comment"
+            :fields="field"
+            :per-page="perPage"
+            :current-page="currentPage"
+          >
+          </b-table>
+        </div>
+        <div style="margin: 5px">
+          <b-pagination
+            v-model="currentPage"
+            :total-rows="totalRows"
+            :per-page="perPage"
+            align="fill"
+            size="sm"
+            class="my-0"
+          ></b-pagination>
+          <br /><br />
+        </div>
       </div>
     </div>
   </div>
@@ -208,7 +211,7 @@ export default {
       console.log(response.data);
       this.comment = response.data;
       console.log(this.comment);
-       this.totalRows = this.comment.length;
+      this.totalRows = this.comment.length;
     });
   },
 

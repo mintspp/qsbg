@@ -104,7 +104,7 @@ export default {
               );
               localStorage.setItem("USER", 1);
             } else {
-              this.$router.push({ path: "/adminindex" });
+              this.$router.push({ path: "/adminregister" });
               this.$store.commit(
                 "Detail/SET_MEMBER_ID",
                 this.checkuser[index].MEMBER_ID
@@ -124,7 +124,7 @@ export default {
 .login {
   width: 1000px;
   margin: auto;
-  padding: 120px;
+  padding: 40px 120px;
 }
 .cards {
   margin-top: 50px;
@@ -133,7 +133,7 @@ export default {
 }
 .colorr {
   /* background-color: #fffd82; */
-  background-image: url("https://firebasestorage.googleapis.com/v0/b/test-f2583.appspot.com/o/Tropical%20jungle%20leaves%20pattern%20by%20Tropicana%20on%20%40creativemarket.jfif?alt=media&token=1a8c435b-b035-4e5d-89b8-b8be1bce20f1");
+  background-image: url("");
   padding-bottom: 5%;
 }
 </style>

@@ -6,8 +6,17 @@
     <br />
     <div style="margin-top:60px;"></div>
 
+         
+    
+      
+
     <div>
       <b-container fluid>
+        <div align="left"><h2>ข้อมูลยี่ห้อ/ประเภท  <img
+                  src="https://www.flaticon.com/svg/static/icons/svg/2457/2457920.svg"
+                  style="width:50px;"
+                  alt=""
+                /></h2></div> 
         <b-row>
           <b-col xl="6" lg="6" sm="12">
             <div style="margin-top:10px;">
@@ -31,7 +40,7 @@
                   >
                 </b-modal>
                 <img
-                  src="https://www.flaticon.com/svg/static/icons/svg/138/138242.svg"
+                  src=""
                   style="width:50px;"
                   alt=""
                 />
@@ -132,11 +141,7 @@
                   >
                   </b-modal>
                 </div>
-                <img
-                  src="https://www.flaticon.com/svg/static/icons/svg/2457/2457920.svg"
-                  style="width:50px;"
-                  alt=""
-                />
+               <br>
                 <div style="margin-top:10px;"><h5>ประเภท</h5></div>
 
                 <b-row>

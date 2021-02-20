@@ -4,21 +4,21 @@
     <Navuser />
     <!-- --------------nav------------ -->
     <div style="margin-top: 80px"></div>
-    <div align="center">
+     <div align="center">
       <b-card style="width: 80%">
-        <h2>ข้อมูลส่วนตัว</h2>
+       <div style="margin-bottom: 40px"><h2>ข้อมูลส่วนตัว</h2></div> 
         <b-row>
-          <b-col cols="6">
+          <b-col  xl="6" lg="6" sm="12" >
             <b-img
-              style="width: 300px"
-              src="https://www.flaticon.com/svg/vstatic/svg/476/476863.svg?token=exp=1610615862~hmac=e7873a5d50a41909b9d82cb3d27f362b"
-            ></b-img>
+              style="width: 220px"
+              src="https://firebasestorage.googleapis.com/v0/b/test-f2583.appspot.com/o/dossier.png?alt=media&token=22457698-d4de-4e30-a45c-3cb5c57dbf48"
+            ></b-img><br><br>
           </b-col>
-          <b-col cols="6">
+          <b-col  xl="6" lg="6" sm="12" >
             <div>
               <b-row>
-                <b-col align="right" cols="6">ชื่อ : </b-col>
-                <b-col cols="6">
+                <b-col align="left" cols="4" style="padding-left: 12px !important;"><b>ชื่อ : </b> </b-col>
+                <b-col cols="8">
                   <!-- <b-form-input :value="user[0].MEMBER_NAME" class="text-center" style="width:50%;" disabled></b-form-input> -->
                   <div align="left" style="margin-left: 10px">
                     {{ user[0].MEMBER_NAME }}
@@ -29,8 +29,8 @@
 
             <div style="margin-top: 20px">
               <b-row>
-                <b-col align="right" cols="6">สำนักงาน :</b-col>
-                <b-col cols="6">
+                <b-col align="left" cols="4" style="padding-left: 12px !important;"><b>สำนักงาน :</b></b-col>
+                <b-col cols="8">
                   <div align="left" style="margin-left: 10px">
                     {{ user[0].MEMBER_WORK }}
                   </div>
@@ -40,8 +40,8 @@
 
             <div style="margin-top: 20px">
               <b-row>
-                <b-col align="right" cols="6">เบอร์โทร :</b-col>
-                <b-col cols="6">
+                <b-col align="left" cols="4" style="padding-left: 12px !important;"><b>เบอร์โทร :</b> </b-col>
+                <b-col cols="8">
                   <div align="left" style="margin-left: 10px">
                     {{ user[0].MEMBER_TELL }}
                   </div>
@@ -51,8 +51,8 @@
 
             <div style="margin-top: 20px">
               <b-row>
-                <b-col align="right" cols="6">อีเมล :</b-col>
-                <b-col cols="6">
+                <b-col align="left" cols="4" style="padding-left: 12px !important;"><b>อีเมล :</b> </b-col>
+                <b-col cols="8">
                   <div align="left" style="margin-left: 10px">
                     {{ user[0].MEMBER_EMAIL }}
                   </div>
@@ -62,8 +62,8 @@
 
             <div style="margin-top: 20px">
               <b-row>
-                <b-col align="right" cols="6">ชื่อผู้ใช้งาน :</b-col>
-                <b-col cols="6">
+                <b-col align="left" cols="4" style="padding-left: 12px !important;"><b>ชื่อผู้ใช้งาน :</b> </b-col>
+                <b-col cols="8">
                   <div align="left" style="margin-left: 10px">
                     {{ user[0].MEMBER_USERNAME }}
                   </div>
@@ -73,8 +73,8 @@
 
             <div style="margin-top: 20px">
               <b-row>
-                <b-col align="right" cols="6">รหัสผ่าน</b-col>
-                <b-col cols="6">
+                <b-col align="left" cols="4" style="padding-left: 12px !important;"><b>รหัสผ่าน :</b> </b-col>
+                <b-col cols="8">
                   <div align="left" style="margin-left: 10px">
                     {{ user[0].MEMBER_PASSWORD }}
                   </div>
@@ -82,7 +82,10 @@
               </b-row>
             </div>
 
-            <div style="margin-top: 20px">
+            
+          </b-col>
+        </b-row>
+        <div  align="center" style="margin-top: 20px">
               <b-button variant="warning" @click="showModal"
                 >แก้ไขข้อมูล</b-button
               >
@@ -147,8 +150,6 @@
                 >
               </b-modal>
             </div>
-          </b-col>
-        </b-row>
       </b-card>
     </div>
   </div>
