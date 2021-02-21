@@ -73,19 +73,11 @@
         <b-modal :id="infoModal3.id" ref="modal-1" hide-footer>
           <b-container fluid>
             <div v-if="items[detailfix].FIX_STATUS == 'รอการยืนยัน'">
-              <div align="center"><h5>ยืนยันการตอบรับใช่หรือไม่</h5></div>
-              <b-row>
-                <b-col cols="6"
-                  ><b-button variant="danger" @click="noupdatestatus" block
-                    >ไม่</b-button
-                  ></b-col
-                >
-                <b-col cols="6"
-                  ><b-button variant="success" @click="updatestatus" block
-                    >ใช่</b-button
-                  ></b-col
-                >
-              </b-row>
+              <div align="center"><h5>ยืนยันการตอบรับใช่หรือไม่</h5>
+             
+                 <b-button variant="success" style="width:50%" @click="updatestatus" 
+                    >ยืนยัน</b-button
+                  ></div>
             </div>
             <div v-if="items[detailfix].FIX_STATUS == 'กำลังดำเนินการ'">
               <h5>สถานะการทำงาน</h5>
@@ -99,6 +91,9 @@
                 >
                 <b-form-select-option value="เสร็จเเล้ว"
                   >เสร็จเเล้ว</b-form-select-option
+                >
+                <b-form-select-option value="ไม่สามารถซ่อมได้"
+                  >ไม่สามารถซ่อมได้</b-form-select-option
                 >
               </b-form-select>
             </div>

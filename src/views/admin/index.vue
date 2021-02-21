@@ -4,34 +4,30 @@
     <Nav />
     <!-- --------------nav------------ -->
     <br />
-    <div style="margin-top:60px;"></div>
+    <div style="margin-top: 60px"></div>
     <!-- เริ่ม -->
 
     <div>
       <b-container fluid>
         <b-row>
           <b-col cols="6">
- <div align="left"><h2>ข้อมูลครุภัณฑ์</h2></div>    
+            <div align="left"><h2>ข้อมูลครุภัณฑ์</h2></div>
           </b-col>
-         <b-col cols="6">
-            <div align="right" style="margin-right:10px;margin-top:6px;">
+          <b-col cols="6">
+            <div align="right" style="margin-right: 10px; margin-top: 6px">
               <b-button variant="success" @click="showModal"
                 >เพิ่มครุภัณฑ์</b-button
               >
-              <b-modal
-                ref="my-modal"
-                size="lg"
-                hide-footer
-                
-              >
+              <b-modal ref="my-modal" size="lg" hide-footer>
                 <div class="d-block text-center">
-                   <div align="center"><b><h4>กรอกข้อมูลครุภัณฑ์</h4></b></div>
+                  <div align="center">
+                    <b><h4>กรอกข้อมูลครุภัณฑ์</h4></b>
+                  </div>
                   <b-row>
                     <b-col cols="6">ประเภท</b-col>
-                     <b-col cols="6">ชื่อผู้ครอบครอง</b-col>
+                    <b-col cols="6">ชื่อผู้ครอบครอง</b-col>
                   </b-row>
                   <b-row>
-                   
                     <b-col cols="6"
                       ><b-form-select v-model="TYPE_ID">
                         <b-form-select-option
@@ -67,7 +63,7 @@
                     <b-col cols="6">
                       <b-form-input
                         v-model="PRODUCT_CODE"
-                        placeholder="Enter your code"
+                        placeholder="กรอกรหัส"
                       ></b-form-input>
                     </b-col>
                     <b-col cols="6">
@@ -90,7 +86,7 @@
                     <b-col cols="6"
                       ><b-form-input
                         v-model="PRODUCT_GEN"
-                        placeholder="Enter your gen"
+                        placeholder="กรอกชื่อรุ่น"
                       ></b-form-input>
                     </b-col>
                     <b-col cols="6">
@@ -101,10 +97,10 @@
                       ></b-form-datepicker>
                     </b-col>
                   </b-row>
-                  
+
                   <!-- ----- v-if PRODUCT_TYPE เพื่อเปิด cpu ram hd win ----- -->
                   <div v-if="TYPE_ID == 1 || TYPE_ID == 4">
-                    <div align="left" style="margin-top:5px;">อื่นๆ...</div>
+                    <div align="left" style="margin-top: 5px">อื่นๆ...</div>
                     <b-row>
                       <b-col cols="6">CPU</b-col>
                       <b-col cols="6">RAM</b-col>
@@ -113,31 +109,31 @@
                       <b-col cols="6">
                         <b-form-input
                           v-model="PC_CPU"
-                          placeholder="Enter your cpu"
+                          placeholder="กรอก CPU"
                         ></b-form-input>
                       </b-col>
                       <b-col cols="6">
                         <b-form-input
                           v-model="PC_RAM"
-                          placeholder="Enter your ram"
+                          placeholder="กรอก RAM"
                         ></b-form-input>
                       </b-col>
                     </b-row>
                     <b-row>
-                      <b-col cols="6">HARD DISK</b-col>
-                      <b-col cols="6">WINDOW</b-col>
+                      <b-col cols="6">Hard disk</b-col>
+                      <b-col cols="6">WINDOWS</b-col>
                     </b-row>
                     <b-row>
                       <b-col cols="6">
                         <b-form-input
                           v-model="PC_HD"
-                          placeholder="Enter your hard disk"
+                          placeholder="กรอก Hard disk"
                         ></b-form-input>
                       </b-col>
                       <b-col cols="6">
                         <b-form-input
                           v-model="PC_WINDOW"
-                          placeholder="Enter your window"
+                          placeholder="กรอก WINDOWS"
                         ></b-form-input>
                       </b-col>
                     </b-row>
@@ -155,8 +151,8 @@
             </div>
           </b-col>
         </b-row>
-          
-         <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
+
+        <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
         <b-row>
           <b-col cols="6" class="my-2">
             <!-- ค้นหา -->
@@ -166,15 +162,15 @@
               id="filterInput"
               placeholder="ค้นหา"
             ></b-form-input>
-          
           </b-col>
-           <b-col cols="6">
-        <div align="right" style="margin-right:10px;"><h5>จำนวนทั้งหมด {{itemss}} ครุภัณฑ์</h5> </div>
+          <b-col cols="6">
+            <div align="right" style="margin-right: 10px">
+              <h5>จำนวนทั้งหมด {{ itemss }} ครุภัณฑ์</h5>
+            </div>
           </b-col>
-          
         </b-row>
         <br />
-         
+
         <b-table
           show-empty
           small
@@ -188,7 +184,7 @@
         >
           <template v-slot:cell(detail)="row">
             <b-icon
-              style="width: 25px; height: 25px;"
+              style="width: 25px; height: 25px"
               @click="info1(row.item, row.index, $event.target)"
               icon="file-earmark-text"
               variant="success"
@@ -216,7 +212,9 @@
         <b-modal :id="infoModal1.id" size="lg" ref="modal-1" hide-footer>
           <b-container fluid>
             <div>
-              <div align="center"><b><h4>รายละเอียด</h4></b></div>
+              <div align="center">
+                <b><h4>รายละเอียด</h4></b>
+              </div>
               <b-row>
                 <b-col cols="5" align="right">CPU :</b-col>
                 <b-col cols="7">{{ items[productdetail].PC_CPU }}</b-col>
@@ -245,21 +243,23 @@
           hide-footer
         >
           <b-container fluid>
-            <div align="center"><b><h4>เเก้ไขข้อมูล</h4></b></div>
-            <b-row style="margin-top:5px;">
+            <div align="center">
+              <b><h4>เเก้ไขข้อมูล</h4></b>
+            </div>
+            <b-row style="margin-top: 5px">
               <b-col cols="4" align="right">เลขครุภัณฑ์ :</b-col>
               <b-col cols="8">
                 <b-form-input
                   v-model="items[productdetail].PRODUCT_CODE"
-                  style="width:80%;"
+                  style="width: 80%"
                 ></b-form-input
               ></b-col>
             </b-row>
-            <b-row style="margin-top:5px;">
+            <b-row style="margin-top: 5px">
               <b-col cols="4" align="right">ยี่ห้อ :</b-col>
               <b-col cols="8">
                 <b-form-select
-                  style="width:80%;"
+                  style="width: 80%"
                   v-model="items[productdetail].BRAND_ID"
                 >
                   <b-form-select-option
@@ -272,63 +272,63 @@
                 </b-form-select>
               </b-col>
             </b-row>
-            <b-row style="margin-top:5px;">
+            <b-row style="margin-top: 5px">
               <b-col cols="4" align="right">รุ่น :</b-col>
               <b-col cols="8">
                 <b-form-input
                   v-model="items[productdetail].PRODUCT_GEN"
-                  style="width:80%;"
+                  style="width: 80%"
                 ></b-form-input
               ></b-col>
             </b-row>
             <div
               v-if="
                 items[productdetail].TYPE_NAME == 'คอมพิวเตอร์' ||
-                  items[productdetail].TYPE_NAME == 'โน๊ตบุค'
+                items[productdetail].TYPE_NAME == 'โน๊ตบุค'
               "
             >
-              <b-row style="margin-top:5px;">
+              <b-row style="margin-top: 5px">
                 <b-col cols="4" align="right">CPU :</b-col>
                 <b-col cols="8">
                   <b-form-input
                     v-model="items[productdetail].PC_CPU"
-                    style="width:80%;"
+                    style="width: 80%"
                   ></b-form-input
                 ></b-col>
               </b-row>
-              <b-row style="margin-top:5px;">
+              <b-row style="margin-top: 5px">
                 <b-col cols="4" align="right">RAM :</b-col>
                 <b-col cols="8">
                   <b-form-input
                     v-model="items[productdetail].PC_RAM"
-                    style="width:80%;"
+                    style="width: 80%"
                   ></b-form-input>
                 </b-col>
               </b-row>
-              <b-row style="margin-top:5px;">
+              <b-row style="margin-top: 5px">
                 <b-col cols="4" align="right">HARD DISK :</b-col>
                 <b-col cols="8">
                   <b-form-input
                     v-model="items[productdetail].PC_HD"
-                    style="width:80%;"
+                    style="width: 80%"
                   ></b-form-input>
                 </b-col>
               </b-row>
-              <b-row style="margin-top:5px;">
+              <b-row style="margin-top: 5px">
                 <b-col cols="4" align="right">WINDOW :</b-col>
                 <b-col cols="8">
                   <b-form-input
                     v-model="items[productdetail].PC_WINDOW"
-                    style="width:80%;"
+                    style="width: 80%"
                   ></b-form-input>
                 </b-col>
               </b-row>
             </div>
-            <b-row style="margin-top:5px;">
+            <b-row style="margin-top: 5px">
               <b-col cols="4" align="right">ผู้ครอบครอง :</b-col>
               <b-col cols="8">
                 <b-form-select
-                  style="width:80%;"
+                  style="width: 80%"
                   v-model="items[productdetail].MEMBER_ID"
                 >
                   <b-form-select-option
@@ -341,14 +341,14 @@
                 </b-form-select>
               </b-col>
             </b-row>
-            <b-row style="margin-top:5px;">
+            <b-row style="margin-top: 5px">
               <b-col cols="4" align="right">วันหมดอายุ :</b-col>
               <b-col cols="8">
                 <b-form-datepicker
                   id="example-datepicker"
                   v-model="items[productdetail].PRODUCT_EXP"
                   class="mb-2"
-                  style="width:80%;"
+                  style="width: 80%"
                 ></b-form-datepicker
               ></b-col>
             </b-row>
@@ -362,7 +362,7 @@
           <b-container fluid>
             <b-row>
               <b-col cols="12" align="center">
-                <div style="margin-bottom:20px;">
+                <div style="margin-bottom: 20px">
                   <h5>คุณต้องการลบใช่หรือไม่</h5>
                 </div>
               </b-col>
@@ -370,14 +370,14 @@
           </b-container>
           <b-row>
             <b-col cols="6">
-              <div style="margin-left:50px;margin-right:10px;">
+              <div style="margin-left: 50px; margin-right: 10px">
                 <b-button variant="success" @click="deleteproduct" block
                   >ใช่</b-button
                 >
               </div>
             </b-col>
             <b-col cols="6">
-              <div style="margin-left:10px;margin-right:50px;">
+              <div style="margin-left: 10px; margin-right: 50px">
                 <b-button variant="danger" block @click="hidemodal"
                   >ไม่ใช่</b-button
                 >
@@ -398,11 +398,11 @@ import Nav from "../../components/Nav";
 import axios from "axios";
 export default {
   components: {
-    Nav
+    Nav,
   },
   data: () => ({
     login: "",
-itemss:"",
+    itemss: "",
     MEMBER_ID: "",
     PRODUCT_CODE: "",
     BRAND_ID: "",
@@ -423,8 +423,8 @@ itemss:"",
         BRAND_NAME: "",
         PRODUCT_GEN: "",
         TYPE_NAME: "",
-        PRODUCT_EXP: ""
-      }
+        PRODUCT_EXP: "",
+      },
     ],
     fields: [
       // { key: "PRODUCT_ID", label: "ลำดับ", class: "text-center" },
@@ -432,9 +432,14 @@ itemss:"",
       { key: "BRAND_NAME", label: "ยี่ห้อ", class: "text-center" },
       { key: "MEMBER_NAME", label: "ผู้ครอบครอง", class: "text-center" },
       { key: "TYPE_NAME", label: "ประเภท", class: "text-center" },
-      { key: "PRODUCT_EXP", label: "หมดอายุ", class: "text-center" ,formatter:"format_datetime" },
+      {
+        key: "PRODUCT_EXP",
+        label: "หมดอายุ",
+        class: "text-center",
+        formatter: "format_datetime",
+      },
       { key: "detail", label: "รายละเอียด", class: "text-center" },
-      { key: "more", label: "จัดการ", class: "text-center" }
+      { key: "more", label: "จัดการ", class: "text-center" },
     ],
     productdetail: 0,
     filter: null,
@@ -442,35 +447,35 @@ itemss:"",
     infoModal: {
       id: "info-modal",
       title: "",
-      content: ""
+      content: "",
     },
     infoModal1: {
       id: "info-modal1",
       title: "",
-      content: ""
+      content: "",
     },
     infoModal2: {
       id: "info-modal2",
       title: "",
-      content: ""
-    }
+      content: "",
+    },
   }),
 
   mounted() {
-    axios.post("http://localhost:5000/selectPRODUCTadmin").then(response => {
+    axios.post("http://localhost:5000/selectPRODUCTadmin").then((response) => {
       console.log(response);
       this.items = response.data;
-      this.itemss =response.data.length
+      this.itemss = response.data.length;
     });
-    axios.post("http://localhost:5000/selecttype").then(response => {
+    axios.post("http://localhost:5000/selecttype").then((response) => {
       console.log(response.data);
       this.type = response.data;
     });
-    axios.post("http://localhost:5000/selectbrand").then(response => {
+    axios.post("http://localhost:5000/selectbrand").then((response) => {
       console.log(response.data);
       this.brand = response.data;
     });
-    axios.post("http://localhost:5000/selectmemberproduct").then(response => {
+    axios.post("http://localhost:5000/selectmemberproduct").then((response) => {
       console.log(response.data);
       this.member = response.data;
     });
@@ -479,10 +484,10 @@ itemss:"",
     this.showlogin();
   },
   methods: {
-     format_datetime(data) {
-   var dm = moment(data).format("DD/MM/");
+    format_datetime(data) {
+      var dm = moment(data).format("DD/MM/");
       var year = parseInt(moment(data).format("YYYY")) + 543;
-      return dm + year ;
+      return dm + year;
     },
     showlogin() {
       this.login = localStorage.getItem("ADMIN");
@@ -503,11 +508,13 @@ itemss:"",
         PC_CPU: this.PC_CPU,
         PC_RAM: this.PC_RAM,
         PC_HD: this.PC_HD,
-        PC_WINDOW: this.PC_WINDOW
+        PC_WINDOW: this.PC_WINDOW,
       };
-      axios.post("http://localhost:5000/insertPRODUCT", data).then(response => {
-        console.log(response);
-      });
+      axios
+        .post("http://localhost:5000/insertPRODUCT", data)
+        .then((response) => {
+          console.log(response);
+        });
       this.$refs["my-modal"].hide();
     },
     updateproduct() {
@@ -525,21 +532,25 @@ itemss:"",
         PC_RAM: this.items[this.productdetail].PC_RAM,
         PC_HD: this.items[this.productdetail].PC_HD,
         PC_WINDOW: this.items[this.productdetail].PC_WINDOW,
-        MEMBER_ID: this.items[this.productdetail].MEMBER_ID
+        MEMBER_ID: this.items[this.productdetail].MEMBER_ID,
       };
-      axios.post("http://localhost:5000/updatePRODUCT", data).then(response => {
-        console.log(response);
-      });
+      axios
+        .post("http://localhost:5000/updatePRODUCT", data)
+        .then((response) => {
+          console.log(response);
+        });
       this.$refs["modal-1"].hide();
     },
 
     deleteproduct() {
       var data = {
-        PRODUCT_ID: this.items[this.productdetail].PRODUCT_ID
+        PRODUCT_ID: this.items[this.productdetail].PRODUCT_ID,
       };
-      axios.post("http://localhost:5000/deletePRODUCT", data).then(response => {
-        console.log(response);
-      });
+      axios
+        .post("http://localhost:5000/deletePRODUCT", data)
+        .then((response) => {
+          console.log(response);
+        });
       this.$refs["modal-2"].hide();
     },
 
@@ -566,8 +577,8 @@ itemss:"",
       this.infoModal2.title = item.name;
       this.infoModal2.content = JSON.stringify(item, null, 2);
       this.$root.$emit("bv::show::modal", this.infoModal2.id, button);
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -611,8 +622,9 @@ itemss:"",
   z-index: 9999 !important;
   box-sizing: border-box;
 }
-h5, .h5 {
-    font-size: 1.25rem;
-    margin-top: 20px;
+h5,
+.h5 {
+  font-size: 1.25rem;
+  margin-top: 20px;
 }
 </style>

@@ -65,7 +65,7 @@
           <b-col cols="6">
             <div class="wrapper" style="margin: 20px; margin-top: 20px">
               <div style="margin: 10px">
-                <h4>ข้อมูลยี่ห้อการเเจ้งซ่อมครุภัณฑ์</h4>
+                <h4>ข้อมูลประเภทการเเจ้งซ่อมครุภัณฑ์</h4>
               </div>
               <canvas id="graph3" width="150" height="100"></canvas>
             </div>
@@ -75,7 +75,7 @@
                   style="background-color: #ffad32"
                   slot="md-table-row"
                 >
-                  <md-table-cell>ยี่ห้อ</md-table-cell>
+                  <md-table-cell>ประเภท</md-table-cell>
                   <md-table-cell>การแจ้งซ่อม (จำนวน)</md-table-cell>
                 </md-table-row>
                 <md-table-row
@@ -84,10 +84,10 @@
                   :key="index"
                 >
                   <md-table-cell md-label="สำนักงาน">{{
-                    item.brandname
+                    item.typename
                   }}</md-table-cell>
                   <md-table-cell md-label="การเเจ้งซ่อม">{{
-                    item.brandfixcount
+                    item.typefixcount
                   }}</md-table-cell>
                 </md-table-row>
                 <!-- <md-table-row
@@ -266,11 +266,11 @@ export default {
     });
     console.log(bar);
     //chart 2
-    var brandname = [];
-    var brandfixcount = [];
+    var typename = [];
+    var typefixcount = [];
 
     await axios
-      .post("http://localhost:5000/selectfixbrand", {
+      .post("http://localhost:5000/selectfixtype", {
         year: this.YEAR,
         month: this.MONTH,
       })
@@ -280,8 +280,8 @@ export default {
 
         for (let index = 0; index < this.itemss.length; index++) {
           const element = this.itemss[index];
-          brandname.push(element.brandname);
-          brandfixcount.push(element.brandfixcount);
+          typename.push(element.typename);
+          typefixcount.push(element.typefixcount);
 
           // this.itemcountbrand += parseFloat(element.brandfixcount);
           // console.log(this.itemcountbrand);
@@ -291,12 +291,12 @@ export default {
     var bar1 = new Chart(ctxx, {
       type: "bar",
       data: {
-        labels: brandname,
+        labels: typename,
         datasets: [
           {
             backgroundColor: "#ffad32",
             label: "จำนวนยี่ห้อ",
-            data: brandfixcount,
+            data: typefixcount,
           },
         ],
       },
@@ -371,10 +371,10 @@ export default {
       });
       console.log(bar);
       //chart 2
-      var brandname = [];
-      var brandfixcount = [];
+      var typename = [];
+      var typefixcount = [];
       await axios
-        .post("http://localhost:5000/selectfixbrand", {
+        .post("http://localhost:5000/selectfixtype", {
           year: this.YEAR,
           month: this.MONTH,
         })
@@ -384,20 +384,20 @@ export default {
           for (let index = 0; index < this.itemss.length; index++) {
             const element = this.itemss[index];
 
-            brandname.push(element.brandname);
-            brandfixcount.push(element.brandfixcount);
+            typename.push(element.typename);
+            typefixcount.push(element.typefixcount);
           }
         });
       var ctxx = document.getElementById("graph3").getContext("2d");
       var bar1 = new Chart(ctxx, {
         type: "bar",
         data: {
-          labels: brandname,
+          labels: typename,
           datasets: [
             {
               backgroundColor: "#ffad32",
               label: "จำนวนยี่ห้อ",
-              data: brandfixcount,
+              data: typefixcount,
             },
           ],
         },

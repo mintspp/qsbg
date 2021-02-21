@@ -4,8 +4,8 @@
       <b-card
       
         style="
-          margin-top: 50px;
-          background-color: rgba(33,168,193,0.80);
+          margin-top: 100px;
+          background-color: #17a2b8;
           border-radius: 100px;
         "
       >

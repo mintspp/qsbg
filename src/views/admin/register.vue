@@ -29,7 +29,7 @@
                       <div style="margin-right:50px;">
                         <b-form-input
                           v-model="MEMBER_NAME"
-                          placeholder="ใส่ชื่อ"
+                          placeholder="กรอกชื่อ"
                         ></b-form-input>
                       </div>
                     </b-col>
@@ -58,7 +58,7 @@
                       <div style="margin-right:50px;">
                         <b-form-input
                           v-model="MEMBER_TELL"
-                          placeholder="ใส่เบอร์โทร"
+                          placeholder="กรอกเบอร์โทร"
                         ></b-form-input>
                       </div>
                     </b-col>
@@ -72,7 +72,7 @@
                       <div style="margin-right:50px;">
                         <b-form-input
                           v-model="MEMBER_EMAIL"
-                          placeholder="ใส่อีเมล"
+                          placeholder="กรอกอีเมล"
                         ></b-form-input>
                       </div>
                     </b-col>
@@ -86,7 +86,7 @@
                       <div style="margin-right:50px;">
                         <b-form-input
                           v-model="MEMBER_USERNAME"
-                          placeholder="ใส่ชื่อผู้ใช้งาน"
+                          placeholder="กรอกชื่อผู้ใช้งาน"
                         ></b-form-input>
                       </div>
                     </b-col>
@@ -100,7 +100,7 @@
                       <div style="margin-right:50px;">
                         <b-form-input
                           v-model="MEMBER_PASSWORD"
-                          placeholder="ใส่รหัสผ่าน"
+                          placeholder="กรอกรหัสผ่าน"
                         ></b-form-input>
                       </div>
                     </b-col>

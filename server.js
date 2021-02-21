@@ -289,7 +289,15 @@ app.post('/notification', (req, res) => {
             const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
 
             lineNotify.notify({
-                message: '\n' +'สินค้ารหัส'+' '+product.map((x)=>{return x.PRODUCT_CODE})+' '+'หมดอายุ'+ '\n'  +'วันที่หมดอายุ : '+ product.map((x)=>{return x.PRODUCT_EXP}) + '\n'  +'ประเภท : '+ product.map((x)=>{return x.TYPE_NAME})+ '\n' +'ยี่ห้อ : '+ product.map((x)=>{return x.BRAND_NAME}) ,
+                message: '\n' + 'สินค้ารหัส' + ' ' + product.map((x) => {
+                    return x.PRODUCT_CODE
+                }) + ' ' + 'หมดอายุ' + '\n' + 'วันที่หมดอายุ : ' + product.map((x) => {
+                    return x.PRODUCT_EXP
+                }) + '\n' + 'ประเภท : ' + product.map((x) => {
+                    return x.TYPE_NAME
+                }) + '\n' + 'ยี่ห้อ : ' + product.map((x) => {
+                    return x.BRAND_NAME
+                }),
             }).then(() => {
                 console.log('send completed!');
             }).catch((err) => {
@@ -301,7 +309,7 @@ app.post('/notification', (req, res) => {
             console.log(err);
         }
     })
-    
+
 });
 
 app.post('/selectFIX', (req, res) => {
@@ -325,7 +333,7 @@ WHERE fixhistory.FIX_STATUS = 'รอการยืนยัน' OR fixhistory.
 app.post('/selectfixcount', (req, res) => {
     mysqlConnection.query(`SELECT * FROM fix 
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
-    WHERE fixhistory.FIX_STATUS != 'การรับคืนสำเร็จ'`, (err, rows, fields) => {
+    WHERE fixhistory.FIX_STATUS != 'การรับคืนสำเร็จ' AND fixhistory.FIX_STATUS != 'ไม่สามารถซ่อมได้'`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -524,6 +532,24 @@ app.post('/insertBRAND', (req, res) => {
     })
 });
 
+app.post('/insertdistributor', (req, res) => {
+    const {
+        body
+    } = req;
+    // console.log(body);
+    mysqlConnection.query(`insert into distributor (DISTRIBUTOR,D_PRICE,PRODUCT_ID) 
+            values ('${body.DISTRIBUTOR}','${body.D_PRICE}','${body.PRODUCT_ID}') `, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows);
+            mysqlConnection.query(`UPDATE fixhistory
+            SET FIX_STATUS = '${body.FIX_STATUS}'
+            WHERE FIXHISTORY_ID='${body.FIXHISTORY_ID}';`)
+        } else {
+            console.log(err);
+        }
+    })
+});
+
 app.post('/deleteBRAND', async (req, res) => {
     const {
         body
@@ -620,6 +646,25 @@ app.post('/selecthistoryfixadmin', (req, res) => {
     })
 });
 
+app.post('/selecthistoryfixadminnot', (req, res) => {
+    const {
+        body
+    } = req;
+    mysqlConnection.query(`SELECT * FROM fix
+    JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
+    JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
+    JOIN brand ON product.BRAND_ID = brand.BRAND_ID
+    JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
+    JOIN type ON product.TYPE_ID = type.TYPE_ID
+    WHERE fixhistory.FIX_STATUS = "ไม่สามารถซ่อมได้"`, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows);
+        } else {
+            console.log(err);
+        }
+    })
+});
+
 app.post('/selectfixdashboard', (req, res) => {
     const {
         body
@@ -675,18 +720,18 @@ app.post('/selectfixdashboard', (req, res) => {
 });
 
 
-app.post('/selectfixbrand', (req, res) => {
+app.post('/selectfixtype', (req, res) => {
     const {
         body
     } = req;
     console.log(body);
     if (body.month == '0') {
-        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)brandfixcount,CONCAT(brand.BRAND_NAME)brandname,CONCAT(YEAR(fixhistory.DATE)+543)yearfix FROM fix
+        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)typefixcount,CONCAT(type.type_NAME)typename,CONCAT(YEAR(fixhistory.DATE)+543)yearfix FROM fix
         LEFT JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
         LEFT JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
-        LEFT JOIN brand ON product.BRAND_ID = brand.BRAND_ID
+        LEFT JOIN type ON product.TYPE_ID = type.TYPE_ID
         WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
-        GROUP BY brandname`, (err, rows, fields) => {
+        GROUP BY typename`, (err, rows, fields) => {
             if (!err) {
                 res.send(rows);
                 console.log(rows);
