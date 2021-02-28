@@ -9,6 +9,7 @@ import adminhistory from "../views/admin/history.vue";
 import adminprofile from "../views/admin/profile.vue";
 import admindashboard from "../views/admin/dashboard.vue";
 import adminsetting from "../views/admin/setting.vue";
+import admindistributor from "../views/admin/distributor.vue"
 
 
 //user
@@ -66,6 +67,11 @@ const routes = [
     path: "/adminsetting",
     name: "admin",
     component: adminsetting
+  },
+  {
+    path: "/admindistributor",
+    name: "admin",
+    component: admindistributor
   },
 //user
 {

@@ -282,11 +282,21 @@ export default {
           PRODUCT_ID: this.itemsnot[this.distributor].PRODUCT_ID,
           FIX_STATUS: "จำหน่าย",
           FIXHISTORY_ID: this.itemsnot[this.distributor].FIXHISTORY_ID,
+          STATUS:'3'
         })
         .then((response) => {
           console.log(response.data);
+          this.reset(response);
         });
       this.$refs["modal-3"].hide();
+    },
+    reset(){
+       axios
+      .post("http://localhost:5000/selecthistoryfixadminnot")
+      .then((response) => {
+        console.log(response.data);
+        this.itemsnot = response.data;
+      });
     },
     format_datetime(data) {
       var dm = moment(data).format("DD/MM/");

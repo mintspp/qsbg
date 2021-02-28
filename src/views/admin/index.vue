@@ -509,6 +509,7 @@ export default {
         PC_RAM: this.PC_RAM,
         PC_HD: this.PC_HD,
         PC_WINDOW: this.PC_WINDOW,
+        STATUS:'1'
       };
       axios
         .post("http://localhost:5000/insertPRODUCT", data)
