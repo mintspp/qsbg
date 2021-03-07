@@ -13,7 +13,7 @@
     <div v-if="items != ''">
       <b-container fluid>
         <div align="left" style="padding-left: 10px">
-          <h2>ข้อมูลการแจ้งซ่อมครุภัณฑ์</h2>
+          <h2>การแจ้งซ่อมครุภัณฑ์</h2>
         </div>
         <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
         <b-row>
@@ -77,7 +77,7 @@
           <b-container fluid>
             <div v-if="items[detailfix].FIX_STATUS == 'รอการยืนยัน'">
               <div align="center">
-                <h5>ยืนยันการตอบรับใช่หรือไม่</h5>
+                <h5>ยืนยันการตอบรับ</h5>
 
                 <b-button
                   variant="success"

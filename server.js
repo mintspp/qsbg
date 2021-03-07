@@ -290,7 +290,7 @@ app.post('/notification', (req, res) => {
             const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
 
             lineNotify.notify({
-                message: '\n' + 'สินค้ารหัส' + ' ' + product.map((x) => {
+                message: '\n' + 'เลขครุภัณฑ์' + ' ' + product.map((x) => {
                     return x.PRODUCT_CODE
                 }) + ' ' + 'หมดอายุ' + '\n' + 'วันที่หมดอายุ : ' + product.map((x) => {
                     return x.PRODUCT_EXP
@@ -299,6 +299,10 @@ app.post('/notification', (req, res) => {
                 }) + '\n' + 'ยี่ห้อ : ' + product.map((x) => {
                     return x.BRAND_NAME
                 }),
+           
+           
+            
+            
             }).then(() => {
                 console.log('send completed!');
             }).catch((err) => {

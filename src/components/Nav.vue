@@ -20,10 +20,11 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item-dropdown left>
-            <template v-slot:button-content> ประวัติข้อมูล </template>
+            <template v-slot:button-content> ประวัติ</template>
             <b-dropdown-item @click="gohistory">
               ประวัติการแจ้งซ่อมครุภัณฑ์
             </b-dropdown-item>
+            <b-dropdown-item @click="gocannotrepair"> ประวัติไม่สามารถซ่อมครุภัณฑ์ได้ </b-dropdown-item>
             <b-dropdown-item @click="godistributor"> ประวัติการจัดจำหน่าย </b-dropdown-item>
            
           </b-nav-item-dropdown>
@@ -144,6 +145,9 @@ export default {
     },
     gosetting() {
       this.$router.push({ path: "/adminsetting" });
+    },
+    gocannotrepair() {
+      this.$router.push({ path: "/admincannotrepair" });
     },
   },
 };
