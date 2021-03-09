@@ -138,32 +138,21 @@
                 <div style="margin-top: 20px">
                   <b-row>
                     <b-col align="right" cols="3"
-                      >สถานที่ <br />
-                      จัดจำหน่าย</b-col
+                      >ชื่อผู้ <br> จัดจำหน่าย</b-col
                     >
                     <b-col cols="9">
                       <div style="margin-right: 50px">
                         <b-form-textarea
                           
                           v-model="DISTRIBUTOR"
-                          placeholder="กรอกสถานที่..."
+                          placeholder="กรอกผู้ชื่อจัดจำหน่าย..."
                           rows="3"
                         ></b-form-textarea>
                       </div>
                     </b-col>
                   </b-row>
                   <div style="margin-top: 20px">
-                    <b-row>
-                      <b-col align="right" cols="3">ราคาจำหน่าย</b-col>
-                      <b-col cols="9">
-                        <div style="margin-right: 50px">
-                          <b-form-input
-                            v-model="D_PRICE"
-                            placeholder="กรอกราคา"
-                          ></b-form-input>
-                        </div>
-                      </b-col>
-                    </b-row>
+                    
 
                     <b-button
                       class="mt-3"

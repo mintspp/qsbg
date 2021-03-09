@@ -20,10 +20,9 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item @click="gohistory"
-              >ประวัติการแจ้งซ่อมครุภัณฑ์</b-nav-item
-            >
-            <b-nav-item @click="godashboard">สรุปยอดครุภัณฑ์</b-nav-item>
-          </b-navbar-nav>
+            > ประวัติการแจ้งซ่อมครุภัณฑ์ </b-nav-item>
+            <b-nav-item @click="godashboard">สรุปการแจ้งซ่อมครุภัณฑ์ </b-nav-item> 
+          </b-navbar-nav> 
 
           <!-- Right aligned nav items -->
           <b-navbar-nav class="ml-auto">

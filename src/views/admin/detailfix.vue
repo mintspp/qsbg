@@ -73,7 +73,7 @@
         <b-modal :id="infoModal3.id" ref="modal-1" hide-footer>
           <b-container fluid>
             <div v-if="items[detailfix].FIX_STATUS == 'รอการยืนยัน'">
-              <div align="center"><h5>ยืนยันการตอบรับใช่หรือไม่</h5>
+              <div align="center"><h5>ยืนยันการตอบรับ</h5>
              
                  <b-button variant="success" style="width:50%" @click="updatestatus" 
                     >ยืนยัน</b-button

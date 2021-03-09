@@ -1,9 +1,9 @@
 <template>
   <div id="app" v-if="login == 1">
     <Nav />
-    <div style="margin: 20px; margin-top: 80px">
+    <div style="margin: 20px; margin-top: 90px">
       <div align="left">
-        <h2>สรุปยอดครุภัณฑ์</h2>
+        <h2>สรุปการแจ้งซ่อมครุภัณฑ์</h2>
       </div> <br>
       <b-row>
         <b-col cols="4" align="left">
