@@ -66,6 +66,7 @@ app.post('/selectPRODUCTadmin', (req, res) => {
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
     JOIN member ON product.MEMBER_ID = member.MEMBER_ID
+    WHERE product.STATUS = '1' 
     ORDER BY product.PRODUCT_ID `, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
@@ -91,8 +92,8 @@ app.post('/insertPRODUCT', (req, res) => {
         body
     } = req;
     // console.log(body);
-    mysqlConnection.query(`insert into product (PRODUCT_CODE,BRAND_ID,PRODUCT_GEN,TYPE_ID,PRODUCT_EXP,PC_CPU,PC_RAM,PC_HD,PC_WINDOW,MEMBER_ID) 
-            values ('${body.PRODUCT_CODE}','${body.BRAND_ID}','${body.PRODUCT_GEN}','${body.TYPE_ID}','${body.PRODUCT_EXP}','${body.PC_CPU}','${body.PC_RAM}','${body.PC_HD}','${body.PC_WINDOW}','${body.MEMBER_ID}') `, (err, rows, fields) => {
+    mysqlConnection.query(`insert into product (PRODUCT_CODE,BRAND_ID,PRODUCT_GEN,TYPE_ID,PRODUCT_EXP,PC_CPU,PC_RAM,PC_HD,PC_WINDOW,MEMBER_ID,STATUS) 
+            values ('${body.PRODUCT_CODE}','${body.BRAND_ID}','${body.PRODUCT_GEN}','${body.TYPE_ID}','${body.PRODUCT_EXP}','${body.PC_CPU}','${body.PC_RAM}','${body.PC_HD}','${body.PC_WINDOW}','${body.MEMBER_ID}','${body.STATUS}') `, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -289,7 +290,7 @@ app.post('/notification', (req, res) => {
             const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
 
             lineNotify.notify({
-                message: '\n' + 'สินค้ารหัส' + ' ' + product.map((x) => {
+                message: '\n' + 'เลขครุภัณฑ์' + ' ' + product.map((x) => {
                     return x.PRODUCT_CODE
                 }) + ' ' + 'หมดอายุ' + '\n' + 'วันที่หมดอายุ : ' + product.map((x) => {
                     return x.PRODUCT_EXP
@@ -298,6 +299,10 @@ app.post('/notification', (req, res) => {
                 }) + '\n' + 'ยี่ห้อ : ' + product.map((x) => {
                     return x.BRAND_NAME
                 }),
+           
+           
+            
+            
             }).then(() => {
                 console.log('send completed!');
             }).catch((err) => {
@@ -333,7 +338,19 @@ WHERE fixhistory.FIX_STATUS = 'รอการยืนยัน' OR fixhistory.
 app.post('/selectfixcount', (req, res) => {
     mysqlConnection.query(`SELECT * FROM fix 
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
-    WHERE fixhistory.FIX_STATUS != 'การรับคืนสำเร็จ' AND fixhistory.FIX_STATUS != 'ไม่สามารถซ่อมได้'`, (err, rows, fields) => {
+    WHERE fixhistory.FIX_STATUS != 'การรับคืนสำเร็จ' AND fixhistory.FIX_STATUS != 'ไม่สามารถซ่อมได้' AND fixhistory.FIX_STATUS != 'จำหน่าย'`, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows);
+        } else {
+            console.log(err);
+        }
+    })
+});
+
+app.post('/selectdistributor', (req, res) => {
+    mysqlConnection.query(`SELECT * FROM distributor
+    LEFT JOIN product ON distributor.PRODUCT_ID = product.PRODUCT_ID
+    LEFT JOIN brand ON product.BRAND_ID = brand.BRAND_ID`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -362,7 +379,7 @@ app.post('/selectPRODUCTMEMBER', (req, res) => {
     mysqlConnection.query(`SELECT * FROM product
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
-     WHERE MEMBER_ID = ${body.MEMBER_ID}`, (err, rows, fields) => {
+     WHERE MEMBER_ID = ${body.MEMBER_ID} AND product.STATUS = '1' `, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -544,6 +561,10 @@ app.post('/insertdistributor', (req, res) => {
             mysqlConnection.query(`UPDATE fixhistory
             SET FIX_STATUS = '${body.FIX_STATUS}'
             WHERE FIXHISTORY_ID='${body.FIXHISTORY_ID}';`)
+
+            mysqlConnection.query(`UPDATE PRODUCT
+            SET STATUS = '${body.STATUS}'
+            WHERE PRODUCT_ID='${body.PRODUCT_ID}';`)
         } else {
             console.log(err);
         }

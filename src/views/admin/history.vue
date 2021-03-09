@@ -10,165 +10,61 @@
       <div align="left" style="padding-left: 10px">
         <h2>ประวัติการแจ้งซ่อม</h2>
       </div>
-      <br />
-      <b-tabs content-class="mt-3" justified>
-        <b-tab title="ข้อมูลครุภัณฑ์ที่ดำเนินการเสร็จสิ้น" active>
-          <b-container fluid>
-            <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
-            <b-row>
-              <b-col cols="6" class="my-2">
-                <!-- ค้นหา -->
-                <b-form-input
-                  v-model="filter"
-                  type="search"
-                  id="filterInput"
-                  placeholder="ค้นหา"
-                ></b-form-input>
-              </b-col>
-            </b-row>
-            <br />
-            <b-table
-              show-empty
-              small
-              responsive
-              fixed
-              stacked="md"
-              :items="items"
-              :fields="fields"
-              :filter="filter"
-              :filterIncludedFields="filterOn"
-            >
-              <template v-slot:cell(detail)="row">
-                <b-button
-                  class="mr-2"
-                  @click="info1(row.item, row.index, $event.target)"
-                  >รายละเอียด</b-button
-                >
-                <!-- รายละเอียด -->
-              </template>
-            </b-table>
-            <!-- ปุ่มรายละเอียด -->
-            <b-modal :id="infoModal1.id" ref="modal-1" hide-footer>
-              <b-container fluid>
-                <div align="center">
-                  <h5>รายละเอียด</h5>
-                </div>
-                <h6>รหัสครุภัณฑ์ : {{ items[detail].PRODUCT_CODE }}</h6>
-                <h6>ยี่ห้อ : {{ items[detail].BRAND_NAME }}</h6>
-                <h6>รุ่น : {{ items[detail].PRODUCT_GEN }}</h6>
-                <h6>ปัญหาการเเจ้งซ่อม : {{ items[detail].FIX_DETAIL }}</h6>
-                <h6>
-                  วันที่เเจ้งซ่อม : {{ format_datetime(items[detail].DATE) }}
-                </h6>
-                <h6>
-                  วันที่รับคืน : {{ format_datetime1(items[detail].BACK_DATE) }}
-                </h6>
-                <h6>ชื่อผู้เเจ้งซ่อม : {{ items[detail].MEMBER_NAME }}</h6>
-                <h6>ชื่อผู้รับคืน : {{ items[detail].BACK_MEMBER }}</h6>
-              </b-container>
-            </b-modal>
-            <!-- ปุ่มแก้ไข -->
-          </b-container>
-        </b-tab>
-        <b-tab title="ข้อมูลครุภัณฑ์ที่ไม่สามารถซ่อมได้">
-          <b-container fluid>
-            <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
-            <b-row>
-              <b-col cols="6" class="my-2">
-                <!-- ค้นหา -->
-                <b-form-input
-                  v-model="filter"
-                  type="search"
-                  id="filterInput"
-                  placeholder="ค้นหา"
-                ></b-form-input>
-              </b-col>
-            </b-row>
-            <br />
-            <b-table
-              show-empty
-              small
-              responsive
-              fixed
-              stacked="md"
-              :items="itemsnot"
-              :fields="fieldss"
-              :filter="filter"
-              :filterIncludedFields="filterOn"
-            >
-              <template v-slot:cell(details)="row">
-                <b-button
-                  class="mr-2"
-                  @click="info2(row.item, row.index, $event.target)"
-                  >รายละเอียด</b-button
-                >
-                <!-- รายละเอียด -->
-              </template>
-              <template v-slot:cell(distributor)="row">
-                <b-button
-                  class="mr-2"
-                  @click="info3(row.item, row.index, $event.target)"
-                  >จัดจำหน่าย</b-button
-                >
-                <!-- รายละเอียด -->
-              </template>
-            </b-table>
-            <!-- ปุ่มรายละเอียด -->
-            <b-modal :id="infoModal2.id" ref="modal-2" hide-footer>
-              <b-container fluid>
-                <div align="center">
-                  <h5>รายละเอียด</h5>
-                </div>
-                <h6>รหัสครุภัณฑ์ : {{ itemsnot[details].PRODUCT_CODE }}</h6>
-                <h6>ยี่ห้อ : {{ itemsnot[details].BRAND_NAME }}</h6>
-                <h6>รุ่น : {{ itemsnot[details].PRODUCT_GEN }}</h6>
-                <h6>ปัญหาการเเจ้งซ่อม : {{ itemsnot[details].FIX_DETAIL }}</h6>
-                <h6>
-                  วันที่เเจ้งซ่อม :
-                  {{ format_datetime(itemsnot[details].DATE) }}
-                </h6>
-              </b-container>
-            </b-modal>
 
-            <b-modal :id="infoModal3.id" ref="modal-3" hide-footer>
-              <b-container fluid>
-                <div align="center">
-                  <h5>การจัดจำหน่าย</h5>
-                </div>
-                <div style="margin-top: 20px">
-                  <b-row>
-                    <b-col align="right" cols="3"
-                      >ชื่อผู้ <br> จัดจำหน่าย</b-col
-                    >
-                    <b-col cols="9">
-                      <div style="margin-right: 50px">
-                        <b-form-textarea
-                          
-                          v-model="DISTRIBUTOR"
-                          placeholder="กรอกผู้ชื่อจัดจำหน่าย..."
-                          rows="3"
-                        ></b-form-textarea>
-                      </div>
-                    </b-col>
-                  </b-row>
-                  <div style="margin-top: 20px">
-                    
-
-                    <b-button
-                      class="mt-3"
-                      variant="outline-success"
-                      block
-                      @click="addDistributor"
-                      >บันทึก</b-button
-                    >
-                  </div>
-                </div>
-              </b-container>
-            </b-modal>
-            <!-- ปุ่มแก้ไข -->
+      <b-container fluid>
+        <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
+        <b-row>
+          <b-col cols="6" class="my-2">
+            <!-- ค้นหา -->
+            <b-form-input
+              v-model="filter"
+              type="search"
+              id="filterInput"
+              placeholder="ค้นหา"
+            ></b-form-input>
+          </b-col>
+        </b-row>
+        <br />
+        <b-table
+          show-empty
+          small
+          responsive
+          fixed
+          stacked="md"
+          :items="items"
+          :fields="fields"
+          :filter="filter"
+          :filterIncludedFields="filterOn"
+        >
+          <template v-slot:cell(detail)="row">
+            <b-button
+              class="mr-2"
+              @click="info1(row.item, row.index, $event.target)"
+              >รายละเอียด</b-button
+            >
+            <!-- รายละเอียด -->
+          </template>
+        </b-table>
+        <!-- ปุ่มรายละเอียด -->
+        <b-modal :id="infoModal1.id" ref="modal-1" hide-footer>
+          <b-container fluid>
+            <div align="center">
+              <h5>รายละเอียด</h5>
+            </div>
+            <h6>รหัสครุภัณฑ์ : {{ items[detail].PRODUCT_CODE }}</h6>
+            <h6>ยี่ห้อ : {{ items[detail].BRAND_NAME }}</h6>
+            <h6>รุ่น : {{ items[detail].PRODUCT_GEN }}</h6>
+            <h6>ปัญหาการเเจ้งซ่อม : {{ items[detail].FIX_DETAIL }}</h6>
+            <h6>วันที่เเจ้งซ่อม : {{ format_datetime(items[detail].DATE) }}</h6>
+            <h6>
+              วันที่รับคืน : {{ format_datetime1(items[detail].BACK_DATE) }}
+            </h6>
+            <h6>ชื่อผู้เเจ้งซ่อม : {{ items[detail].MEMBER_NAME }}</h6>
+            <h6>ชื่อผู้รับคืน : {{ items[detail].BACK_MEMBER }}</h6>
           </b-container>
-        </b-tab>
-      </b-tabs>
+        </b-modal>
+        <!-- ปุ่มแก้ไข -->
+      </b-container>
     </div>
     <!-- จบ -->
   </div>
@@ -204,18 +100,10 @@ export default {
       { key: "MEMBER_NAME", label: "ผู้แจ้งซ่อม", class: "text-center" },
       { key: "detail", label: "ปัญหาการแจ้งซ่อม", class: "text-center" },
     ],
-    fieldss: [
-      // { key: "FIX_ID", label: "ลำดับ", class: "text-center" },
-      { key: "PRODUCT_CODE", label: "เลขครุภัณฑ์", class: "text-center" },
-      { key: "MEMBER_NAME", label: "ผู้แจ้งซ่อม", class: "text-center" },
-      { key: "details", label: "ปัญหาการแจ้งซ่อม", class: "text-center" },
-      { key: "distributor", label: "การจัดจำหน่าย", class: "text-center" },
-    ],
+
     detail: 0,
     details: 0,
-    distributor: 0,
-    filter: null,
-    filterOn: [],
+
     infoModal1: {
       id: "info-modal1",
       title: "",
@@ -226,21 +114,6 @@ export default {
       title: "",
       content: "",
     },
-    infoModal3: {
-      id: "info-modal3",
-      title: "",
-      content: "",
-    },
-    itemsnot: [
-      {
-        PRODUCT_NUMBER: "",
-        PRODUCT_CODE: "",
-        CREATE_DATE: "",
-        MEMBER_NAME: "",
-        BACK_DATE: "",
-        BACK_MEMBER: "",
-      },
-    ],
   }),
   mounted() {
     axios
@@ -249,34 +122,11 @@ export default {
         console.log(response.data);
         this.items = response.data;
       });
-    axios
-      .post("http://localhost:5000/selecthistoryfixadminnot")
-      .then((response) => {
-        console.log(response.data);
-        this.itemsnot = response.data;
-      });
   },
   created() {
     this.showlogin();
   },
   methods: {
-    addDistributor() {
-      console.log(this.DISTRIBUTOR);
-      console.log(this.D_PRICE);
-      console.log(this.itemsnot[this.distributor].PRODUCT_ID);
-      axios
-        .post("http://localhost:5000/insertdistributor", {
-          DISTRIBUTOR: this.DISTRIBUTOR,
-          D_PRICE: this.D_PRICE,
-          PRODUCT_ID: this.itemsnot[this.distributor].PRODUCT_ID,
-          FIX_STATUS: "จำหน่าย",
-          FIXHISTORY_ID: this.itemsnot[this.distributor].FIXHISTORY_ID,
-        })
-        .then((response) => {
-          console.log(response.data);
-        });
-      this.$refs["modal-3"].hide();
-    },
     format_datetime(data) {
       var dm = moment(data).format("DD/MM/");
       var year = parseInt(moment(data).format("YYYY")) + 543;
@@ -329,13 +179,6 @@ export default {
       this.infoModal2.title = item.name;
       this.infoModal2.content = JSON.stringify(item, null, 2);
       this.$root.$emit("bv::show::modal", this.infoModal2.id, button);
-    },
-    info3(item, index, button) {
-      this.distributor = index;
-      console.log(index);
-      this.infoModal3.title = item.name;
-      this.infoModal3.content = JSON.stringify(item, null, 2);
-      this.$root.$emit("bv::show::modal", this.infoModal3.id, button);
     },
   },
 };

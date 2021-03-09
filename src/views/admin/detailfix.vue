@@ -3,15 +3,18 @@
     <!-- --------------nav------------ -->
     <Nav />
     <!-- --------------nav------------ -->
-    <div style="margin-top:60px;"></div>
+    <div style="margin-top: 60px"></div>
     <div v-if="items == ''">
-      <div style="padding:100px;padding-top:200px;">
+      <div style="padding: 100px; padding-top: 200px">
         <h5>ยังไม่มีรายการแจ้งซ่อมครุภัณฑ์</h5>
       </div>
     </div>
     <!-- เริ่ม -->
     <div v-if="items != ''">
       <b-container fluid>
+        <div align="left" style="padding-left: 10px">
+          <h2>การแจ้งซ่อมครุภัณฑ์</h2>
+        </div>
         <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
         <b-row>
           <b-col cols="6" class="my-2">
@@ -26,36 +29,36 @@
           <b-col cols="6"> </b-col>
         </b-row>
 
-          <b-table
-            show-empty
-            small
-            responsive
-            fixed
-            stacked="md"
-            :items="items"
-            :fields="fields"
-            :filter="filter"
-            :filterIncludedFields="filterOn"
-          >
-            <template v-slot:cell(detail)="row">
-              <!-- แก้ไข -->
-              <b-icon
-                style="width: 25px; height: 25px;"
-                @click="info1(row.item, row.index, $event.target)"
-                icon="file-earmark-text"
-                variant="danger"
-              ></b-icon>
-            </template>
-            <template v-slot:cell(fixstatus)="row">
-              <!-- รอการตอบรับ -->
-              <b-button
-                class="mr-2"
-                variant="warning"
-                @click="info3(row.item, row.index, $event.target)"
-                >สถานะการทำงาน</b-button
-              >
-            </template>
-          </b-table>
+        <b-table
+          show-empty
+          small
+          responsive
+          fixed
+          stacked="md"
+          :items="items"
+          :fields="fields"
+          :filter="filter"
+          :filterIncludedFields="filterOn"
+        >
+          <template v-slot:cell(detail)="row">
+            <!-- แก้ไข -->
+            <b-icon
+              style="width: 25px; height: 25px"
+              @click="info1(row.item, row.index, $event.target)"
+              icon="file-earmark-text"
+              variant="danger"
+            ></b-icon>
+          </template>
+          <template v-slot:cell(fixstatus)="row">
+            <!-- รอการตอบรับ -->
+            <b-button
+              class="mr-2"
+              variant="warning"
+              @click="info3(row.item, row.index, $event.target)"
+              >สถานะการทำงาน</b-button
+            >
+          </template>
+        </b-table>
         <!-- ปุ่มรายละเอียด -->
         <b-modal :id="infoModal1.id" ref="modal-1" hide-footer>
           <b-container fluid>
@@ -73,11 +76,16 @@
         <b-modal :id="infoModal3.id" ref="modal-1" hide-footer>
           <b-container fluid>
             <div v-if="items[detailfix].FIX_STATUS == 'รอการยืนยัน'">
-              <div align="center"><h5>ยืนยันการตอบรับ</h5>
-             
-                 <b-button variant="success" style="width:50%" @click="updatestatus" 
-                    >ยืนยัน</b-button
-                  ></div>
+              <div align="center">
+                <h5>ยืนยันการตอบรับ</h5>
+
+                <b-button
+                  variant="success"
+                  style="width: 50%"
+                  @click="updatestatus"
+                  >ยืนยัน</b-button
+                >
+              </div>
             </div>
             <div v-if="items[detailfix].FIX_STATUS == 'กำลังดำเนินการ'">
               <h5>สถานะการทำงาน</h5>
@@ -100,14 +108,14 @@
             <div v-if="items[detailfix].FIX_STATUS == 'เสร็จเเล้ว'">
               <h6>วันที่ส่งคืน</h6>
               <date-picker v-model="BACK_DATE"></date-picker>
-              <div style="margin-top:10px;">
+              <div style="margin-top: 10px">
                 <h6>ชื่อผู้รับคืน</h6>
                 <b-form-input
                   v-model="BACK_MEMBER"
                   placeholder="Enter your name"
                 ></b-form-input>
               </div>
-              <div style="margin-top:10px;">
+              <div style="margin-top: 10px">
                 <b-button variant="success" @click="updatestatus2" block
                   >ยืนยัน</b-button
                 >
@@ -131,7 +139,7 @@ import "vue2-datepicker/locale/th";
 export default {
   components: {
     Nav,
-    DatePicker
+    DatePicker,
   },
   data: () => ({
     login: "",
@@ -147,8 +155,8 @@ export default {
         FIX_DETAIL: "",
         FIX_STATUS: "",
         BACK_DATE: "",
-        BACK_MEMBER: ""
-      }
+        BACK_MEMBER: "",
+      },
     ],
 
     fields: [
@@ -159,11 +167,11 @@ export default {
         key: "DATE",
         label: "วันที่แจ้งซ่อม",
         class: "text-center",
-        formatter: "format_datetime"
+        formatter: "format_datetime",
       },
       { key: "FIX_STATUS", label: "สถานะ", class: "text-center" },
       { key: "detail", label: "ปัญหาการแจ้งซ่อม", class: "text-center" },
-      { key: "fixstatus", label: "สถานะ", class: "text-center" }
+      { key: "fixstatus", label: "สถานะ", class: "text-center" },
     ],
 
     detailfix: 0,
@@ -172,21 +180,21 @@ export default {
     infoModal2: {
       id: "info-modal2",
       title: "",
-      content: ""
+      content: "",
     },
     infoModal1: {
       id: "info-modal1",
       title: "",
-      content: ""
+      content: "",
     },
     infoModal3: {
       id: "info-modal3",
       title: "",
-      content: ""
-    }
+      content: "",
+    },
   }),
   mounted() {
-    axios.post("http://localhost:5000/selectFIX").then(response => {
+    axios.post("http://localhost:5000/selectFIX").then((response) => {
       console.log(response.data);
       this.items = response.data;
     });
@@ -206,7 +214,7 @@ export default {
       console.log(this.login);
     },
     reset() {
-      axios.post("http://localhost:5000/selectFIX").then(response => {
+      axios.post("http://localhost:5000/selectFIX").then((response) => {
         console.log(response.data);
         this.items = response.data;
       });
@@ -219,9 +227,9 @@ export default {
       axios
         .post("http://localhost:5000/updatestatus", {
           FIX_STATUS: "กำลังดำเนินการ",
-          FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID
+          FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID,
         })
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.reset(response);
         });
@@ -235,9 +243,9 @@ export default {
       axios
         .post("http://localhost:5000/updatestatus1", {
           FIX_STATUS: this.items[this.detailfix].FIX_STATUS,
-          FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID
+          FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID,
         })
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.reset(response);
         });
@@ -248,9 +256,9 @@ export default {
       axios
         .post("http://localhost:5000/updatestatus", {
           FIX_STATUS: "การรับคืนสำเร็จ",
-          FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID
+          FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID,
         })
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.reset(response);
         });
@@ -259,9 +267,9 @@ export default {
           BACK_MEMBER: this.BACK_MEMBER,
           BACK_DATE: moment(this.BACK_DATE).format("YYYY-MM-DD"),
           FIX_ID: this.items[this.detailfix].FIX_ID,
-          BACK_ADMIN: this.$store.getters["Detail/MEMBER_ID"]
+          BACK_ADMIN: this.$store.getters["Detail/MEMBER_ID"],
         })
-        .then(response => {
+        .then((response) => {
           console.log(response.data);
           this.reset(response);
         });
@@ -293,8 +301,8 @@ export default {
       this.infoModal3.title = item.name;
       this.infoModal3.content = JSON.stringify(item, null, 2);
       this.$root.$emit("bv::show::modal", this.infoModal3.id, button);
-    }
-  }
+    },
+  },
 };
 </script>
 

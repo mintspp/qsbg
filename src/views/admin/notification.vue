@@ -6,10 +6,22 @@
     <div style="margin-top: 60px"></div>
     <!-- เริ่ม -->
     <div >
+      <div align="left" style="padding-left: 10px">
+        <h2>ครุภัณฑ์หมดอายุ</h2>
+      </div>
       <b-row >
         <b-col v-for="(nn,index) in notification" :key="index" cols="4">
       <b-card style="margin: 20px">
-        {{nn.PRODUCT_ID}}
+        <div align="center">
+                <b-card-img
+                  src="https://www.flaticon.com/svg/vstatic/svg/4205/4205588.svg?token=exp=1614520600~hmac=45e415cfc7cac4a511fe5836eb6e1aa8"
+                  style="width:40%;"
+                ></b-card-img>
+              </div><br>
+      เลขครุภัณฑ์ :  {{nn.PRODUCT_CODE}} <br>
+      ยี่ห้อ :  {{nn.BRAND_NAME}} <br>
+      ประเภท : {{nn.TYPE_NAME}} <br>
+       วันหมดอายุ : {{nn.PRODUCT_EXP}} <br>
       </b-card>
       </b-col>
       </b-row>
