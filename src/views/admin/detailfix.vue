@@ -62,9 +62,9 @@
         <!-- ปุ่มรายละเอียด -->
         <b-modal :id="infoModal1.id" ref="modal-1" hide-footer>
           <b-container fluid>
-            <div align="center"><h5>รายละเอียด</h5></div>
+            <div align="center"><b><h4>รายละเอียด</h4></b></div>
             <p>รหัสครุภัณฑ์ : {{ items[detailfix].PRODUCT_CODE }}</p>
-            <p>ยี่ห้อ : {{ items[detailfix].PRODUCT_BRAND }}</p>
+            <p>ยี่ห้อ : {{ items[detailfix].BRAND_NAME }}</p>
             <p>รุ่น : {{ items[detailfix].PRODUCT_GEN }}</p>
             <p>
               วันที่เเจ้งซ่อม : {{ format_datetime(items[detailfix].DATE) }}

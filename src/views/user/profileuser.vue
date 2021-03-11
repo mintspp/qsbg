@@ -89,8 +89,12 @@
               <b-button variant="warning" @click="showModal"
                 >แก้ไขข้อมูล</b-button
               >
-              <b-modal ref="my-modal" hide-footer title="แก้ไขข้อมูล">
+              <b-modal ref="my-modal" hide-footer title="">
+                <div align="center">
+              <b><h4>เเก้ไขข้อมูล</h4></b>
+            </div>
                 <div class="d-block text-center">
+                   
                   <b-row style="margin-top: 5px">
                     <b-col cols="4" align="right">ชื่อ :</b-col>
                     <b-col cols="8">

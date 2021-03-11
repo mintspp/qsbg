@@ -20,7 +20,7 @@
               >
               <b-modal ref="my-modal" size="lg" hide-footer>
                 <div align="center">
-                  <b>สมัครสมาชิก</b>
+                  <b><h4>สมัครสมาชิก</h4></b>
                 </div>
                 <div style="margin-top:20px;">
                   <b-row>
@@ -109,7 +109,7 @@
 
                 <b-button
                   class="mt-3"
-                  variant="outline-success"
+                  variant="success"
                   block
                   @click="addregister"
                   >บันทึก</b-button
@@ -201,7 +201,7 @@
           <b-container fluid>
             <div>
               <div style="margin-top:10px;margin-bottom:10px;" align="center">
-                <b><h5>แก้ไขข้อมูล</h5> </b>
+                <b><h4>แก้ไขข้อมูล</h4> </b>
               </div>
               <b-row>
                 <b-col align="right" cols="4">ชื่อ</b-col>
@@ -300,7 +300,7 @@
           >
         </b-modal>
         <!-- ปุ่มลบ -->
-        <b-modal :id="infoModal1.id" centered ref="modal-2" hide-footer>
+        <b-modal :id="infoModal1.id" ref="modal-2" hide-footer>
           <b-container fluid>
             <b-row>
               <b-col cols="12" align="center">

@@ -202,7 +202,7 @@
               variant="danger"
               class="mr-2"
               @click="info2(row.item, row.index, $event.target)"
-              >ลบ</b-button
+              >ตัดจำหน่าย</b-button
             >
 
             <!-- แก้ไข -->
@@ -358,32 +358,35 @@
           >
         </b-modal>
         <!-- ปุ่มลบ -->
-        <b-modal :id="infoModal2.id" centered ref="modal-1" hide-footer>
+        <b-modal :id="infoModal2.id" ref="modal-1" hide-footer>
           <b-container fluid>
             <b-row>
               <b-col cols="12" align="center">
                 <div style="margin-bottom: 20px">
-                  <h5>คุณต้องการลบใช่หรือไม่</h5>
+                  <h5></h5>
                 </div>
+                <b-row>
+                  <b-col align="right" cols="3">หมายเหตุ</b-col>
+                  <b-col cols="9">
+                    <div style="margin-right: 50px">
+                      <b-form-textarea
+                        v-model="NOTE"
+                        placeholder=""
+                        rows="3"
+                      ></b-form-textarea>
+                    </div>
+                  </b-col>
+                </b-row>
               </b-col>
             </b-row>
+            <b-button
+              class="mt-3"
+              variant="outline-success"
+              block
+              @click="addDistributor"
+              >บันทึก</b-button
+            >
           </b-container>
-          <b-row>
-            <b-col cols="6">
-              <div style="margin-left: 50px; margin-right: 10px">
-                <b-button variant="success" @click="deleteproduct" block
-                  >ใช่</b-button
-                >
-              </div>
-            </b-col>
-            <b-col cols="6">
-              <div style="margin-left: 10px; margin-right: 50px">
-                <b-button variant="danger" block @click="hidemodal"
-                  >ไม่ใช่</b-button
-                >
-              </div>
-            </b-col>
-          </b-row>
         </b-modal>
       </b-container>
     </div>
@@ -401,6 +404,7 @@ export default {
     Nav,
   },
   data: () => ({
+    NOTE: "",
     login: "",
     itemss: "",
     MEMBER_ID: "",
@@ -484,6 +488,28 @@ export default {
     this.showlogin();
   },
   methods: {
+    addDistributor() {
+      console.log(this.NOTE);
+      console.log(this.items[this.productdetail].PRODUCT_ID);
+      axios
+        .post("http://localhost:5000/insertdistributor", {
+          NOTE: this.NOTE,
+          PRODUCT_ID: this.items[this.productdetail].PRODUCT_ID,
+          STATUS: "3",
+        })
+        .then((response) => {
+          console.log(response.data);
+          this.reset(response);
+        });
+      this.$refs["modal-1"].hide();
+    },
+   reset(){
+     axios.post("http://localhost:5000/selectPRODUCTadmin").then((response) => {
+      console.log(response);
+      this.items = response.data;
+      this.itemss = response.data.length;
+    });
+   },
     format_datetime(data) {
       var dm = moment(data).format("DD/MM/");
       var year = parseInt(moment(data).format("YYYY")) + 543;
@@ -509,7 +535,7 @@ export default {
         PC_RAM: this.PC_RAM,
         PC_HD: this.PC_HD,
         PC_WINDOW: this.PC_WINDOW,
-        STATUS:'1'
+        STATUS: "1",
       };
       axios
         .post("http://localhost:5000/insertPRODUCT", data)

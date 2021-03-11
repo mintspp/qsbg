@@ -120,9 +120,8 @@
       <div style="margin: 20px">
         <h4>ข้อมูลการเเสดงความคิดเห็น</h4>
         <div style="margin: 10px">
-          <b-table
-            class="table table-striped"
-            show-empty
+          <b-table striped hover 
+         
             small
             stacked="md"
             :items="comment"
@@ -130,7 +129,29 @@
             :per-page="perPage"
             :current-page="currentPage"
           >
+           <template v-slot:cell(detail)="row">
+            <!-- รอการตอบรับ -->
+            <b-button
+              class="mr-2"
+              variant="warning"
+              @click="info4(row.item, row.index, $event.target)"
+              >รายละเอียด</b-button
+            >
+          </template>
           </b-table>
+           <b-modal :id="infoModal4.id" ref="modal-1" hide-footer>
+          <b-container fluid>
+            <div align="center"><h5>รายละเอียด</h5></div>
+            <p>รหัสครุภัณฑ์ : {{ comment[detailcomment].PRODUCT_CODE }}</p>
+            <p>ยี่ห้อ : {{ comment[detailcomment].BRAND_NAME }}</p>
+            <p>รุ่น : {{ comment[detailcomment].PRODUCT_GEN }}</p>
+            <p>
+              วันที่เเจ้งซ่อม : {{ format_datetime(comment[detailcomment].DATE) }}
+            </p>
+            <p>ปัญหาการเเจ้งซ่อม : {{ comment[detailcomment].FIX_DETAIL }}</p>
+            <p>ชื่อเจ้าของ : {{ comment[detailcomment].MEMBER_NAME }}</p>
+          </b-container>
+        </b-modal>
         </div>
         <div style="margin: 5px">
           <b-pagination
@@ -152,6 +173,7 @@
 import axios from "axios";
 import Chart from "chart.js";
 import Nav from "../../components/Nav";
+import moment from "moment";
 export default {
   components: {
     Nav,
@@ -162,12 +184,14 @@ export default {
     MONTH: "0",
     comment: null,
     field: [
-      { key: "FIX_ID", label: "รหัสการเเจ้งซ่อม" },
       { key: "COMMENT", label: "ความคิดเห็น" },
       {
         key: "COMMENT_STAR",
-        label: "คะเเนน",
-      },
+        label: "ให้คะเเนน"},
+        {
+        key: "detail",
+        label: "รายละเอียด"},
+      
     ],
     totalRows: 1,
     currentPage: 1,
@@ -203,6 +227,12 @@ export default {
     // itemcount: 0,
     itemss: null,
     // itemcountbrand: 0,
+    infoModal4: {
+      id: "info-modal4",
+      title: "",
+      content: "",
+    },
+    detailcomment:0
   }),
   created() {
     this.showlogin();
@@ -319,6 +349,19 @@ export default {
   },
 
   methods: {
+    format_datetime(data) {
+      var dm = moment(data).format("DD/MM/");
+      var year = parseInt(moment(data).format("YYYY")) + 543;
+      var time = moment(data).format(" HH:mm น.");
+      return dm + year + time;
+    },
+    info4(item, index, button) {
+      this.detailcomment = index;
+      console.log(index);
+      this.infoModal4.title = item.name;
+      this.infoModal4.content = JSON.stringify(item, null, 2);
+      this.$root.$emit("bv::show::modal", this.infoModal4.id, button);
+    },
     showlogin() {
       this.login = localStorage.getItem("ADMIN");
       console.log(this.login);

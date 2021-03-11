@@ -43,20 +43,13 @@
             >
             <!-- รายละเอียด -->
           </template>
-          <template v-slot:cell(distributor)="row">
-            <b-button
-              class="mr-2"
-              @click="info3(row.item, row.index, $event.target)"
-              >จัดจำหน่าย</b-button
-            >
-            <!-- รายละเอียด -->
-          </template>
+      
         </b-table>
         <!-- ปุ่มรายละเอียด -->
         <b-modal :id="infoModal2.id" ref="modal-2" hide-footer>
           <b-container fluid>
             <div align="center">
-              <h5>รายละเอียด</h5>
+              <b><h4>รายละเอียด</h4></b>
             </div>
             <h6>รหัสครุภัณฑ์ : {{ itemsnot[details].PRODUCT_CODE }}</h6>
             <h6>ยี่ห้อ : {{ itemsnot[details].BRAND_NAME }}</h6>
@@ -146,7 +139,7 @@ export default {
       { key: "PRODUCT_CODE", label: "เลขครุภัณฑ์", class: "text-center" },
       { key: "MEMBER_NAME", label: "ผู้แจ้งซ่อม", class: "text-center" },
       { key: "details", label: "ปัญหาการแจ้งซ่อม", class: "text-center" },
-      { key: "distributor", label: "การจัดจำหน่าย", class: "text-center" },
+      
     ],
     infoModal3: {
       id: "info-modal3",
@@ -186,33 +179,8 @@ export default {
       var year = parseInt(moment(data).format("YYYY")) + 543;
       return dm + year;
     },
-    addDistributor() {
-      console.log(this.DISTRIBUTOR);
-      console.log(this.D_PRICE);
-      console.log(this.itemsnot[this.distributor].PRODUCT_ID);
-      axios
-        .post("http://localhost:5000/insertdistributor", {
-          DISTRIBUTOR: this.DISTRIBUTOR,
-          D_PRICE: this.D_PRICE,
-          PRODUCT_ID: this.itemsnot[this.distributor].PRODUCT_ID,
-          FIX_STATUS: "จำหน่าย",
-          FIXHISTORY_ID: this.itemsnot[this.distributor].FIXHISTORY_ID,
-          STATUS: "3",
-        })
-        .then((response) => {
-          console.log(response.data);
-          this.reset(response);
-        });
-      this.$refs["modal-3"].hide();
-    },
-    reset() {
-      axios
-        .post("http://localhost:5000/selecthistoryfixadminnot")
-        .then((response) => {
-          console.log(response.data);
-          this.itemsnot = response.data;
-        });
-    },
+ 
+
     info2(item, index, button) {
       this.details = index;
       console.log(index);

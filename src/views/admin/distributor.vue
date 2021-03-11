@@ -52,17 +52,20 @@ export default {
       {
         PRODUCT_CODE: "",
         BRAND_NAME: "",
-        DISTRIBUTOR: "",
-        D_PRICE: "",
+        NOTE: "",
         DATE: "",
       },
     ],
     fields: [
       { key: "PRODUCT_CODE", label: "รหัสครุภัณฑ์", class: "text-center" },
       { key: "BRAND_NAME", label: "ยี่ห้อ", class: "text-center" },
-      { key: "DISTRIBUTOR", label: "สถานที่จัดจำหน่าย", class: "text-center" },
-      { key: "D_PRICE", label: "ราคาจัดจำหน่าย", class: "text-center" },
-      { key: "DATE", label: "วันที่จัดจำหน่าย", class: "text-center" ,   formatter: "format_datetime1"},
+      { key: "NOTE", label: "รายละเอียด", class: "text-center" },
+      {
+        key: "DATE",
+        label: "วันที่จัดจำหน่าย",
+        class: "text-center",
+        formatter: "format_datetime1",
+      },
     ],
   }),
   mounted() {

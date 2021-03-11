@@ -259,7 +259,12 @@ app.post('/commentsss', (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM comments`, (err, rows, fields) => {
+    mysqlConnection.query(`SELECT * FROM comments
+    LEFT JOIN fix ON fix.FIX_ID = comments.FIX_ID
+    LEFT JOIN fixhistory ON fixhistory.FIX_ID = fix.FIX_ID
+    LEFT JOIN product ON product.PRODUCT_ID = fix.PRODUCT_ID
+    LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
+    LEFT JOIN member ON member.MEMBER_ID = fix.MEMBER_ID`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
             // console.log('5555555555555555555');
@@ -324,6 +329,7 @@ app.post('/selectFIX', (req, res) => {
     mysqlConnection.query(`SELECT * FROM fix 
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID 
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID 
+    LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
     JOIN member ON fix.MEMBER_ID = member.MEMBER_ID 
 WHERE fixhistory.FIX_STATUS = 'รอการยืนยัน' OR fixhistory.FIX_STATUS = 'กำลังดำเนินการ' OR fixhistory.FIX_STATUS = 'เสร็จเเล้ว'
     `, (err, rows, fields) => {
@@ -338,7 +344,7 @@ WHERE fixhistory.FIX_STATUS = 'รอการยืนยัน' OR fixhistory.
 app.post('/selectfixcount', (req, res) => {
     mysqlConnection.query(`SELECT * FROM fix 
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
-    WHERE fixhistory.FIX_STATUS != 'การรับคืนสำเร็จ' AND fixhistory.FIX_STATUS != 'ไม่สามารถซ่อมได้' AND fixhistory.FIX_STATUS != 'จำหน่าย'`, (err, rows, fields) => {
+    WHERE fixhistory.FIX_STATUS != 'การรับคืนสำเร็จ' AND fixhistory.FIX_STATUS != 'ไม่สามารถซ่อมได้'`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -554,13 +560,10 @@ app.post('/insertdistributor', (req, res) => {
         body
     } = req;
     // console.log(body);
-    mysqlConnection.query(`insert into distributor (DISTRIBUTOR,D_PRICE,PRODUCT_ID) 
-            values ('${body.DISTRIBUTOR}','${body.D_PRICE}','${body.PRODUCT_ID}') `, (err, rows, fields) => {
+    mysqlConnection.query(`insert into distributor (NOTE,PRODUCT_ID) 
+            values ('${body.NOTE}','${body.PRODUCT_ID}') `, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
-            mysqlConnection.query(`UPDATE fixhistory
-            SET FIX_STATUS = '${body.FIX_STATUS}'
-            WHERE FIXHISTORY_ID='${body.FIXHISTORY_ID}';`)
 
             mysqlConnection.query(`UPDATE PRODUCT
             SET STATUS = '${body.STATUS}'

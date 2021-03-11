@@ -33,7 +33,7 @@
             <b-card class="text-center">
               <div align="center">
                 <b-card-img
-                  src="http://113.53.236.21/fakthahosapp/frontend/web/icon/4108174.png"
+                  src="https://firebasestorage.googleapis.com/v0/b/test-f2583.appspot.com/o/technical-support.png?alt=media&token=65a8ac23-b3d9-47f8-a8e1-5da587df7cc7"
                   style="width:50%;"
                 ></b-card-img>
               </div>

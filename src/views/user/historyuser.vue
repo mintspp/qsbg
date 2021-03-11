@@ -60,7 +60,7 @@
           <b-modal :id="infoModal2.id" size="lg" ref="modal-1" hide-footer>
             <b-container fluid>
               <!-- productdetail -->
-              <div align="center"><b>รายละเอียด</b></div>
+              <div align="center"><b><h4>รายละเอียด</h4></b></div>
               <b-row>
                 <b-col cols="4">ประเภท : </b-col>
                 <b-col cols="8">{{ itemss[productdetail].TYPE_NAME }}</b-col>
