@@ -14,24 +14,24 @@ app.use(
         extended: true
     })
 );
-// var mysqlConnection = mysql.createConnection({
-//     // host: '',
-//     user: 'root',
-//     port: '3306',
-//     password: '',
-//     database: 'qsbg',
-//     multipleStatements: true
-// });
-
-
 var mysqlConnection = mysql.createConnection({
-    host: '128.199.214.155',
-    user: 'savemom',
+    // host: '',
+    user: 'root',
     port: '3306',
-    password: 'savemom@aclab1201',
-    database: 'line_bot',
+    password: '',
+    database: 'qsbg',
     multipleStatements: true
 });
+
+
+// var mysqlConnection = mysql.createConnection({
+//     host: '128.199.214.155',
+//     user: 'savemom',
+//     port: '3306',
+//     password: 'savemom@aclab1201',
+//     database: 'line_bot',
+//     multipleStatements: true
+// });
 
 app.listen(port);
 
