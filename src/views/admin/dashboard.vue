@@ -237,7 +237,7 @@ export default {
   created() {
     this.showlogin();
 
-    axios.post("http://localhost:5000/commentsss").then((response) => {
+    axios.post("https://qsbg.herokuapp.com/commentsss").then((response) => {
       console.log(response.data);
       this.comment = response.data;
       console.log(this.comment);
@@ -250,7 +250,7 @@ export default {
     var subdistrict = [];
     var fixcount = [];
     await axios
-      .post("http://localhost:5000/selectfixdashboard1", {
+      .post("https://qsbg.herokuapp.com/selectfixdashboard1", {
         year: this.YEAR,
         month: this.MONTH,
       })
@@ -300,7 +300,7 @@ export default {
     var typefixcount = [];
 
     await axios
-      .post("http://localhost:5000/selectfixtype", {
+      .post("https://qsbg.herokuapp.com/selectfixtype", {
         year: this.YEAR,
         month: this.MONTH,
       })
@@ -371,7 +371,7 @@ export default {
       var workmb = [];
       var fixcount = [];
       await axios
-        .post("http://localhost:5000/selectfixdashboard", {
+        .post("https://qsbg.herokuapp.com/selectfixdashboard", {
           year: this.YEAR,
           month: this.MONTH,
         })
@@ -417,7 +417,7 @@ export default {
       var typename = [];
       var typefixcount = [];
       await axios
-        .post("http://localhost:5000/selectfixtype", {
+        .post("https://qsbg.herokuapp.com/selectfixtype", {
           year: this.YEAR,
           month: this.MONTH,
         })

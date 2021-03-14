@@ -466,20 +466,20 @@ export default {
   }),
 
   mounted() {
-    axios.post("http://localhost:5000/selectPRODUCTadmin").then((response) => {
+    axios.post("https://qsbg.herokuapp.com/selectPRODUCTadmin").then((response) => {
       console.log(response);
       this.items = response.data;
       this.itemss = response.data.length;
     });
-    axios.post("http://localhost:5000/selecttype").then((response) => {
+    axios.post("https://qsbg.herokuapp.com/selecttype").then((response) => {
       console.log(response.data);
       this.type = response.data;
     });
-    axios.post("http://localhost:5000/selectbrand").then((response) => {
+    axios.post("https://qsbg.herokuapp.com/selectbrand").then((response) => {
       console.log(response.data);
       this.brand = response.data;
     });
-    axios.post("http://localhost:5000/selectmemberproduct").then((response) => {
+    axios.post("https://qsbg.herokuapp.com/selectmemberproduct").then((response) => {
       console.log(response.data);
       this.member = response.data;
     });
@@ -492,7 +492,7 @@ export default {
       console.log(this.NOTE);
       console.log(this.items[this.productdetail].PRODUCT_ID);
       axios
-        .post("http://localhost:5000/insertdistributor", {
+        .post("https://qsbg.herokuapp.com/insertdistributor", {
           NOTE: this.NOTE,
           PRODUCT_ID: this.items[this.productdetail].PRODUCT_ID,
           STATUS: "3",
@@ -504,7 +504,7 @@ export default {
       this.$refs["modal-1"].hide();
     },
    reset(){
-     axios.post("http://localhost:5000/selectPRODUCTadmin").then((response) => {
+     axios.post("https://qsbg.herokuapp.com/selectPRODUCTadmin").then((response) => {
       console.log(response);
       this.items = response.data;
       this.itemss = response.data.length;
@@ -538,7 +538,7 @@ export default {
         STATUS: "1",
       };
       axios
-        .post("http://localhost:5000/insertPRODUCT", data)
+        .post("https://qsbg.herokuapp.com/insertPRODUCT", data)
         .then((response) => {
           console.log(response);
         });
@@ -562,7 +562,7 @@ export default {
         MEMBER_ID: this.items[this.productdetail].MEMBER_ID,
       };
       axios
-        .post("http://localhost:5000/updatePRODUCT", data)
+        .post("https://qsbg.herokuapp.com/updatePRODUCT", data)
         .then((response) => {
           console.log(response);
         });
@@ -574,7 +574,7 @@ export default {
         PRODUCT_ID: this.items[this.productdetail].PRODUCT_ID,
       };
       axios
-        .post("http://localhost:5000/deletePRODUCT", data)
+        .post("https://qsbg.herokuapp.com/deletePRODUCT", data)
         .then((response) => {
           console.log(response);
         });

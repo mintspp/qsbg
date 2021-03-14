@@ -14,12 +14,22 @@ app.use(
         extended: true
     })
 );
+// var mysqlConnection = mysql.createConnection({
+//     // host: '',
+//     user: 'root',
+//     port: '3306',
+//     password: '',
+//     database: 'qsbg',
+//     multipleStatements: true
+// });
+
+
 var mysqlConnection = mysql.createConnection({
-    // host: '',
-    user: 'root',
+    host: '128.199.214.155',
+    user: 'savemom',
     port: '3306',
-    password: '',
-    database: 'qsbg',
+    password: 'savemom@aclab1201',
+    database: 'line_bot',
     multipleStatements: true
 });
 
@@ -106,11 +116,12 @@ app.post('/insertFIXCOMMENT', (req, res) => {
     const {
         body
     } = req;
-    // console.log(body);
+    //  console.log(body);
     mysqlConnection.query(`insert into comments (FIX_ID,COMMENT,COMMENT_STAR,COMMENT_TYPE) 
             values ('${body.FIX_ID}','${body.COMMENT}','${body.COMMENT_STAR}','${body.COMMENT_TYPE}') `, (err, rows, fields) => {
         if (!err) {
             console.log(rows);
+            
             res.send(rows);
         } else {
             console.log(err);
@@ -292,8 +303,9 @@ app.post('/notification', (req, res) => {
                     product.push(element)
                 }
             }
-            const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
 
+            //LINE 
+            const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
             lineNotify.notify({
                 message: '\n' + 'เลขครุภัณฑ์' + ' ' + product.map((x) => {
                     return x.PRODUCT_CODE
@@ -304,15 +316,13 @@ app.post('/notification', (req, res) => {
                 }) + '\n' + 'ยี่ห้อ : ' + product.map((x) => {
                     return x.BRAND_NAME
                 }),
-           
-           
-            
-            
             }).then(() => {
                 console.log('send completed!');
             }).catch((err) => {
                 console.log(err);
             });
+            //END
+
             res.send(product);
 
         } else {
@@ -398,7 +408,7 @@ app.post('/insertFIX', (req, res) => {
     const {
         body
     } = req;
-    // console.log(body);
+    console.log(body);
     mysqlConnection.query(`insert into fix (PRODUCT_ID,MEMBER_ID,FIX_DETAIL,BACK_MEMBER) 
             values ('${body.PRODUCT_ID}','${body.MEMBER_ID}','${body.FIX_DETAIL}','${body.BACK_MEMBER}') `, (err, rows, fields) => {
         if (!err) {
@@ -406,7 +416,18 @@ app.post('/insertFIX', (req, res) => {
             console.log(rows.insertId);
             mysqlConnection.query(`insert into fixhistory (FIX_ID,FIX_STATUS) 
             values (${rows.insertId},'${body.FIX_STATUS}') `)
-            // })
+
+            //LINE
+           const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
+            lineNotify.notify({
+                message: '\n' + 'เลขครุภัณฑ์ : ' + ' ' + body.PRODUCT_CODE +'\n' + 'ประเภท : ' + ' ' + body.TYPE_NAME +'\n' + 'ยี่ห้อ : ' + ' ' + body.BRAND_NAME + '\n' + 'ปัญหา : ' + body.FIX_DETAIL
+            }).then(() => {
+                console.log('send completed!');
+            }).catch((err) => {
+                console.log(err);
+            });
+            //END
+            
         } else {
             console.log(err);
         }

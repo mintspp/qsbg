@@ -102,7 +102,7 @@ export default {
     count: null,
   }),
   mounted() {
-    axios.post("http://localhost:5000/selectfixcount").then((response) => {
+    axios.post("https://qsbg.herokuapp.com/selectfixcount").then((response) => {
       console.log(response.data);
       this.count = response.data;
       console.log(this.count.length);

@@ -131,7 +131,7 @@ export default {
 
   mounted() {
     axios
-      .post("http://localhost:5000/selectfixdetail", {
+      .post("https://qsbg.herokuapp.com/selectfixdetail", {
         MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"]
       })
       .then(response => {

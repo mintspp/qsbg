@@ -240,11 +240,11 @@ export default {
     setTYPE_N :"",
   }),
   mounted() {
-    axios.post("http://localhost:5000/selectBRAND").then(response => {
+    axios.post("https://qsbg.herokuapp.com/selectBRAND").then(response => {
       console.log(response.data);
       this.brand = response.data;
     });
-    axios.post("http://localhost:5000/selectTYPE").then(response => {
+    axios.post("https://qsbg.herokuapp.com/selectTYPE").then(response => {
       console.log(response.data);
       this.type = response.data;
     });
@@ -284,7 +284,7 @@ export default {
     update() {
       console.log(this.setBRAND_I, this.setBRAND_N);
       axios
-        .post("http://localhost:5000/updateBRAND", {
+        .post("https://qsbg.herokuapp.com/updateBRAND", {
           BRAND_ID: this.setBRAND_I,
           BRAND_NAME: this.setBRAND_N
         })
@@ -297,7 +297,7 @@ export default {
     delate() {
       console.log(this.setBRAND_I);
       axios
-        .post("http://localhost:5000/deleteBRAND", {
+        .post("https://qsbg.herokuapp.com/deleteBRAND", {
           BRAND_ID: this.setBRAND_I
         })
         .then(response => {
@@ -309,7 +309,7 @@ export default {
     typeupdate() {
       console.log(this.setTYPE_I, this.setTYPE_N);
       axios
-        .post("http://localhost:5000/updateTYPE", {
+        .post("https://qsbg.herokuapp.com/updateTYPE", {
           TYPE_ID: this.setTYPE_I,
           TYPE_NAME: this.setTYPE_N
         })
@@ -322,7 +322,7 @@ export default {
     typedelate() {
       console.log(this.setTYPE_I);
       axios
-        .post("http://localhost:5000/deleteTYPE", {
+        .post("https://qsbg.herokuapp.com/deleteTYPE", {
           TYPE_ID: this.setTYPE_I
         })
         .then(response => {
@@ -339,7 +339,7 @@ export default {
     },
     insertbrand() {
       axios
-        .post("http://localhost:5000/insertBRAND", {
+        .post("https://qsbg.herokuapp.com/insertBRAND", {
           BRAND_NAME: this.BRAND_NAME
         })
         .then(response => {
@@ -350,7 +350,7 @@ export default {
     },
     inserttype(){
       axios
-        .post("http://localhost:5000/insertTYPE", {
+        .post("https://qsbg.herokuapp.com/insertTYPE", {
           TYPE_NAME: this.TYPE_NAME
         })
         .then(response => {
@@ -360,11 +360,11 @@ export default {
       this.$refs["my-modal1"].hide();
     },
     reset(){
-      axios.post("http://localhost:5000/selectBRAND").then(response => {
+      axios.post("https://qsbg.herokuapp.com/selectBRAND").then(response => {
       console.log(response.data);
       this.brand = response.data;
     });
-    axios.post("http://localhost:5000/selectTYPE").then(response => {
+    axios.post("https://qsbg.herokuapp.com/selectTYPE").then(response => {
       console.log(response.data);
       this.type = response.data;
     });

@@ -90,7 +90,7 @@ export default {
     showmember() {
       console.log(this.$store.getters["Detail/MEMBER_ID"]);
       axios
-        .post("http://localhost:5000/selectPRODUCTMEMBER", {
+        .post("https://qsbg.herokuapp.com/selectPRODUCTMEMBER", {
           MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"]
         })
         .then(response => {
@@ -102,7 +102,7 @@ export default {
     searchproduct() {
       if (this.search == "") {
         axios
-          .post("http://localhost:5000/selectPRODUCTMEMBER", {
+          .post("https://qsbg.herokuapp.com/selectPRODUCTMEMBER", {
             MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"]
           })
           .then(response => {
@@ -111,7 +111,7 @@ export default {
           });
       } else {
         axios
-          .post("http://localhost:5000/selectPRODUCTFIX", {
+          .post("https://qsbg.herokuapp.com/selectPRODUCTFIX", {
             search: this.search,
             MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"]
           })

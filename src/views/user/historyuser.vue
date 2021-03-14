@@ -191,7 +191,7 @@ export default {
   }),
   mounted() {
     axios
-      .post("http://localhost:5000/selectfixdetails", {
+      .post("https://qsbg.herokuapp.com/selectfixdetails", {
         MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
       })
       .then((response) => {
@@ -207,7 +207,7 @@ export default {
     comment(fixid) {
       console.log(fixid);
       axios
-        .post("http://localhost:5000/insertFIXCOMMENT", {
+        .post("https://qsbg.herokuapp.com/insertFIXCOMMENT", {
           FIX_ID: fixid,
           COMMENT: this.COMMENT,
           COMMENT_STAR: this.COMMENT_STAR,
@@ -221,7 +221,7 @@ export default {
     },
     reset(){
       axios
-      .post("http://localhost:5000/selectfixdetails", {
+      .post("https://qsbg.herokuapp.com/selectfixdetails", {
         MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
       })
       .then((response) => {
