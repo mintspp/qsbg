@@ -340,6 +340,7 @@ app.post('/selectFIX', (req, res) => {
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID 
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID 
     LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
+    JOIN type ON product.TYPE_ID = type.TYPE_ID
     JOIN member ON fix.MEMBER_ID = member.MEMBER_ID 
 WHERE fixhistory.FIX_STATUS = 'รอการยืนยัน' OR fixhistory.FIX_STATUS = 'กำลังดำเนินการ' OR fixhistory.FIX_STATUS = 'เสร็จเเล้ว'
     `, (err, rows, fields) => {
@@ -354,7 +355,7 @@ WHERE fixhistory.FIX_STATUS = 'รอการยืนยัน' OR fixhistory.
 app.post('/selectfixcount', (req, res) => {
     mysqlConnection.query(`SELECT * FROM fix 
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
-    WHERE fixhistory.FIX_STATUS != 'การรับคืนสำเร็จ' AND fixhistory.FIX_STATUS != 'ไม่สามารถซ่อมได้'`, (err, rows, fields) => {
+    WHERE fixhistory.FIX_STATUS != 'การรับคืนสำเร็จ' AND fixhistory.FIX_STATUS != 'ไม่สามารถซ่อมได้' AND fixhistory.FIX_STATUS != 'จำหน่าย'`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -417,16 +418,7 @@ app.post('/insertFIX', (req, res) => {
             mysqlConnection.query(`insert into fixhistory (FIX_ID,FIX_STATUS) 
             values (${rows.insertId},'${body.FIX_STATUS}') `)
 
-            //LINE
-           const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
-            lineNotify.notify({
-                message: '\n' + 'เลขครุภัณฑ์ : ' + ' ' + body.PRODUCT_CODE +'\n' + 'ประเภท : ' + ' ' + body.TYPE_NAME +'\n' + 'ยี่ห้อ : ' + ' ' + body.BRAND_NAME + '\n' + 'ปัญหา : ' + body.FIX_DETAIL
-            }).then(() => {
-                console.log('send completed!');
-            }).catch((err) => {
-                console.log(err);
-            });
-            //END
+          
             
         } else {
             console.log(err);
@@ -537,6 +529,17 @@ app.post('/updatestatus1', async (req, res) => {
     WHERE FIXHISTORY_ID='${body.FIXHISTORY_ID}';`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
+
+              //LINE
+           const lineNotify = require('line-notify-nodejs')('j0nFuC6Polr3iYD7fDD7DNed2jbyrIP4CO4MCqkycce');
+           lineNotify.notify({
+               message: '\n' + 'เลขครุภัณฑ์ : ' + ' ' + body.PRODUCT_CODE +'\n' + 'ประเภท : ' + ' ' + body.TYPE_NAME +'\n' + 'ยี่ห้อ : ' + ' ' + body.BRAND_NAME + '\n' + 'สถานะ : ' + body.FIX_STATUS
+           }).then(() => {
+               console.log('send completed!');
+           }).catch((err) => {
+               console.log(err);
+           });
+           //END
         } else {
             console.log(err);
         }
@@ -582,11 +585,11 @@ app.post('/insertdistributor', (req, res) => {
     } = req;
     // console.log(body);
     mysqlConnection.query(`insert into distributor (NOTE,PRODUCT_ID) 
-            values ('${body.NOTE}','${body.PRODUCT_ID}') `, (err, rows, fields) => {
+            values ('${body.NOTE}',${body.PRODUCT_ID}) `, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
 
-            mysqlConnection.query(`UPDATE PRODUCT
+            mysqlConnection.query(`UPDATE product
             SET STATUS = '${body.STATUS}'
             WHERE PRODUCT_ID='${body.PRODUCT_ID}';`)
         } else {
@@ -716,7 +719,7 @@ app.post('/selectfixdashboard', (req, res) => {
     } = req;
     console.log(body);
     if (body.month == '0') {
-        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb,CONCAT(YEAR(fixhistory.DATE)+543)yearfix FROM fix
+        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb FROM fix
     LEFT JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
     LEFT JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
     WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
@@ -729,7 +732,7 @@ app.post('/selectfixdashboard', (req, res) => {
             }
         })
     } else {
-        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb,CONCAT(YEAR(fixhistory.DATE)+543)yearfix ,
+        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb ,
         CASE
           WHEN MONTH(fixhistory.DATE) = '1' THEN 'มกราคม'
           WHEN MONTH(fixhistory.DATE) = '2' THEN 'กุมภาพันธ์'
@@ -771,7 +774,7 @@ app.post('/selectfixtype', (req, res) => {
     } = req;
     console.log(body);
     if (body.month == '0') {
-        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)typefixcount,CONCAT(type.type_NAME)typename,CONCAT(YEAR(fixhistory.DATE)+543)yearfix FROM fix
+        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)typefixcount,CONCAT(type.type_NAME)typename FROM fix
         LEFT JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
         LEFT JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
         LEFT JOIN type ON product.TYPE_ID = type.TYPE_ID
@@ -785,7 +788,7 @@ app.post('/selectfixtype', (req, res) => {
             }
         })
     } else {
-        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)brandfixcount,CONCAT(brand.BRAND_NAME)brandname,CONCAT(YEAR(fixhistory.DATE)+543)yearfix,
+        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)brandfixcount,CONCAT(brand.BRAND_NAME)brandname,
         CASE
           WHEN MONTH(fixhistory.DATE) = '1' THEN 'มกราคม'
           WHEN MONTH(fixhistory.DATE) = '2' THEN 'กุมภาพันธ์'

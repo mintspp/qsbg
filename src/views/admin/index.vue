@@ -363,12 +363,17 @@
             <b-row>
               <b-col cols="12" align="center">
                 <div style="margin-bottom: 20px">
-                  <h5></h5>
+                  <h5>ตัดจำหน่าย</h5>
                 </div>
                 <b-row>
-                  <b-col align="right" cols="3">หมายเหตุ</b-col>
+                  
+                    <b-col align="right" cols="3">รหัสครุภัณฑ์ :</b-col>
+                  <b-col cols="9" align="left">
+                    {{this.items[this.productdetail].PRODUCT_CODE}}
+                  </b-col>
+                  <b-col align="right" cols="3">หมายเหตุ :</b-col>
                   <b-col cols="9">
-                    <div style="margin-right: 50px">
+                    <div style="margin-right: 50px"> 
                       <b-form-textarea
                         v-model="NOTE"
                         placeholder=""
@@ -466,20 +471,20 @@ export default {
   }),
 
   mounted() {
-    axios.post("https://qsbg.herokuapp.com/selectPRODUCTadmin").then((response) => {
+    axios.post("http://localhost:5000/selectPRODUCTadmin").then((response) => {
       console.log(response);
       this.items = response.data;
       this.itemss = response.data.length;
     });
-    axios.post("https://qsbg.herokuapp.com/selecttype").then((response) => {
+    axios.post("http://localhost:5000/selecttype").then((response) => {
       console.log(response.data);
       this.type = response.data;
     });
-    axios.post("https://qsbg.herokuapp.com/selectbrand").then((response) => {
+    axios.post("http://localhost:5000/selectbrand").then((response) => {
       console.log(response.data);
       this.brand = response.data;
     });
-    axios.post("https://qsbg.herokuapp.com/selectmemberproduct").then((response) => {
+    axios.post("http://localhost:5000/selectmemberproduct").then((response) => {
       console.log(response.data);
       this.member = response.data;
     });
@@ -492,7 +497,7 @@ export default {
       console.log(this.NOTE);
       console.log(this.items[this.productdetail].PRODUCT_ID);
       axios
-        .post("https://qsbg.herokuapp.com/insertdistributor", {
+        .post("http://localhost:5000/insertdistributor", {
           NOTE: this.NOTE,
           PRODUCT_ID: this.items[this.productdetail].PRODUCT_ID,
           STATUS: "3",
@@ -504,7 +509,7 @@ export default {
       this.$refs["modal-1"].hide();
     },
    reset(){
-     axios.post("https://qsbg.herokuapp.com/selectPRODUCTadmin").then((response) => {
+     axios.post("http://localhost:5000/selectPRODUCTadmin").then((response) => {
       console.log(response);
       this.items = response.data;
       this.itemss = response.data.length;
@@ -538,7 +543,7 @@ export default {
         STATUS: "1",
       };
       axios
-        .post("https://qsbg.herokuapp.com/insertPRODUCT", data)
+        .post("http://localhost:5000/insertPRODUCT", data)
         .then((response) => {
           console.log(response);
         });
@@ -562,7 +567,7 @@ export default {
         MEMBER_ID: this.items[this.productdetail].MEMBER_ID,
       };
       axios
-        .post("https://qsbg.herokuapp.com/updatePRODUCT", data)
+        .post("http://localhost:5000/updatePRODUCT", data)
         .then((response) => {
           console.log(response);
         });
@@ -574,7 +579,7 @@ export default {
         PRODUCT_ID: this.items[this.productdetail].PRODUCT_ID,
       };
       axios
-        .post("https://qsbg.herokuapp.com/deletePRODUCT", data)
+        .post("http://localhost:5000/deletePRODUCT", data)
         .then((response) => {
           console.log(response);
         });

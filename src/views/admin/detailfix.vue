@@ -194,7 +194,7 @@ export default {
     },
   }),
   mounted() {
-    axios.post("https://qsbg.herokuapp.com/selectFIX").then((response) => {
+    axios.post("http://localhost:5000/selectFIX").then((response) => {
       console.log(response.data);
       this.items = response.data;
     });
@@ -214,7 +214,7 @@ export default {
       console.log(this.login);
     },
     reset() {
-      axios.post("https://qsbg.herokuapp.com/selectFIX").then((response) => {
+      axios.post("http://localhost:5000/selectFIX").then((response) => {
         console.log(response.data);
         this.items = response.data;
       });
@@ -225,7 +225,7 @@ export default {
     updatestatus() {
       console.log(this.items[this.detailfix].FIXHISTORY_ID);
       axios
-        .post("https://qsbg.herokuapp.com/updatestatus", {
+        .post("http://localhost:5000/updatestatus", {
           FIX_STATUS: "กำลังดำเนินการ",
           FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID,
         })
@@ -241,9 +241,12 @@ export default {
         this.items[this.detailfix].FIX_ID
       );
       axios
-        .post("https://qsbg.herokuapp.com/updatestatus1", {
+        .post("http://localhost:5000/updatestatus1", {
           FIX_STATUS: this.items[this.detailfix].FIX_STATUS,
           FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID,
+          PRODUCT_CODE:this.items[this.detailfix].PRODUCT_CODE,
+          TYPE_NAME:this.items[this.detailfix].TYPE_NAME,
+          BRAND_NAME:this.items[this.detailfix].BRAND_NAME
         })
         .then((response) => {
           console.log(response.data);
@@ -254,7 +257,7 @@ export default {
     },
     updatestatus2() {
       axios
-        .post("https://qsbg.herokuapp.com/updatestatus", {
+        .post("http://localhost:5000/updatestatus", {
           FIX_STATUS: "การรับคืนสำเร็จ",
           FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID,
         })
@@ -263,7 +266,7 @@ export default {
           this.reset(response);
         });
       axios
-        .post("https://qsbg.herokuapp.com/updatestatus2", {
+        .post("http://localhost:5000/updatestatus2", {
           BACK_MEMBER: this.BACK_MEMBER,
           BACK_DATE: moment(this.BACK_DATE).format("YYYY-MM-DD"),
           FIX_ID: this.items[this.detailfix].FIX_ID,

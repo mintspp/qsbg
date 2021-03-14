@@ -31,7 +31,7 @@
       </b-row>
       <div v-if="items != '' && itemss != ''">
         <b-row>
-          <b-col cols="6">
+          <b-col xl="6" lg="6" sm="12">
             <div class="wrapper" style="margin: 20px; margin-top: 20px">
               <div style="margin: 10px">
                 <h4>ข้อมูลการเเจ้งซ่อมครุภัณฑ์</h4>
@@ -62,7 +62,7 @@
               </md-table>
             </div>
           </b-col>
-          <b-col cols="6">
+          <b-col xl="6" lg="6" sm="12">
             <div class="wrapper" style="margin: 20px; margin-top: 20px">
               <div style="margin: 10px">
                 <h4>ข้อมูลประเภทการเเจ้งซ่อมครุภัณฑ์</h4>
@@ -237,7 +237,7 @@ export default {
   created() {
     this.showlogin();
 
-    axios.post("https://qsbg.herokuapp.com/commentsss").then((response) => {
+    axios.post("http://localhost:5000/commentsss").then((response) => {
       console.log(response.data);
       this.comment = response.data;
       console.log(this.comment);
@@ -250,7 +250,7 @@ export default {
     var subdistrict = [];
     var fixcount = [];
     await axios
-      .post("https://qsbg.herokuapp.com/selectfixdashboard1", {
+      .post("http://localhost:5000/selectfixdashboard", {
         year: this.YEAR,
         month: this.MONTH,
       })
@@ -300,7 +300,7 @@ export default {
     var typefixcount = [];
 
     await axios
-      .post("https://qsbg.herokuapp.com/selectfixtype", {
+      .post("http://localhost:5000/selectfixtype", {
         year: this.YEAR,
         month: this.MONTH,
       })
@@ -371,7 +371,7 @@ export default {
       var workmb = [];
       var fixcount = [];
       await axios
-        .post("https://qsbg.herokuapp.com/selectfixdashboard", {
+        .post("http://localhost:5000/selectfixdashboard", {
           year: this.YEAR,
           month: this.MONTH,
         })
@@ -417,7 +417,7 @@ export default {
       var typename = [];
       var typefixcount = [];
       await axios
-        .post("https://qsbg.herokuapp.com/selectfixtype", {
+        .post("http://localhost:5000/selectfixtype", {
           year: this.YEAR,
           month: this.MONTH,
         })

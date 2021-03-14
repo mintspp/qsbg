@@ -69,7 +69,7 @@ export default {
     ],
   }),
   mounted() {
-    axios.post("https://qsbg.herokuapp.com/selectdistributor").then((response) => {
+    axios.post("http://localhost:5000/selectdistributor").then((response) => {
       console.log(response.data);
       this.items = response.data;
     });

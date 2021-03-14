@@ -117,7 +117,7 @@ export default {
   }),
   mounted() {
     axios
-      .post("https://qsbg.herokuapp.com/selecthistoryfixadmin")
+      .post("http://localhost:5000/selecthistoryfixadmin")
       .then((response) => {
         console.log(response.data);
         this.items = response.data;
