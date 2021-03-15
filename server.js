@@ -33,7 +33,7 @@ var mysqlConnection = mysql.createConnection({
     multipleStatements: true
 });
 
-app.listen(port);
+
 
 app.post('/selecttype', (req, res) => {
 
@@ -843,3 +843,5 @@ app.post('/selectfixdashboard1', (req, res) => {
 
 
 });
+
+app.listen(port);
