@@ -7,6 +7,18 @@ var path = require("path");
 const cors = require('cors');
 const port = process.env.PORT || 5000;
 
+app.use(express.static(__dirname + "/dist/"));
+app.get(/.*/, function (req, res) {
+    res.sendfile(__dirname + "/dist/index.html");
+});
+
+
+//// console.log("Server started...");
+
+//webbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
+app.use(bodyparser.json());
+var path = require("path");
+const cors = require('cors');
 app.use(
     cors(),
     bodyparser.json(),
@@ -14,14 +26,7 @@ app.use(
         extended: true
     })
 );
-// var mysqlConnection = mysql.createConnection({
-//     // host: '',
-//     user: 'root',
-//     port: '3306',
-//     password: '',
-//     database: 'qsbg',
-//     multipleStatements: true
-// });
+
 
 
 var mysqlConnection = mysql.createConnection({
