@@ -35,27 +35,27 @@
                 <b-card-img
                   src="https://firebasestorage.googleapis.com/v0/b/test-f2583.appspot.com/o/technical-support.png?alt=media&token=65a8ac23-b3d9-47f8-a8e1-5da587df7cc7"
                   style="width:50%;"
-                ></b-card-img>
+                ></b-card-img><br>
               </div>
-              <b-row>
-                <b-col cols="4" align="right">ประเภท :</b-col>
-                <b-col cols="8" align="left">{{ pd.TYPE_NAME }}</b-col>
+              <b-row style="margin-top: 10px">
+                <b-col cols="5" align="right">ประเภท :</b-col>
+                <b-col cols="7" align="left">{{ pd.TYPE_NAME }}</b-col>
               </b-row>
               <b-row>
-                <b-col cols="4" align="right">เลขครุภัณฑ์ :</b-col>
-                <b-col cols="8" align="left">{{ pd.PRODUCT_CODE }}</b-col>
+                <b-col cols="5" align="right">เลขครุภัณฑ์ :</b-col>
+                <b-col cols="7" align="left">{{ pd.PRODUCT_CODE }}</b-col>
               </b-row>
               <b-row>
-                <b-col cols="4" align="right">ยี่ห้อ :</b-col>
-                <b-col cols="8" align="left">{{ pd.BRAND_NAME }}</b-col>
+                <b-col cols="5" align="right">ยี่ห้อ :</b-col>
+                <b-col cols="7" align="left">{{ pd.BRAND_NAME }}</b-col>
               </b-row>
               <b-row>
-                <b-col cols="4" align="right">รุ่น :</b-col>
-                <b-col cols="8" align="left">{{ pd.PRODUCT_GEN }}</b-col>
+                <b-col cols="5" align="right">รุ่น :</b-col>
+                <b-col cols="7" align="left">{{ pd.PRODUCT_GEN }}</b-col>
               </b-row>
               <b-row>
-                <b-col cols="4" align="right">หมดอายุ :</b-col>
-                <b-col cols="8" align="left">{{ pd.PRODUCT_EXP }}</b-col>
+                <b-col cols="5" align="right">หมดอายุ :</b-col>
+                <b-col cols="7" align="left">{{ pd.PRODUCT_EXP }}</b-col>
               </b-row>
             </b-card>
           </div>

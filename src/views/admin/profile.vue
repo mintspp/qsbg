@@ -91,7 +91,7 @@
               >
               <b-modal ref="my-modal" hide-footer title="">
                  <div align="center">
-              <b><h4>เเก้ไขข้อมูล</h4></b>
+              <b><h5>เเก้ไขข้อมูล</h5></b>
             </div>
                 <div class="d-block text-center">
                   <b-row style="margin-top: 5px">

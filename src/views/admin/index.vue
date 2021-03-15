@@ -21,7 +21,7 @@
               <b-modal ref="my-modal" size="lg" hide-footer>
                 <div class="d-block text-center">
                   <div align="center">
-                    <b><h4>กรอกข้อมูลครุภัณฑ์</h4></b>
+                    <b><h5>กรอกข้อมูลครุภัณฑ์</h5></b>
                   </div>
                   <b-row>
                     <b-col cols="6">ประเภท</b-col>
@@ -142,7 +142,7 @@
                 </div>
                 <b-button
                   class="mt-3"
-                  variant="outline-success"
+                  variant="success"
                   block
                   @click="addproduct"
                   >บันทึก</b-button
@@ -213,7 +213,7 @@
           <b-container fluid>
             <div>
               <div align="center">
-                <b><h4>รายละเอียด</h4></b>
+                <b><h5>รายละเอียด</h5></b>
               </div>
               <b-row>
                 <b-col cols="5" align="right">CPU :</b-col>
