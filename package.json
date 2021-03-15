@@ -18,6 +18,7 @@
     "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "formatter": "^0.4.1",
     "line-notify-nodejs": "^1.0.0",
