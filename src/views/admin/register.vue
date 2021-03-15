@@ -20,7 +20,7 @@
               >
               <b-modal ref="my-modal" size="lg" hide-footer>
                 <div align="center">
-                  <b><h4>สมัครสมาชิก</h4></b>
+                  <b><h5>สมัครสมาชิก</h5></b>
                 </div>
                 <div style="margin-top:20px;">
                   <b-row>
@@ -196,12 +196,13 @@
           :id="infoModal.id"
           ref="modal-1"
           :title="infoModal.title"
+          size="lg"
           hide-footer
         >
           <b-container fluid>
             <div>
               <div style="margin-top:10px;margin-bottom:10px;" align="center">
-                <b><h4>แก้ไขข้อมูล</h4> </b>
+                <b><h5>แก้ไขข้อมูล</h5> </b>
               </div>
               <b-row>
                 <b-col align="right" cols="4">ชื่อ</b-col>
