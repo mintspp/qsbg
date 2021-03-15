@@ -244,6 +244,9 @@ export default {
         .post("http://localhost:5000/updatestatus1", {
           FIX_STATUS: this.items[this.detailfix].FIX_STATUS,
           FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID,
+          PRODUCT_CODE:this.items[this.detailfix].PRODUCT_CODE,
+          TYPE_NAME:this.items[this.detailfix].TYPE_NAME,
+          BRAND_NAME:this.items[this.detailfix].BRAND_NAME
         })
         .then((response) => {
           console.log(response.data);

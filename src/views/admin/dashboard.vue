@@ -31,7 +31,7 @@
       </b-row>
       <div v-if="items != '' && itemss != ''">
         <b-row>
-          <b-col cols="6">
+          <b-col xl="6" lg="6" sm="12">
             <div class="wrapper" style="margin: 20px; margin-top: 20px">
               <div style="margin: 10px">
                 <h4>ข้อมูลการเเจ้งซ่อมครุภัณฑ์</h4>
@@ -62,7 +62,7 @@
               </md-table>
             </div>
           </b-col>
-          <b-col cols="6">
+          <b-col xl="6" lg="6" sm="12">
             <div class="wrapper" style="margin: 20px; margin-top: 20px">
               <div style="margin: 10px">
                 <h4>ข้อมูลประเภทการเเจ้งซ่อมครุภัณฑ์</h4>
@@ -250,7 +250,7 @@ export default {
     var subdistrict = [];
     var fixcount = [];
     await axios
-      .post("http://localhost:5000/selectfixdashboard1", {
+      .post("http://localhost:5000/selectfixdashboard", {
         year: this.YEAR,
         month: this.MONTH,
       })

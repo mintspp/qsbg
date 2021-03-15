@@ -14,7 +14,7 @@
       <b-card style="margin: 20px">
         <div align="center">
                 <b-card-img
-                  src="https://www.flaticon.com/svg/vstatic/svg/4205/4205588.svg?token=exp=1614520600~hmac=45e415cfc7cac4a511fe5836eb6e1aa8"
+                  src="https://firebasestorage.googleapis.com/v0/b/test-f2583.appspot.com/o/technical-support.png?alt=media&token=65a8ac23-b3d9-47f8-a8e1-5da587df7cc7"
                   style="width:40%;"
                 ></b-card-img>
               </div><br>
@@ -45,6 +45,7 @@ export default {
     this.showlogin();
   },
   mounted() {
+    // http://localhost:5000
     axios.post("http://localhost:5000/notification").then((response) => {
       console.log(response.data);
       this.notification = response.data;

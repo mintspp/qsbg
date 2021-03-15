@@ -118,7 +118,10 @@ export default {
         MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
         FIX_DETAIL: this.FIX_DETAIL,
         FIX_STATUS: this.FIX_STATUS,
-        BACK_MEMBER: this.BACK_MEMBER
+        BACK_MEMBER: this.BACK_MEMBER,
+        // PRODUCT_CODE:this.product[0].PRODUCT_CODE,
+        // BRAND_NAME:this.product[0].BRAND_NAME,
+        // TYPE_NAME:this.product[0].TYPE_NAME
       };
       axios.post("http://localhost:5000/insertFIX", data).then(response => {
         console.log(response);

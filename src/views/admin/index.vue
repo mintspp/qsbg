@@ -363,12 +363,17 @@
             <b-row>
               <b-col cols="12" align="center">
                 <div style="margin-bottom: 20px">
-                  <h5></h5>
+                  <h5>ตัดจำหน่าย</h5>
                 </div>
                 <b-row>
-                  <b-col align="right" cols="3">หมายเหตุ</b-col>
+                  
+                    <b-col align="right" cols="3">รหัสครุภัณฑ์ :</b-col>
+                  <b-col cols="9" align="left">
+                    {{this.items[this.productdetail].PRODUCT_CODE}}
+                  </b-col>
+                  <b-col align="right" cols="3">หมายเหตุ :</b-col>
                   <b-col cols="9">
-                    <div style="margin-right: 50px">
+                    <div style="margin-right: 50px"> 
                       <b-form-textarea
                         v-model="NOTE"
                         placeholder=""
