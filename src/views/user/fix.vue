@@ -89,7 +89,7 @@ export default {
 
   mounted() {
     axios
-      .post("http://localhost:5000/selectPRODUCT", {
+      .post("https://qsbg.herokuapp.com/selectPRODUCT", {
         PRODUCT_ID: this.$store.getters["Detail/PRODUCT_ID"]
       })
       .then(response => {
@@ -123,7 +123,7 @@ export default {
         // BRAND_NAME:this.product[0].BRAND_NAME,
         // TYPE_NAME:this.product[0].TYPE_NAME
       };
-      axios.post("http://localhost:5000/insertFIX", data).then(response => {
+      axios.post("https://qsbg.herokuapp.com/insertFIX", data).then(response => {
         console.log(response);
         this.$store.commit(
           "Detail/SET_MEMBER_ID",

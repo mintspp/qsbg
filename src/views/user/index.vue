@@ -16,6 +16,7 @@
       <!-- เริ่ม -->
       <div>
         <b-container fluid>
+        <h3 align="left">รายการแจ้งซ่อมครุภัณฑ์</h3>
           <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
           <b-row>
             <b-col cols="6" class="my-2">
@@ -131,7 +132,7 @@ export default {
 
   mounted() {
     axios
-      .post("http://localhost:5000/selectfixdetail", {
+      .post("https://qsbg.herokuapp.com/selectfixdetail", {
         MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"]
       })
       .then(response => {

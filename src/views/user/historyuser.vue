@@ -14,6 +14,7 @@
       <div>
         <b-container fluid>
           <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
+          <h3 align="left">ประวัติแจ้งซ่อมครุภัณฑ์</h3>
           <b-row>
             <b-col cols="6" class="my-2">
               <!-- ค้นหา -->
@@ -191,7 +192,7 @@ export default {
   }),
   mounted() {
     axios
-      .post("http://localhost:5000/selectfixdetails", {
+      .post("https://qsbg.herokuapp.com/selectfixdetails", {
         MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
       })
       .then((response) => {
@@ -207,7 +208,7 @@ export default {
     comment(fixid) {
       console.log(fixid);
       axios
-        .post("http://localhost:5000/insertFIXCOMMENT", {
+        .post("https://qsbg.herokuapp.com/insertFIXCOMMENT", {
           FIX_ID: fixid,
           COMMENT: this.COMMENT,
           COMMENT_STAR: this.COMMENT_STAR,
@@ -221,7 +222,7 @@ export default {
     },
     reset(){
       axios
-      .post("http://localhost:5000/selectfixdetails", {
+      .post("https://qsbg.herokuapp.com/selectfixdetails", {
         MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
       })
       .then((response) => {

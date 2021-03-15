@@ -45,8 +45,8 @@ export default {
     this.showlogin();
   },
   mounted() {
-    // http://localhost:5000
-    axios.post("http://localhost:5000/notification").then((response) => {
+    // https://qsbg.herokuapp.com
+    axios.post("https://qsbg.herokuapp.com/notification").then((response) => {
       console.log(response.data);
       this.notification = response.data;
     });
