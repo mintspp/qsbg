@@ -161,7 +161,7 @@ export default {
   }),
   mounted() {
     axios
-      .post("https://qsbg.herokuapp.com/selecthistoryfixadminnot")
+      .post("https://qsgb.herokuapp.com/selecthistoryfixadminnot")
       .then((response) => {
         console.log(response.data);
         this.itemsnot = response.data;

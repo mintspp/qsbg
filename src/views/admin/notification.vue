@@ -45,8 +45,8 @@ export default {
     this.showlogin();
   },
   mounted() {
-    // https://qsbg.herokuapp.com
-    axios.post("https://qsbg.herokuapp.com/notification").then((response) => {
+    // https://qsgb.herokuapp.com
+    axios.post("https://qsgb.herokuapp.com/notification").then((response) => {
       console.log(response.data);
       this.notification = response.data;
     });

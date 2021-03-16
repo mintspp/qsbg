@@ -406,7 +406,7 @@ export default {
     }
   }),
   mounted() {
-    axios.post("https://qsbg.herokuapp.com/selectMEMBER").then(response => {
+    axios.post("https://qsgb.herokuapp.com/selectMEMBER").then(response => {
       console.log(response.data);
       this.items = response.data;
        this.itemss =response.data.length
@@ -431,7 +431,7 @@ export default {
         MEMBER_EMAIL: this.MEMBER_EMAIL,
         MEMBER_WORK: this.MEMBER_WORK
       };
-      axios.post("https://qsbg.herokuapp.com/insertMEMBER", data).then(response => {
+      axios.post("https://qsgb.herokuapp.com/insertMEMBER", data).then(response => {
         console.log(response);
       });
       this.$refs["my-modal"].hide();
@@ -447,7 +447,7 @@ export default {
         MEMBER_WORK: this.items[this.editmember].MEMBER_WORK,
         MEMBER_ID: this.items[this.editmember].MEMBER_ID
       };
-      axios.post("https://qsbg.herokuapp.com/updateMEMBER", data).then(response => {
+      axios.post("https://qsgb.herokuapp.com/updateMEMBER", data).then(response => {
         console.log(response);
       });
       this.$refs["modal-1"].hide();
@@ -456,7 +456,7 @@ export default {
       var data = {
         MEMBER_ID: this.items[this.editmember].MEMBER_ID
       };
-      axios.post("https://qsbg.herokuapp.com/deleteMEMBER", data).then(response => {
+      axios.post("https://qsgb.herokuapp.com/deleteMEMBER", data).then(response => {
         console.log(response);
       });
       this.$refs["modal-2"].hide();

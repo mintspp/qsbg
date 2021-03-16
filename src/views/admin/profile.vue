@@ -175,7 +175,7 @@ export default {
   },
   mounted() {
     axios
-        .post("https://qsbg.herokuapp.com/selectprofileuser", {
+        .post("https://qsgb.herokuapp.com/selectprofileuser", {
           MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
         })
         .then((response) => {
@@ -190,7 +190,7 @@ export default {
     },
     updatemember() {
       axios
-        .post("https://qsbg.herokuapp.com/upprofile", {
+        .post("https://qsgb.herokuapp.com/upprofile", {
           MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
           MEMBER_NAME: this.user[0].MEMBER_NAME,
           MEMBER_TELL: this.user[0].MEMBER_TELL,
@@ -206,7 +206,7 @@ export default {
     },
     reset() {
       axios
-        .post("https://qsbg.herokuapp.com/selectprofileuser", {
+        .post("https://qsgb.herokuapp.com/selectprofileuser", {
           MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
         })
         .then((response) => {

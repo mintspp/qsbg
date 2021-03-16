@@ -90,7 +90,7 @@ export default {
   }),
   methods: {
     addCheck() {
-      axios.post("https://qsbg.herokuapp.com/selectMEMBER").then((response) => {
+      axios.post("https://qsgb.herokuapp.com/selectMEMBER").then((response) => {
         console.log(response.data);
         this.checkuser = response.data;
         for (let index = 0; index < this.checkuser.length; index++) {
