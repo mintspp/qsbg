@@ -4,13 +4,7 @@
     <Nav />
     <!-- --------------nav------------ -->
     <br />
-    <div style="margin-top:60px;"></div>
-
-         
-    
-      
-
-    <div>
+    <div style="padding-top: 40px;">
       <b-container fluid>
         <div align="left"><h2>ข้อมูลยี่ห้อ/ประเภท  </h2></div> 
         <b-row>
@@ -216,6 +210,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import axios from "axios";
 import Nav from "../../components/Nav";
 export default {
@@ -236,11 +231,13 @@ export default {
     setTYPE_N :"",
   }),
   mounted() {
-    axios.post("https://qsgb.herokuapp.com/selectBRAND").then(response => {
+    
+    axios.post(`${api_url.api_url}/selectBRAND`).then(response => {
       console.log(response.data);
       this.brand = response.data;
     });
-    axios.post("https://qsgb.herokuapp.com/selectTYPE").then(response => {
+    
+    axios.post(`${api_url.api_url}/selectTYPE`).then(response => {
       console.log(response.data);
       this.type = response.data;
     });
@@ -280,7 +277,8 @@ export default {
     update() {
       console.log(this.setBRAND_I, this.setBRAND_N);
       axios
-        .post("https://qsgb.herokuapp.com/updateBRAND", {
+      
+        .post(`${api_url.api_url}/updateBRAND`, {
           BRAND_ID: this.setBRAND_I,
           BRAND_NAME: this.setBRAND_N
         })
@@ -293,7 +291,8 @@ export default {
     delate() {
       console.log(this.setBRAND_I);
       axios
-        .post("https://qsgb.herokuapp.com/deleteBRAND", {
+      
+        .post(`${api_url.api_url}/deleteBRAND`, {
           BRAND_ID: this.setBRAND_I
         })
         .then(response => {
@@ -305,7 +304,8 @@ export default {
     typeupdate() {
       console.log(this.setTYPE_I, this.setTYPE_N);
       axios
-        .post("https://qsgb.herokuapp.com/updateTYPE", {
+      
+        .post(`${api_url.api_url}/updateTYPE`, {
           TYPE_ID: this.setTYPE_I,
           TYPE_NAME: this.setTYPE_N
         })
@@ -318,7 +318,8 @@ export default {
     typedelate() {
       console.log(this.setTYPE_I);
       axios
-        .post("https://qsgb.herokuapp.com/deleteTYPE", {
+      
+        .post(`${api_url.api_url}/deleteTYPE`, {
           TYPE_ID: this.setTYPE_I
         })
         .then(response => {
@@ -335,7 +336,8 @@ export default {
     },
     insertbrand() {
       axios
-        .post("https://qsgb.herokuapp.com/insertBRAND", {
+      
+        .post(`${api_url.api_url}/insertBRAND`, {
           BRAND_NAME: this.BRAND_NAME
         })
         .then(response => {
@@ -346,7 +348,8 @@ export default {
     },
     inserttype(){
       axios
-        .post("https://qsgb.herokuapp.com/insertTYPE", {
+      
+        .post(`${api_url.api_url}/insertTYPE`, {
           TYPE_NAME: this.TYPE_NAME
         })
         .then(response => {
@@ -356,11 +359,13 @@ export default {
       this.$refs["my-modal1"].hide();
     },
     reset(){
-      axios.post("https://qsgb.herokuapp.com/selectBRAND").then(response => {
+      
+      axios.post(`${api_url.api_url}/selectBRAND`).then(response => {
       console.log(response.data);
       this.brand = response.data;
     });
-    axios.post("https://qsgb.herokuapp.com/selectTYPE").then(response => {
+    
+    axios.post(`${api_url.api_url}/selectTYPE`).then(response => {
       console.log(response.data);
       this.type = response.data;
     });

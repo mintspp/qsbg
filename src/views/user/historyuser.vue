@@ -143,6 +143,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import moment from "moment";
 import Navuser from "../../components/Navuser";
 import axios from "axios";
@@ -192,7 +193,8 @@ export default {
   }),
   mounted() {
     axios
-      .post("https://qsgb.herokuapp.com/selectfixdetails", {
+    
+      .post(`${api_url.api_url}/selectfixdetails`, {
         MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
       })
       .then((response) => {
@@ -208,7 +210,8 @@ export default {
     comment(fixid) {
       console.log(fixid);
       axios
-        .post("https://qsgb.herokuapp.com/insertFIXCOMMENT", {
+      
+        .post(`${api_url.api_url}/insertFIXCOMMENT`, {
           FIX_ID: fixid,
           COMMENT: this.COMMENT,
           COMMENT_STAR: this.COMMENT_STAR,
@@ -222,7 +225,8 @@ export default {
     },
     reset(){
       axios
-      .post("https://qsgb.herokuapp.com/selectfixdetails", {
+      
+      .post(`${api_url.api_url}/selectfixdetails`, {
         MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
       })
       .then((response) => {
@@ -233,8 +237,7 @@ export default {
     format_datetime(data) {
       var dm = moment(data).format("DD/MM/");
       var year = parseInt(moment(data).format("YYYY")) + 543;
-      var time = moment(data).format(" HH:mm น.");
-      return dm + year + time;
+      return dm + year;
     },
     format_datetime1(data) {
       var dm = moment(data).format("DD/MM/");

@@ -23,6 +23,7 @@
     "line-notify-nodejs": "^1.0.0",
     "moment": "^2.29.1",
     "mysql": "^2.18.1",
+    "node-cron": "^3.0.0",
     "nodemon": "^2.0.6",
     "path": "^0.12.7",
     "serve": "^11.3.2",

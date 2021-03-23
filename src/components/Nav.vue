@@ -5,7 +5,9 @@
         <b-navbar-brand>QSBG</b-navbar-brand>
 
         <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
-        <b-navbar-nav class="ml-auto">
+      
+        <b-collapse id="nav-collapse" is-nav>
+            <b-navbar-nav >
           <b-nav-item-dropdown left>
             <template v-slot:button-content> จัดการข้อมูล </template>
             <b-dropdown-item @click="goregister">
@@ -17,7 +19,6 @@
             </b-dropdown-item>
           </b-nav-item-dropdown>
         </b-navbar-nav>
-        <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item-dropdown left>
             <template v-slot:button-content> ประวัติ</template>
@@ -38,15 +39,15 @@
               <!-- Using 'button-content' slot -->
               <!-- person-fill -->
               <template v-slot:button-content>
-                <b-badge variant="danger">{{ count.length }}</b-badge>
+                <b-badge variant="danger">{{ countsum + notificationsum }}</b-badge>
                 <b-icon icon="bell-fill" scale="1"></b-icon>
               </template>
               <b-dropdown-item @click="godetailfix">
-                <b-badge variant="danger">{{ count.length }}</b-badge
+                <b-badge variant="danger">{{ countsum }}</b-badge
                 >แจ้งซ่อมครุภัณฑ์
               </b-dropdown-item>
               <b-dropdown-item @click="gonotification">
-                <b-badge variant="danger">0</b-badge>แจ้งประกันหมดอายุ
+                <b-badge variant="danger">{{notificationsum}}</b-badge>แจ้งประกันหมดอายุ
               </b-dropdown-item>
             </b-nav-item-dropdown>
 
@@ -95,17 +96,28 @@
 
 <script>
 import axios from "axios";
+const api_url = require("../../utilities/api");
 export default {
   name: "Nav",
   data: () => ({
     login: "",
     count: null,
+    notification:null,
+    countsum:0,
+    notificationsum:0
   }),
   mounted() {
-    axios.post("https://qsgb.herokuapp.com/selectfixcount").then((response) => {
+    axios.post(`${api_url.api_url}/selectfixcount`).then((response) => {
       console.log(response.data);
       this.count = response.data;
       console.log(this.count.length);
+      this.countsum = this.count.length
+    });
+    axios.post(`${api_url.api_url}/notification`).then((response) => {
+      console.log(response.data);
+      this.notification = response.data;
+      console.log(this.notification.length);
+      this.notificationsum = this.notification.length
     });
   },
   methods: {

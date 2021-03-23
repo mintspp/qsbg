@@ -3,10 +3,8 @@
     <!-- --------------nav------------ -->
     <Nav />
     <!-- --------------nav------------ -->
-    <div style="margin-top:60px;"></div>
-
     <!-- เริ่ม -->
-    <div>
+    <div style="padding-top: 40px;">
       <b-container fluid>
           <br />
           <b-row>
@@ -335,6 +333,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import axios from "axios";
 import Nav from "../../components/Nav";
 export default {
@@ -406,7 +405,8 @@ export default {
     }
   }),
   mounted() {
-    axios.post("https://qsgb.herokuapp.com/selectMEMBER").then(response => {
+    
+    axios.post(`${api_url.api_url}/selectMEMBER`).then(response => {
       console.log(response.data);
       this.items = response.data;
        this.itemss =response.data.length
@@ -421,6 +421,13 @@ export default {
       this.login = localStorage.getItem("ADMIN");
       console.log(this.login);
     },
+    reset(){
+      axios.post(`${api_url.api_url}/selectMEMBER`).then(response => {
+      console.log(response.data);
+      this.items = response.data;
+       this.itemss =response.data.length
+    });
+    },
     addregister() {
       var data = {
         MEMBER_NAME: this.MEMBER_NAME,
@@ -431,8 +438,10 @@ export default {
         MEMBER_EMAIL: this.MEMBER_EMAIL,
         MEMBER_WORK: this.MEMBER_WORK
       };
-      axios.post("https://qsgb.herokuapp.com/insertMEMBER", data).then(response => {
+      
+      axios.post(`${api_url.api_url}/insertMEMBER`, data).then(response => {
         console.log(response);
+        this.reset(response);
       });
       this.$refs["my-modal"].hide();
     },
@@ -447,8 +456,10 @@ export default {
         MEMBER_WORK: this.items[this.editmember].MEMBER_WORK,
         MEMBER_ID: this.items[this.editmember].MEMBER_ID
       };
-      axios.post("https://qsgb.herokuapp.com/updateMEMBER", data).then(response => {
+      
+      axios.post(`${api_url.api_url}/updateMEMBER`, data).then(response => {
         console.log(response);
+        this.reset(response);
       });
       this.$refs["modal-1"].hide();
     },
@@ -456,8 +467,10 @@ export default {
       var data = {
         MEMBER_ID: this.items[this.editmember].MEMBER_ID
       };
-      axios.post("https://qsgb.herokuapp.com/deleteMEMBER", data).then(response => {
+      
+      axios.post(`${api_url.api_url}/deleteMEMBER`, data).then(response => {
         console.log(response);
+        this.reset(response);
       });
       this.$refs["modal-2"].hide();
     },

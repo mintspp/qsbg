@@ -3,14 +3,14 @@
     <!-- --------------nav------------ -->
     <Nav />
     <!-- --------------nav------------ -->
-    <div style="margin-top: 60px"></div>
+    <br>
     <div v-if="items == ''">
       <div style="padding: 100px; padding-top: 200px">
         <h5>ยังไม่มีรายการแจ้งซ่อมครุภัณฑ์</h5>
       </div>
     </div>
     <!-- เริ่ม -->
-    <div v-if="items != ''">
+    <div v-if="items != ''" style="padding-top: 40px;">
       <b-container fluid>
         <div align="left" style="padding-left: 10px">
           <h2>การแจ้งซ่อมครุภัณฑ์</h2>
@@ -62,7 +62,9 @@
         <!-- ปุ่มรายละเอียด -->
         <b-modal :id="infoModal1.id" ref="modal-1" hide-footer>
           <b-container fluid>
-            <div align="center"><b><h4>รายละเอียด</h4></b></div>
+            <div align="center">
+              <b><h4>รายละเอียด</h4></b>
+            </div>
             <p>รหัสครุภัณฑ์ : {{ items[detailfix].PRODUCT_CODE }}</p>
             <p>ยี่ห้อ : {{ items[detailfix].BRAND_NAME }}</p>
             <p>รุ่น : {{ items[detailfix].PRODUCT_GEN }}</p>
@@ -130,6 +132,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import axios from "axios";
 import Nav from "../../components/Nav";
 import moment from "moment";
@@ -194,7 +197,7 @@ export default {
     },
   }),
   mounted() {
-    axios.post("https://qsgb.herokuapp.com/selectFIX").then((response) => {
+    axios.post(`${api_url.api_url}/selectFIX`).then((response) => {
       console.log(response.data);
       this.items = response.data;
     });
@@ -206,15 +209,14 @@ export default {
     format_datetime(data) {
       var dm = moment(data).format("DD/MM/");
       var year = parseInt(moment(data).format("YYYY")) + 543;
-      var time = moment(data).format(" HH:mm น.");
-      return dm + year + time;
+      return dm + year;
     },
     showlogin() {
       this.login = localStorage.getItem("ADMIN");
       console.log(this.login);
     },
     reset() {
-      axios.post("https://qsgb.herokuapp.com/selectFIX").then((response) => {
+      axios.post(`${api_url.api_url}/selectFIX`).then((response) => {
         console.log(response.data);
         this.items = response.data;
       });
@@ -225,7 +227,8 @@ export default {
     updatestatus() {
       console.log(this.items[this.detailfix].FIXHISTORY_ID);
       axios
-        .post("https://qsgb.herokuapp.com/updatestatus", {
+
+        .post(`${api_url.api_url}/updatestatus`, {
           FIX_STATUS: "กำลังดำเนินการ",
           FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID,
         })
@@ -241,12 +244,13 @@ export default {
         this.items[this.detailfix].FIX_ID
       );
       axios
-        .post("https://qsgb.herokuapp.com/updatestatus1", {
+
+        .post(`${api_url.api_url}/updatestatus1`, {
           FIX_STATUS: this.items[this.detailfix].FIX_STATUS,
           FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID,
-          PRODUCT_CODE:this.items[this.detailfix].PRODUCT_CODE,
-          TYPE_NAME:this.items[this.detailfix].TYPE_NAME,
-          BRAND_NAME:this.items[this.detailfix].BRAND_NAME
+          PRODUCT_CODE: this.items[this.detailfix].PRODUCT_CODE,
+          TYPE_NAME: this.items[this.detailfix].TYPE_NAME,
+          BRAND_NAME: this.items[this.detailfix].BRAND_NAME,
         })
         .then((response) => {
           console.log(response.data);
@@ -257,7 +261,8 @@ export default {
     },
     updatestatus2() {
       axios
-        .post("https://qsgb.herokuapp.com/updatestatus", {
+
+        .post(`${api_url.api_url}/updatestatus`, {
           FIX_STATUS: "การรับคืนสำเร็จ",
           FIXHISTORY_ID: this.items[this.detailfix].FIXHISTORY_ID,
         })
@@ -266,7 +271,8 @@ export default {
           this.reset(response);
         });
       axios
-        .post("https://qsgb.herokuapp.com/updatestatus2", {
+
+        .post(`${api_url.api_url}/updatestatus2`, {
           BACK_MEMBER: this.BACK_MEMBER,
           BACK_DATE: moment(this.BACK_DATE).format("YYYY-MM-DD"),
           FIX_ID: this.items[this.detailfix].FIX_ID,

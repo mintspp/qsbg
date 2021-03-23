@@ -3,8 +3,7 @@
     <!-- --------------nav------------ -->
     <Nav />
     <!-- --------------nav------------ -->
-    <div style="margin-top: 80px"></div>
-    <div align="center">
+    <div align="center" style="padding-top: 80px;">
       <b-card style="width: 80%">
        <div style="margin-bottom: 40px"><h2>ข้อมูลส่วนตัว</h2></div> 
         <b-row>
@@ -159,6 +158,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import Nav from "../../components/Nav";
 import axios from "axios";
 export default {
@@ -175,7 +175,8 @@ export default {
   },
   mounted() {
     axios
-        .post("https://qsgb.herokuapp.com/selectprofileuser", {
+    
+        .post(`${api_url.api_url}/selectprofileuser`, {
           MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
         })
         .then((response) => {
@@ -190,7 +191,8 @@ export default {
     },
     updatemember() {
       axios
-        .post("https://qsgb.herokuapp.com/upprofile", {
+      
+        .post(`${api_url.api_url}/upprofile`, {
           MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
           MEMBER_NAME: this.user[0].MEMBER_NAME,
           MEMBER_TELL: this.user[0].MEMBER_TELL,
@@ -206,7 +208,8 @@ export default {
     },
     reset() {
       axios
-        .post("https://qsgb.herokuapp.com/selectprofileuser", {
+      
+        .post(`${api_url.api_url}/selectprofileuser`, {
           MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
         })
         .then((response) => {

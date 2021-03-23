@@ -92,6 +92,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import moment from "moment"
 import Navuser from "../../components/Navuser";
 import axios from "axios";
@@ -132,7 +133,8 @@ export default {
 
   mounted() {
     axios
-      .post("https://qsgb.herokuapp.com/selectfixdetail", {
+    
+      .post(`${api_url.api_url}/selectfixdetail`, {
         MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"]
       })
       .then(response => {
@@ -148,8 +150,7 @@ export default {
     format_datetime(data) {
    var dm = moment(data).format("DD/MM/");
       var year = parseInt(moment(data).format("YYYY")) + 543;
-      var time = moment(data).format(" HH:mm น.");
-      return dm + year + time;
+      return dm + year;
     },
     showlogin() {
       this.login = localStorage.getItem("USER");

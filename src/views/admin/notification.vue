@@ -3,14 +3,15 @@
     <!-- --------------nav------------ -->
     <Nav />
     <!-- --------------nav------------ -->
-    <div style="margin-top: 60px"></div>
-    <!-- เริ่ม -->
-    <div >
+    <br>
+    <div style="padding-top: 40px;">
       <div align="left" style="padding-left: 10px">
         <h2>ครุภัณฑ์หมดอายุ</h2>
       </div>
       <b-row >
-        <b-col v-for="(nn,index) in notification" :key="index" cols="4">
+        <b-col v-for="(nn,index) in notification" :key="index"  xl="4"
+          lg="4"
+          sm="12">
       <b-card style="margin: 20px">
         <div align="center">
                 <b-card-img
@@ -31,6 +32,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import Nav from "../../components/Nav";
 import axios from "axios";
 export default {
@@ -45,8 +47,8 @@ export default {
     this.showlogin();
   },
   mounted() {
-    // https://qsgb.herokuapp.com
-    axios.post("https://qsgb.herokuapp.com/notification").then((response) => {
+    
+    axios.post(`${api_url.api_url}/notification`).then((response) => {
       console.log(response.data);
       this.notification = response.data;
     });

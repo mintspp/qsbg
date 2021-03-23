@@ -4,25 +4,14 @@ const bodyparser = require('body-parser');
 var app = express();
 app.use(bodyparser.json());
 var path = require("path");
-const cors = require('cors');
 require("dotenv").config();
-const port = process.env.PORT || 5000;
-
-app.use(function (req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-    next();
-});
-
+// const port = process.env.PORT || 5000;
+const port = 80;
 
 app.use(express.static(__dirname + "/dist/"));
 app.get(/.*/, function (req, res) {
     res.sendfile(__dirname + "/dist/index.html");
 });
-
-
-//// console.log("Server started...");
 
 //webbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
 app.use(bodyparser.json());
@@ -36,14 +25,13 @@ app.use(
     })
 );
 
-
-
+console.log("Server started...");
 var mysqlConnection = mysql.createConnection({
-    // host: '',
-    user: 'root',
+    host: '128.199.214.155',
+    user: 'savemom',
     port: '3306',
-    password: '',
-    database: 'qsbg',
+    password: 'savemom@aclab1201',
+    database: 'line_bot',
     multipleStatements: true
 });
 
@@ -135,7 +123,7 @@ app.post('/insertFIXCOMMENT', (req, res) => {
             values ('${body.FIX_ID}','${body.COMMENT}','${body.COMMENT_STAR}','${body.COMMENT_TYPE}') `, (err, rows, fields) => {
         if (!err) {
             console.log(rows);
-            
+
             res.send(rows);
         } else {
             console.log(err);
@@ -318,24 +306,24 @@ app.post('/notification', (req, res) => {
                 }
             }
 
-            //LINE 
-            const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
-            lineNotify.notify({
-                message: '\n' + 'เลขครุภัณฑ์' + ' ' + product.map((x) => {
-                    return x.PRODUCT_CODE
-                }) + ' ' + 'หมดอายุ' + '\n' + 'วันที่หมดอายุ : ' + product.map((x) => {
-                    return x.PRODUCT_EXP
-                }) + '\n' + 'ประเภท : ' + product.map((x) => {
-                    return x.TYPE_NAME
-                }) + '\n' + 'ยี่ห้อ : ' + product.map((x) => {
-                    return x.BRAND_NAME
-                }),
-            }).then(() => {
-                console.log('send completed!');
-            }).catch((err) => {
-                console.log(err);
-            });
-            //END
+            // //LINE 
+            // const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
+            // lineNotify.notify({
+            //     message: '\n' + 'เลขครุภัณฑ์' + ' ' + product.map((x) => {
+            //         return x.PRODUCT_CODE
+            //     }) + ' ' + 'หมดอายุ' + '\n' + 'วันที่หมดอายุ : ' + product.map((x) => {
+            //         return x.PRODUCT_EXP
+            //     }) + '\n' + 'ประเภท : ' + product.map((x) => {
+            //         return x.TYPE_NAME
+            //     }) + '\n' + 'ยี่ห้อ : ' + product.map((x) => {
+            //         return x.BRAND_NAME
+            //     }),
+            // }).then(() => {
+            //     console.log('send completed!');
+            // }).catch((err) => {
+            //     console.log(err);
+            // });
+            // //END
 
             res.send(product);
 
@@ -345,6 +333,52 @@ app.post('/notification', (req, res) => {
     })
 
 });
+
+var cron = require('node-cron');
+notificationLINE();
+async function notificationLINE() {
+    mysqlConnection.query(`SELECT *FROM product
+    LEFT JOIN type ON type.TYPE_ID = product.TYPE_ID
+    LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
+    `, (err, rows, fields) => {
+        if (!err) {
+            var cron = require('node-cron');
+            //5 0 * * * คือ ให้ทำงานเมื่อเวลาผ่านไป 5นาที หลังเที่ยงคืน ในทุกๆ วัน
+            cron.schedule('5 0 * * *', () => {
+                var product = []
+                for (let index = 0; index < rows.length; index++) {
+                    const element = rows[index];
+                    // console.log(new Date() > new Date(element.PRODUCT_EXP));
+                    if (new Date() > new Date(element.PRODUCT_EXP)) {
+                        console.log(element);
+                        product.push(element)
+                    }
+                }
+                //LINE 
+                const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
+                lineNotify.notify({
+                    message: '\n' + 'เลขครุภัณฑ์' + ' ' + product.map((x) => {
+                        return x.PRODUCT_CODE
+                    }) + ' ' + 'หมดอายุ' + '\n' + 'วันที่หมดอายุ : ' + product.map((x) => {
+                        return x.PRODUCT_EXP
+                    }) + '\n' + 'ประเภท : ' + product.map((x) => {
+                        return x.TYPE_NAME
+                    }) + '\n' + 'ยี่ห้อ : ' + product.map((x) => {
+                        return x.BRAND_NAME
+                    }),
+                }).then(() => {
+                    console.log('send completed!');
+                }).catch((err) => {
+                    console.log(err);
+                });
+                //END
+            });
+        } else {
+            console.log(err);
+        }
+    })
+};
+
 
 app.post('/selectFIX', (req, res) => {
     const {
@@ -357,6 +391,7 @@ app.post('/selectFIX', (req, res) => {
     JOIN type ON product.TYPE_ID = type.TYPE_ID
     JOIN member ON fix.MEMBER_ID = member.MEMBER_ID 
 WHERE fixhistory.FIX_STATUS = 'รอการยืนยัน' OR fixhistory.FIX_STATUS = 'กำลังดำเนินการ' OR fixhistory.FIX_STATUS = 'เสร็จเเล้ว'
+ORDER BY fixhistory.DATE DESC
     `, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
@@ -381,7 +416,8 @@ app.post('/selectfixcount', (req, res) => {
 app.post('/selectdistributor', (req, res) => {
     mysqlConnection.query(`SELECT * FROM distributor
     LEFT JOIN product ON distributor.PRODUCT_ID = product.PRODUCT_ID
-    LEFT JOIN brand ON product.BRAND_ID = brand.BRAND_ID`, (err, rows, fields) => {
+    LEFT JOIN brand ON product.BRAND_ID = brand.BRAND_ID
+    ORDER BY distributor.DATE DESC`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -432,8 +468,8 @@ app.post('/insertFIX', (req, res) => {
             mysqlConnection.query(`insert into fixhistory (FIX_ID,FIX_STATUS) 
             values (${rows.insertId},'${body.FIX_STATUS}') `)
 
-          
-            
+
+
         } else {
             console.log(err);
         }
@@ -468,7 +504,8 @@ app.post('/selectfixdetail', (req, res) => {
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
-    WHERE fix.MEMBER_ID = ${body.MEMBER_ID} AND fixhistory.FIX_STATUS != "การรับคืนสำเร็จ"`, (err, rows, fields) => {
+    WHERE fix.MEMBER_ID = ${body.MEMBER_ID} AND fixhistory.FIX_STATUS != "การรับคืนสำเร็จ"
+    ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -487,7 +524,8 @@ app.post('/selectfixdetails', (req, res) => {
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
     LEFT JOIN comments ON fix.FIX_ID = comments.FIX_ID
-    WHERE fix.MEMBER_ID = ${body.MEMBER_ID} AND fixhistory.FIX_STATUS = "การรับคืนสำเร็จ"`, (err, rows, fields) => {
+    WHERE fix.MEMBER_ID = ${body.MEMBER_ID} AND fixhistory.FIX_STATUS = "การรับคืนสำเร็จ"
+    ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -544,16 +582,16 @@ app.post('/updatestatus1', async (req, res) => {
         if (!err) {
             res.send(rows);
 
-              //LINE
-           const lineNotify = require('line-notify-nodejs')('j0nFuC6Polr3iYD7fDD7DNed2jbyrIP4CO4MCqkycce');
-           lineNotify.notify({
-               message: '\n' + 'เลขครุภัณฑ์ : ' + ' ' + body.PRODUCT_CODE +'\n' + 'ประเภท : ' + ' ' + body.TYPE_NAME +'\n' + 'ยี่ห้อ : ' + ' ' + body.BRAND_NAME + '\n' + 'สถานะ : ' + body.FIX_STATUS
-           }).then(() => {
-               console.log('send completed!');
-           }).catch((err) => {
-               console.log(err);
-           });
-           //END
+            //LINE
+            const lineNotify = require('line-notify-nodejs')('j0nFuC6Polr3iYD7fDD7DNed2jbyrIP4CO4MCqkycce');
+            lineNotify.notify({
+                message: '\n' + 'เลขครุภัณฑ์ : ' + ' ' + body.PRODUCT_CODE + '\n' + 'ประเภท : ' + ' ' + body.TYPE_NAME + '\n' + 'ยี่ห้อ : ' + ' ' + body.BRAND_NAME + '\n' + 'สถานะ : ' + body.FIX_STATUS
+            }).then(() => {
+                console.log('send completed!');
+            }).catch((err) => {
+                console.log(err);
+            });
+            //END
         } else {
             console.log(err);
         }
@@ -699,7 +737,8 @@ app.post('/selecthistoryfixadmin', (req, res) => {
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
-    WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ"`, (err, rows, fields) => {
+    WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ"
+    ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -718,7 +757,8 @@ app.post('/selecthistoryfixadminnot', (req, res) => {
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
-    WHERE fixhistory.FIX_STATUS = "ไม่สามารถซ่อมได้"`, (err, rows, fields) => {
+    WHERE fixhistory.FIX_STATUS = "ไม่สามารถซ่อมได้"
+    ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);
         } else {
@@ -768,7 +808,7 @@ app.post('/selectfixdashboard', (req, res) => {
         WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" 
         AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
         AND MONTH(fixhistory.DATE) = '${body.month}'
-        GROUP BY member.MEMBER_WORK`, (err, rows, fields) => {
+        GROUP BY member.MEMBER_WORK,fixhistory.DATE`, (err, rows, fields) => {
             if (!err) {
                 res.send(rows);
                 console.log(rows);
@@ -802,7 +842,7 @@ app.post('/selectfixtype', (req, res) => {
             }
         })
     } else {
-        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)brandfixcount,CONCAT(brand.BRAND_NAME)brandname,
+        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)typefixcount,CONCAT(type.type_NAME)typename,
         CASE
           WHEN MONTH(fixhistory.DATE) = '1' THEN 'มกราคม'
           WHEN MONTH(fixhistory.DATE) = '2' THEN 'กุมภาพันธ์'
@@ -822,10 +862,11 @@ app.post('/selectfixtype', (req, res) => {
         LEFT JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
         LEFT JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
         LEFT JOIN brand ON product.BRAND_ID = brand.BRAND_ID
+        LEFT JOIN type ON product.TYPE_ID = type.TYPE_ID
         WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" 
         AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
         AND MONTH(fixhistory.DATE) = '${body.month}'
-        GROUP BY brandname`, (err, rows, fields) => {
+        GROUP BY type.type_NAME,fixhistory.DATE`, (err, rows, fields) => {
             if (!err) {
                 res.send(rows);
                 console.log(rows);
@@ -836,26 +877,26 @@ app.post('/selectfixtype', (req, res) => {
     }
 });
 
-app.post('/selectfixdashboard1', (req, res) => {
-    const {
-        body
-    } = req;
-    console.log(body);
-    mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb,CONCAT(YEAR(fixhistory.DATE)+543)yearfix FROM fix
-    LEFT JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
-    LEFT JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
-    WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
-    GROUP BY member.MEMBER_WORK`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-            console.log(rows);
-        } else {
-            console.log(err);
-        }
-    })
+// app.post('/selectfixdashboard1', (req, res) => {
+//     const {
+//         body
+//     } = req;
+//     console.log(body);
+//     mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb,CONCAT(YEAR(fixhistory.DATE)+543)yearfix FROM fix
+//     LEFT JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
+//     LEFT JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
+//     WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
+//     GROUP BY member.MEMBER_WORK`, (err, rows, fields) => {
+//         if (!err) {
+//             res.send(rows);
+//             console.log(rows);
+//         } else {
+//             console.log(err);
+//         }
+//     })
 
 
 
-});
+// });
 
 app.listen(port);

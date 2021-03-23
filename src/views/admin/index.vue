@@ -4,10 +4,7 @@
     <Nav />
     <!-- --------------nav------------ -->
     <br />
-    <div style="margin-top: 60px"></div>
-    <!-- เริ่ม -->
-
-    <div>
+    <div style="padding-top: 40px;">
       <b-container fluid>
         <b-row>
           <b-col cols="6">
@@ -401,6 +398,7 @@
 
 <script>
 // <Nav />
+const api_url = require("../../../utilities/api");
 import moment from "moment";
 import Nav from "../../components/Nav";
 import axios from "axios";
@@ -471,20 +469,21 @@ export default {
   }),
 
   mounted() {
-    axios.post("https://qsgb.herokuapp.com/selectPRODUCTadmin").then((response) => {
+    
+    axios.post(`${api_url.api_url}/selectPRODUCTadmin`).then((response) => {
       console.log(response);
       this.items = response.data;
       this.itemss = response.data.length;
     });
-    axios.post("https://qsgb.herokuapp.com/selecttype").then((response) => {
+    axios.post(`${api_url.api_url}/selecttype`).then((response) => {
       console.log(response.data);
       this.type = response.data;
     });
-    axios.post("https://qsgb.herokuapp.com/selectbrand").then((response) => {
+    axios.post(`${api_url.api_url}/selectbrand`).then((response) => {
       console.log(response.data);
       this.brand = response.data;
     });
-    axios.post("https://qsgb.herokuapp.com/selectmemberproduct").then((response) => {
+    axios.post(`${api_url.api_url}/selectmemberproduct`).then((response) => {
       console.log(response.data);
       this.member = response.data;
     });
@@ -497,7 +496,8 @@ export default {
       console.log(this.NOTE);
       console.log(this.items[this.productdetail].PRODUCT_ID);
       axios
-        .post("https://qsgb.herokuapp.com/insertdistributor", {
+      
+        .post(`${api_url.api_url}/insertdistributor`, {
           NOTE: this.NOTE,
           PRODUCT_ID: this.items[this.productdetail].PRODUCT_ID,
           STATUS: "3",
@@ -509,7 +509,8 @@ export default {
       this.$refs["modal-1"].hide();
     },
    reset(){
-     axios.post("https://qsgb.herokuapp.com/selectPRODUCTadmin").then((response) => {
+     
+     axios.post(`${api_url.api_url}/selectPRODUCTadmin`).then((response) => {
       console.log(response);
       this.items = response.data;
       this.itemss = response.data.length;
@@ -543,9 +544,11 @@ export default {
         STATUS: "1",
       };
       axios
-        .post("https://qsgb.herokuapp.com/insertPRODUCT", data)
+      
+        .post(`${api_url.api_url}/insertPRODUCT`, data)
         .then((response) => {
           console.log(response);
+          this.reset(response);
         });
       this.$refs["my-modal"].hide();
     },
@@ -567,9 +570,11 @@ export default {
         MEMBER_ID: this.items[this.productdetail].MEMBER_ID,
       };
       axios
-        .post("https://qsgb.herokuapp.com/updatePRODUCT", data)
+      
+        .post(`${api_url.api_url}/updatePRODUCT`, data)
         .then((response) => {
           console.log(response);
+          this.reset(response);
         });
       this.$refs["modal-1"].hide();
     },
@@ -579,9 +584,11 @@ export default {
         PRODUCT_ID: this.items[this.productdetail].PRODUCT_ID,
       };
       axios
-        .post("https://qsgb.herokuapp.com/deletePRODUCT", data)
+      
+        .post(`${api_url.api_url}/deletePRODUCT`, data)
         .then((response) => {
           console.log(response);
+          this.reset(response);
         });
       this.$refs["modal-2"].hide();
     },

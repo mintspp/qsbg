@@ -4,42 +4,43 @@
     <Nav />
     <!-- --------------nav------------ -->
     <br />
-    <div style="margin-top: 60px"></div>
-
-    <b-container fluid>
-      <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
-      <div align="left" style="padding-left: 10px">
-        <h2>ประวัติการจัดจำหน่าย</h2>
-      </div>
-      <b-row>
-        <b-col cols="6" class="my-2">
-          <!-- ค้นหา -->
-          <b-form-input
-            v-model="filter"
-            type="search"
-            id="filterInput"
-            placeholder="ค้นหา"
-          ></b-form-input>
-        </b-col>
-      </b-row>
-      <br />
-      <b-table
-        show-empty
-        small
-        responsive
-        fixed
-        stacked="md"
-        :items="items"
-        :fields="fields"
-        :filter="filter"
-        :filterIncludedFields="filterOn"
-      >
-      </b-table>
-    </b-container>
+    <div style="padding-top: 40px">
+      <b-container fluid>
+        <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
+        <div align="left" style="padding-left: 10px">
+          <h2>ประวัติการจัดจำหน่าย</h2>
+        </div>
+        <b-row>
+          <b-col cols="6" class="my-2">
+            <!-- ค้นหา -->
+            <b-form-input
+              v-model="filter"
+              type="search"
+              id="filterInput"
+              placeholder="ค้นหา"
+            ></b-form-input>
+          </b-col>
+        </b-row>
+        <br />
+        <b-table
+          show-empty
+          small
+          responsive
+          fixed
+          stacked="md"
+          :items="items"
+          :fields="fields"
+          :filter="filter"
+          :filterIncludedFields="filterOn"
+        >
+        </b-table>
+      </b-container>
+    </div>
   </div>
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import moment from "moment";
 import Nav from "../../components/Nav";
 import axios from "axios";
@@ -67,9 +68,11 @@ export default {
         formatter: "format_datetime1",
       },
     ],
+    filter: null,
+    filterOn: [],
   }),
   mounted() {
-    axios.post("https://qsgb.herokuapp.com/selectdistributor").then((response) => {
+    axios.post(`${api_url.api_url}/selectdistributor`).then((response) => {
       console.log(response.data);
       this.items = response.data;
     });

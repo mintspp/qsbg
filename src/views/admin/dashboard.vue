@@ -1,7 +1,8 @@
 <template>
   <div id="app" v-if="login == 1">
     <Nav />
-    <div style="margin: 20px; margin-top: 90px">
+    <br>
+    <div style="margin: 20px; padding-top: 20px;">
       <div align="left">
         <h2>สรุปการแจ้งซ่อมครุภัณฑ์</h2>
       </div> <br>
@@ -170,6 +171,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import axios from "axios";
 import Chart from "chart.js";
 import Nav from "../../components/Nav";
@@ -237,7 +239,7 @@ export default {
   created() {
     this.showlogin();
 
-    axios.post("https://qsgb.herokuapp.com/commentsss").then((response) => {
+    axios.post(`${api_url.api_url}/commentsss`).then((response) => {
       console.log(response.data);
       this.comment = response.data;
       console.log(this.comment);
@@ -250,7 +252,8 @@ export default {
     var subdistrict = [];
     var fixcount = [];
     await axios
-      .post("https://qsgb.herokuapp.com/selectfixdashboard", {
+    
+      .post(`${api_url.api_url}/selectfixdashboard`, {
         year: this.YEAR,
         month: this.MONTH,
       })
@@ -300,7 +303,8 @@ export default {
     var typefixcount = [];
 
     await axios
-      .post("https://qsgb.herokuapp.com/selectfixtype", {
+    
+      .post(`${api_url.api_url}/selectfixtype`, {
         year: this.YEAR,
         month: this.MONTH,
       })
@@ -352,8 +356,7 @@ export default {
     format_datetime(data) {
       var dm = moment(data).format("DD/MM/");
       var year = parseInt(moment(data).format("YYYY")) + 543;
-      var time = moment(data).format(" HH:mm น.");
-      return dm + year + time;
+      return dm + year;
     },
     info4(item, index, button) {
       this.detailcomment = index;
@@ -371,7 +374,7 @@ export default {
       var workmb = [];
       var fixcount = [];
       await axios
-        .post("https://qsgb.herokuapp.com/selectfixdashboard", {
+        .post(`${api_url.api_url}/selectfixdashboard`, {
           year: this.YEAR,
           month: this.MONTH,
         })
@@ -417,7 +420,7 @@ export default {
       var typename = [];
       var typefixcount = [];
       await axios
-        .post("https://qsgb.herokuapp.com/selectfixtype", {
+        .post( `${api_url.api_url}/selectfixtype`, {
           year: this.YEAR,
           month: this.MONTH,
         })

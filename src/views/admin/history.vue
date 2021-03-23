@@ -4,9 +4,7 @@
     <Nav />
     <!-- --------------nav------------ -->
     <br />
-    <div style="margin-top: 70px"></div>
-    <!-- เริ่ม -->
-    <div>
+    <div style="padding-top: 40px">
       <div align="left" style="padding-left: 10px">
         <h2>ประวัติการแจ้งซ่อม</h2>
       </div>
@@ -71,6 +69,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import moment from "moment";
 import axios from "axios";
 import Nav from "../../components/Nav";
@@ -114,14 +113,14 @@ export default {
       title: "",
       content: "",
     },
+    filter: null,
+    filterOn: [],
   }),
   mounted() {
-    axios
-      .post("https://qsgb.herokuapp.com/selecthistoryfixadmin")
-      .then((response) => {
-        console.log(response.data);
-        this.items = response.data;
-      });
+    axios.post(`${api_url.api_url}/selecthistoryfixadmin`).then((response) => {
+      console.log(response.data);
+      this.items = response.data;
+    });
   },
   created() {
     this.showlogin();
@@ -130,8 +129,7 @@ export default {
     format_datetime(data) {
       var dm = moment(data).format("DD/MM/");
       var year = parseInt(moment(data).format("YYYY")) + 543;
-      var time = moment(data).format(" HH:mm น.");
-      return dm + year + time;
+      return dm + year;
     },
     format_datetime1(data) {
       var dm = moment(data).format("DD/MM/");

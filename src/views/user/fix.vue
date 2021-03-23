@@ -71,6 +71,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 import Navuser from "../../components/Navuser";
 import axios from "axios";
 export default {
@@ -89,7 +90,8 @@ export default {
 
   mounted() {
     axios
-      .post("https://qsgb.herokuapp.com/selectPRODUCT", {
+    
+      .post(`${api_url.api_url}/selectPRODUCT`, {
         PRODUCT_ID: this.$store.getters["Detail/PRODUCT_ID"]
       })
       .then(response => {
@@ -123,7 +125,8 @@ export default {
         // BRAND_NAME:this.product[0].BRAND_NAME,
         // TYPE_NAME:this.product[0].TYPE_NAME
       };
-      axios.post("https://qsgb.herokuapp.com/insertFIX", data).then(response => {
+      
+      axios.post(`${api_url.api_url}/insertFIX`, data).then(response => {
         console.log(response);
         this.$store.commit(
           "Detail/SET_MEMBER_ID",

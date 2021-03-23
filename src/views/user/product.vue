@@ -5,8 +5,7 @@
     <!-- --------------nav------------ -->
 
     <br>
-    <div style="margin-top:50px;"></div>
-    <div style="width:40%;padding-top:10px;">
+    <div style="width:50%;padding-top:60px;margin-left:20px">
       <b-input-group class="mb-2">
         <b-input-group-prepend is-text>
           <b-icon icon="search"></b-icon>
@@ -66,6 +65,7 @@
 </template>
 
 <script>
+const api_url = require("../../../utilities/api");
 // <Navuser />
 import Navuser from "../../components/Navuser";
 import axios from "axios";
@@ -90,7 +90,8 @@ export default {
     showmember() {
       console.log(this.$store.getters["Detail/MEMBER_ID"]);
       axios
-        .post("https://qsgb.herokuapp.com/selectPRODUCTMEMBER", {
+      
+        .post(`${api_url.api_url}/selectPRODUCTMEMBER`, {
           MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"]
         })
         .then(response => {
@@ -102,7 +103,8 @@ export default {
     searchproduct() {
       if (this.search == "") {
         axios
-          .post("https://qsgb.herokuapp.com/selectPRODUCTMEMBER", {
+        
+          .post(`${api_url.api_url}/selectPRODUCTMEMBER`, {
             MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"]
           })
           .then(response => {
@@ -111,7 +113,8 @@ export default {
           });
       } else {
         axios
-          .post("https://qsgb.herokuapp.com/selectPRODUCTFIX", {
+        
+          .post(`${api_url.api_url}/selectPRODUCTFIX`, {
             search: this.search,
             MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"]
           })
