@@ -401,6 +401,27 @@ ORDER BY fixhistory.DATE DESC
     })
 });
 
+app.post('/selectFIXSTATUS', (req, res) => {
+    const {
+        body
+    } = req;
+    mysqlConnection.query(`SELECT * FROM fix 
+    JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID 
+    JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID 
+    LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
+    JOIN type ON product.TYPE_ID = type.TYPE_ID
+    JOIN member ON fix.MEMBER_ID = member.MEMBER_ID 
+WHERE fixhistory.FIX_STATUS = '${body.FIX_STATUS}'
+ORDER BY fixhistory.DATE DESC
+    `, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows);
+        } else {
+            console.log(err);
+        }
+    })
+});
+
 app.post('/selectfixcount', (req, res) => {
     mysqlConnection.query(`SELECT * FROM fix 
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
@@ -505,6 +526,25 @@ app.post('/selectfixdetail', (req, res) => {
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
     WHERE fix.MEMBER_ID = ${body.MEMBER_ID} AND fixhistory.FIX_STATUS != "การรับคืนสำเร็จ"
+    ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
+        if (!err) {
+            res.send(rows);
+        } else {
+            console.log(err);
+        }
+    })
+});
+
+app.post('/selectfixdetailstatus', (req, res) => {
+    const {
+        body
+    } = req;
+    mysqlConnection.query(`SELECT * FROM fix
+    JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
+    JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
+    JOIN brand ON product.BRAND_ID = brand.BRAND_ID
+    JOIN type ON product.TYPE_ID = type.TYPE_ID
+    WHERE fix.MEMBER_ID = ${body.MEMBER_ID} AND fixhistory.FIX_STATUS = '${body.FIX_STATUS}'
     ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
         if (!err) {
             res.send(rows);

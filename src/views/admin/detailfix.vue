@@ -1,16 +1,16 @@
 <template>
-  <div v-if="login == 1">
+  <div>
     <!-- --------------nav------------ -->
     <Nav />
     <!-- --------------nav------------ -->
-    <br>
+    <br />
     <div v-if="items == ''">
       <div style="padding: 100px; padding-top: 200px">
         <h5>ยังไม่มีรายการแจ้งซ่อมครุภัณฑ์</h5>
       </div>
     </div>
     <!-- เริ่ม -->
-    <div v-if="items != ''" style="padding-top: 40px;">
+    <div v-if="items != ''" style="padding-top: 40px">
       <b-container fluid>
         <div align="left" style="padding-left: 10px">
           <h2>การแจ้งซ่อมครุภัณฑ์</h2>
@@ -26,7 +26,29 @@
               placeholder="ค้นหา"
             ></b-form-input>
           </b-col>
-          <b-col cols="6"> </b-col>
+          <b-col xl="1" lg="1" sm="12" class="my-2" align="left">
+            <p style="font-size: 20px; margin-bottom: 0rem">สถานะ :</p>
+          </b-col>
+          <b-col xl="5" lg="5" sm="12">
+            <div>
+              <b-form-select
+                v-model="SELECTSTATUS"
+                @change="selectstatus"
+                class="my-2"
+              >
+                <b-form-select-option value="">ทั้งหมด</b-form-select-option>
+                <b-form-select-option value="รอการยืนยัน"
+                  >รอการยืนยัน</b-form-select-option
+                >
+                <b-form-select-option value="กำลังดำเนินการ"
+                  >กำลังดำเนินการ</b-form-select-option
+                >
+                <b-form-select-option value="เสร็จเเล้ว"
+                  >เสร็จเเล้ว</b-form-select-option
+                >
+              </b-form-select>
+            </div>
+          </b-col>
         </b-row>
 
         <b-table
@@ -149,6 +171,7 @@ export default {
     BACK_MEMBER: "",
     BACK_DATE: "",
     PRODUCT_TYPE: "",
+    SELECTSTATUS: "",
     items: [
       {
         FIX_ID: "",
@@ -210,6 +233,24 @@ export default {
       var dm = moment(data).format("DD/MM/");
       var year = parseInt(moment(data).format("YYYY")) + 543;
       return dm + year;
+    },
+    selectstatus() {
+      console.log(this.SELECTSTATUS);
+      if (this.SELECTSTATUS == "") {
+        console.log("เข้า 1");
+        axios.post(`${api_url.api_url}/selectFIX`).then((response) => {
+          console.log(response.data);
+          this.items = response.data;
+        });
+      } else {
+        console.log("เข้า 2");
+        axios.post(`${api_url.api_url}/selectFIXSTATUS`,{
+          FIX_STATUS:this.SELECTSTATUS
+        }).then((response) => {
+          console.log(response.data);
+          this.items = response.data;
+        });
+      }
     },
     showlogin() {
       this.login = localStorage.getItem("ADMIN");

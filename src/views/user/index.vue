@@ -5,21 +5,19 @@
     <!-- --------------nav------------ -->
 
     <div v-if="items == ''">
-      <div style="padding:100px;padding-top:200px;">
+      <div style="padding: 100px; padding-top: 200px">
         <h5>ยังไม่มีรายการแจ้งซ่อมครุภัณฑ์</h5>
       </div>
     </div>
     <div v-if="items != ''">
-      <div style="margin-bottom:10px;padding-top:60px;">
-        
-      </div>
+      <div style="margin-bottom: 10px; padding-top: 60px"></div>
       <!-- เริ่ม -->
       <div>
         <b-container fluid>
-        <h3 align="left">รายการแจ้งซ่อมครุภัณฑ์</h3>
+          <h3 align="left">รายการแจ้งซ่อมครุภัณฑ์</h3>
           <!-- ส่วนหัวค้นหาและเลื่อนดูข้อมูล -->
           <b-row>
-            <b-col cols="6" class="my-2">
+            <b-col xl="6" lg="6" sm="12" class="my-2">
               <!-- ค้นหา -->
               <b-form-input
                 v-model="filter"
@@ -28,8 +26,28 @@
                 placeholder="ค้นหา"
               ></b-form-input>
             </b-col>
-            <b-col cols="6">
-              <!-- ------------- -->
+             <b-col xl="1" lg="1" sm="12" class="my-2" align="left">
+              <p style="font-size:20px;margin-bottom: 0rem;">สถานะ : </p> 
+             </b-col>
+            <b-col xl="5" lg="5" sm="12">
+              <div>
+                <b-form-select
+                  v-model="SELECTSTATUS"
+                  @change="selectstatus"
+                  class="my-2"
+                >
+                  <b-form-select-option value="">ทั้งหมด</b-form-select-option>
+                  <b-form-select-option value="รอการยืนยัน"
+                    >รอการยืนยัน</b-form-select-option
+                  >
+                  <b-form-select-option value="กำลังดำเนินการ"
+                    >กำลังดำเนินการ</b-form-select-option
+                  >
+                  <b-form-select-option value="เสร็จเเล้ว"
+                    >เสร็จเเล้ว</b-form-select-option
+                  >
+                </b-form-select>
+              </div>
             </b-col>
           </b-row>
           <br />
@@ -46,7 +64,7 @@
           >
             <template v-slot:cell(detail)="row">
               <b-icon
-                style="width: 25px; height: 25px;"
+                style="width: 25px; height: 25px"
                 @click="info1(row.item, row.index, $event.target)"
                 icon="file-earmark-text"
                 variant="danger"
@@ -58,7 +76,9 @@
           <b-modal :id="infoModal1.id" size="lg" ref="modal-1" hide-footer>
             <b-container fluid>
               <!-- productdetail -->
-              <div align="center"><b><h4>รายละเอียด</h4></b></div>
+              <div align="center">
+                <b><h4>รายละเอียด</h4></b>
+              </div>
               <b-row>
                 <b-col cols="4">ประเภท : </b-col>
                 <b-col cols="8">{{ items[productdetail].TYPE_NAME }}</b-col>
@@ -77,7 +97,9 @@
               </b-row>
               <b-row>
                 <b-col cols="4">วันที่เเจ้งซ่อม : </b-col>
-                <b-col cols="8">{{ format_datetime(items[productdetail].DATE) }}</b-col>
+                <b-col cols="8">{{
+                  format_datetime(items[productdetail].DATE)
+                }}</b-col>
               </b-row>
               <b-row>
                 <b-col cols="4">ปัญหาการเเจ้งซ่อม : </b-col>
@@ -93,19 +115,20 @@
 
 <script>
 const api_url = require("../../../utilities/api");
-import moment from "moment"
+import moment from "moment";
 import Navuser from "../../components/Navuser";
 import axios from "axios";
 export default {
   components: {
-    Navuser
+    Navuser,
   },
   data: () => ({
     login: "",
     PRODUCT_TYPE: "",
+    SELECTSTATUS: "",
     options: [
       { value: "คอมพิวเตอร์", text: "คอมพิวเตอร์" },
-      { value: "เครื่องสำรองไฟ", text: "เครื่องสำรองไฟ" }
+      { value: "เครื่องสำรองไฟ", text: "เครื่องสำรองไฟ" },
     ],
     items: null,
     fields: [
@@ -114,11 +137,16 @@ export default {
       // { key: "PRODUCT_BRAND", label: "ยี่ห้อ", class: "text-center" },
       // { key: "PRODUCT_GEN", label: "รุ่น", class: "text-center" },
       { key: "TYPE_NAME", label: "ประเภท", class: "text-center" },
-      { key: "DATE", label: "วันที่แจ้งซ่อม", class: "text-center" ,formatter:"format_datetime"},
+      {
+        key: "DATE",
+        label: "วันที่แจ้งซ่อม",
+        class: "text-center",
+        formatter: "format_datetime",
+      },
       { key: "detail", label: "รายละเอียด", class: "text-center" },
       { key: "FIX_STATUS", label: "สถานะ", class: "text-center" },
       // { key: "BACK_DATE", label: "วันที่ให้คืน", class: "text-center" },
-      { key: "BACK_MEMBER", label: "ผู้ให้คืน", class: "text-center" }
+      { key: "BACK_MEMBER", label: "ผู้ให้คืน", class: "text-center" },
     ],
 
     productdetail: 0,
@@ -127,17 +155,16 @@ export default {
     infoModal1: {
       id: "info-modal1",
       title: "",
-      content: ""
-    }
+      content: "",
+    },
   }),
 
   mounted() {
     axios
-    
       .post(`${api_url.api_url}/selectfixdetail`, {
-        MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"]
+        MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
       })
-      .then(response => {
+      .then((response) => {
         console.log(response.data);
         this.items = response.data;
       });
@@ -148,9 +175,34 @@ export default {
   },
   methods: {
     format_datetime(data) {
-   var dm = moment(data).format("DD/MM/");
+      var dm = moment(data).format("DD/MM/");
       var year = parseInt(moment(data).format("YYYY")) + 543;
       return dm + year;
+    },
+    selectstatus() {
+      console.log(this.SELECTSTATUS);
+      if (this.SELECTSTATUS == "") {
+         console.log('เข้า 1');
+        axios
+          .post(`${api_url.api_url}/selectfixdetail`, {
+            MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
+          })
+          .then((response) => {
+            console.log(response.data);
+            this.items = response.data;
+          });
+      }else{
+        console.log('เข้า 2');
+        axios
+          .post(`${api_url.api_url}/selectfixdetailstatus`, {
+            MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
+            FIX_STATUS: this.SELECTSTATUS
+          })
+          .then((response) => {
+            console.log(response.data);
+            this.items = response.data;
+          });
+      }
     },
     showlogin() {
       this.login = localStorage.getItem("USER");
@@ -166,8 +218,8 @@ export default {
       this.infoModal1.title = item.name;
       this.infoModal1.content = JSON.stringify(item, null, 2);
       this.$root.$emit("bv::show::modal", this.infoModal1.id, button);
-    }
-  }
+    },
+  },
 };
 </script>
 

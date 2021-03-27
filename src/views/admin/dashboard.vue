@@ -1,5 +1,5 @@
 <template>
-  <div id="app" v-if="login == 1">
+  <div id="app">
     <Nav />
     <br>
     <div style="margin: 20px; padding-top: 20px;">
@@ -276,7 +276,12 @@ export default {
         labels: subdistrict,
         datasets: [
           {
-            backgroundColor: "#80ad47",
+            backgroundColor:  [
+                '#67ceff',
+                '#fbdc40',
+                '#8afa7b',
+                '#ffa3e9',
+            ],
             label: "จำนวนเเจ้งซ่อม",
             data: fixcount,
           },
@@ -328,8 +333,13 @@ export default {
         labels: typename,
         datasets: [
           {
-            backgroundColor: "#ffad32",
-            label: "จำนวนยี่ห้อ",
+            backgroundColor:  [
+                '#ff6464',
+                '#ffa264',
+                '#ffbe64',
+                '#fffd64',
+            ],
+            label: "จำนวนประเภท",
             data: typefixcount,
           },
         ],
@@ -394,7 +404,12 @@ export default {
           labels: workmb,
           datasets: [
             {
-              backgroundColor: "#80ad47",
+               backgroundColor:  [
+                '#67ceff',
+                '#fbdc40',
+                '#8afa7b',
+                '#ffa3e9',
+            ],
               label: "จำนวนเเจ้งซ่อม",
               data: fixcount,
             },
@@ -441,8 +456,13 @@ export default {
           labels: typename,
           datasets: [
             {
-              backgroundColor: "#ffad32",
-              label: "จำนวนยี่ห้อ",
+               backgroundColor:  [
+                '#ff6464',
+                '#ffa264',
+                '#ffbe64',
+                '#fffd64',
+            ],
+              label: "จำนวนประเภท",
               data: typefixcount,
             },
           ],
