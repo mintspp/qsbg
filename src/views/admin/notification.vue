@@ -6,7 +6,7 @@
     <br>
     <div style="padding-top: 40px;">
       <div align="left" style="padding-left: 10px">
-        <h2>ครุภัณฑ์หมดอายุ</h2>
+        <h2>เเจ้งประกันหมดอายุ</h2>
       </div>
       <b-row >
         <b-col v-for="(nn,index) in notification" :key="index"  xl="4"
