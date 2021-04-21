@@ -46,9 +46,7 @@
                 <b-form-select-option value="เสร็จเเล้ว"
                   >เสร็จเเล้ว</b-form-select-option
                 >
-                 <b-form-select-option value="ไม่สามารถซ่อมได้"
-                  >ไม่สามารถซ่อมได้</b-form-select-option
-                >
+                
               </b-form-select>
             </div>
           </b-col>

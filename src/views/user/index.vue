@@ -26,9 +26,9 @@
                 placeholder="ค้นหา"
               ></b-form-input>
             </b-col>
-             <b-col xl="1" lg="1" sm="12" class="my-2" align="left">
-              <p style="font-size:20px;margin-bottom: 0rem;">สถานะ : </p> 
-             </b-col>
+            <b-col xl="1" lg="1" sm="12" class="my-2" align="left">
+              <p style="font-size: 20px; margin-bottom: 0rem">สถานะ :</p>
+            </b-col>
             <b-col xl="5" lg="5" sm="12">
               <div>
                 <b-form-select
@@ -45,6 +45,9 @@
                   >
                   <b-form-select-option value="เสร็จเเล้ว"
                     >เสร็จเเล้ว</b-form-select-option
+                  >
+                  <b-form-select-option value="ไม่สามารถซ่อมได้"
+                    >ไม่สามารถซ่อมได้</b-form-select-option
                   >
                 </b-form-select>
               </div>
@@ -182,7 +185,7 @@ export default {
     selectstatus() {
       console.log(this.SELECTSTATUS);
       if (this.SELECTSTATUS == "") {
-         console.log('เข้า 1');
+        console.log("เข้า 1");
         axios
           .post(`${api_url.api_url}/selectfixdetail`, {
             MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
@@ -191,12 +194,12 @@ export default {
             console.log(response.data);
             this.items = response.data;
           });
-      }else{
-        console.log('เข้า 2');
+      } else {
+        console.log("เข้า 2");
         axios
           .post(`${api_url.api_url}/selectfixdetailstatus`, {
             MEMBER_ID: this.$store.getters["Detail/MEMBER_ID"],
-            FIX_STATUS: this.SELECTSTATUS
+            FIX_STATUS: this.SELECTSTATUS,
           })
           .then((response) => {
             console.log(response.data);

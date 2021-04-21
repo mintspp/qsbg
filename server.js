@@ -25,6 +25,10 @@ app.use(
     })
 );
 
+const {
+    query_command
+} = require("./utilities/query_command")
+
 console.log("Server started...");
 var mysqlConnection = mysql.createConnection({
     host: '128.199.214.155',
@@ -37,98 +41,69 @@ var mysqlConnection = mysql.createConnection({
 
 
 
-app.post('/selecttype', (req, res) => {
-
-    mysqlConnection.query(`SELECT * FROM type`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+app.post('/selecttype', async (req, res) => {
+    var query = await query_command(`SELECT * FROM type`)
+    //console.log(query)
+    res.send(query)
 });
 
-app.post('/selectbrand', (req, res) => {
-
-    mysqlConnection.query(`SELECT * FROM brand`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+app.post('/selectbrand', async (req, res) => {
+    var query = await query_command(`SELECT * FROM brand`)
+    //console.log(query)
+    res.send(query)
 });
 
-app.post('/selectMEMBER', (req, res) => {
-
-    mysqlConnection.query(`SELECT * FROM member`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+app.post('/selectMEMBER', async (req, res) => {
+    var query = await query_command(`SELECT * FROM member`)
+    // console.log(query)
+    res.send(query)
 });
 
-app.post('/selectPRODUCTadmin', (req, res) => {
+app.post('/selectPRODUCTadmin', async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM product
+
+    var query = await query_command(`SELECT * FROM product
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
     JOIN member ON product.MEMBER_ID = member.MEMBER_ID
     WHERE product.STATUS = '1' 
-    ORDER BY product.PRODUCT_ID `, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    ORDER BY product.PRODUCT_ID `)
+    //console.log(query)
+    res.send(query)
+
 });
 
-app.post('/selectmemberproduct', (req, res) => {
+app.post('/selectmemberproduct', async (req, res) => {
 
-    mysqlConnection.query(`SELECT * FROM member`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`SELECT * FROM member`)
+    //console.log(query)
+    res.send(query)
+
 });
 
-app.post('/insertPRODUCT', (req, res) => {
+app.post('/insertPRODUCT', async (req, res) => {
     const {
         body
     } = req;
     // console.log(body);
-    mysqlConnection.query(`insert into product (PRODUCT_CODE,BRAND_ID,PRODUCT_GEN,TYPE_ID,PRODUCT_EXP,PC_CPU,PC_RAM,PC_HD,PC_WINDOW,MEMBER_ID,STATUS) 
-            values ('${body.PRODUCT_CODE}','${body.BRAND_ID}','${body.PRODUCT_GEN}','${body.TYPE_ID}','${body.PRODUCT_EXP}','${body.PC_CPU}','${body.PC_RAM}','${body.PC_HD}','${body.PC_WINDOW}','${body.MEMBER_ID}','${body.STATUS}') `, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+
+    var query = await query_command(`insert into product (PRODUCT_CODE,BRAND_ID,PRODUCT_GEN,TYPE_ID,PRODUCT_EXP,PC_CPU,PC_RAM,PC_HD,PC_WINDOW,MEMBER_ID,STATUS) 
+    values ('${body.PRODUCT_CODE}','${body.BRAND_ID}','${body.PRODUCT_GEN}','${body.TYPE_ID}','${body.PRODUCT_EXP}','${body.PC_CPU}','${body.PC_RAM}','${body.PC_HD}','${body.PC_WINDOW}','${body.MEMBER_ID}','${body.STATUS}') `)
+    //console.log(query)
+    res.send(query)
 });
 
-app.post('/insertFIXCOMMENT', (req, res) => {
+app.post('/insertFIXCOMMENT', async (req, res) => {
     const {
         body
     } = req;
     //  console.log(body);
-    mysqlConnection.query(`insert into comments (FIX_ID,COMMENT,COMMENT_STAR,COMMENT_TYPE) 
-            values ('${body.FIX_ID}','${body.COMMENT}','${body.COMMENT_STAR}','${body.COMMENT_TYPE}') `, (err, rows, fields) => {
-        if (!err) {
-            console.log(rows);
-
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`insert into comments (FIX_ID,COMMENT,COMMENT_STAR,COMMENT_TYPE) 
+    values ('${body.FIX_ID}','${body.COMMENT}','${body.COMMENT_STAR}','${body.COMMENT_TYPE}') `)
+    //console.log(query)
+    res.send(query)
 });
 
 app.post('/updatePRODUCT', async (req, res) => {
@@ -136,7 +111,7 @@ app.post('/updatePRODUCT', async (req, res) => {
         body
     } = req;
     //console.log(body);
-    mysqlConnection.query(`UPDATE product
+    var query = await query_command(`UPDATE product
     SET PRODUCT_CODE = '${body.PRODUCT_CODE}'
     , BRAND_ID = '${body.BRAND_ID}'
     , PRODUCT_GEN = '${body.PRODUCT_GEN}'
@@ -146,13 +121,10 @@ app.post('/updatePRODUCT', async (req, res) => {
     , PC_HD = '${body.PC_HD}'
     ,PC_WINDOW = '${body.PC_WINDOW}'
     ,MEMBER_ID = '${body.MEMBER_ID}'
-    WHERE PRODUCT_ID='${body.PRODUCT_ID}';`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    WHERE PRODUCT_ID='${body.PRODUCT_ID}';`)
+    //console.log(query)
+    res.send(query)
+
 });
 
 app.post('/deletePRODUCT', async (req, res) => {
@@ -160,29 +132,23 @@ app.post('/deletePRODUCT', async (req, res) => {
         body
     } = req;
     //console.log(body);
-    mysqlConnection.query(`DELETE FROM product
-    WHERE PRODUCT_ID = '${body.PRODUCT_ID}'`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`DELETE FROM product
+    WHERE PRODUCT_ID = '${body.PRODUCT_ID}'`)
+    //console.log(query)
+    res.send(query)
+
 });
 
-app.post('/insertMEMBER', (req, res) => {
+app.post('/insertMEMBER', async (req, res) => {
     const {
         body
     } = req;
     // console.log(body);
-    mysqlConnection.query(`insert into member (MEMBER_NAME,MEMBER_STATUS,MEMBER_USERNAME,MEMBER_PASSWORD,MEMBER_TELL,MEMBER_EMAIL,MEMBER_WORK) 
-            values ('${body.MEMBER_NAME}','${body.MEMBER_STATUS}','${body.MEMBER_USERNAME}','${body.MEMBER_PASSWORD}','${body.MEMBER_TELL}','${body.MEMBER_EMAIL}','${body.MEMBER_WORK}') `, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`insert into member (MEMBER_NAME,MEMBER_STATUS,MEMBER_USERNAME,MEMBER_PASSWORD,MEMBER_TELL,MEMBER_EMAIL,MEMBER_WORK) 
+    values ('${body.MEMBER_NAME}','${body.MEMBER_STATUS}','${body.MEMBER_USERNAME}','${body.MEMBER_PASSWORD}','${body.MEMBER_TELL}','${body.MEMBER_EMAIL}','${body.MEMBER_WORK}') `)
+    //console.log(query)
+    res.send(query)
+
 });
 
 app.post('/updateMEMBER', async (req, res) => {
@@ -190,7 +156,7 @@ app.post('/updateMEMBER', async (req, res) => {
         body
     } = req;
     //console.log(body);
-    mysqlConnection.query(`UPDATE member
+    var query = await query_command(`UPDATE member
     SET MEMBER_NAME = '${body.MEMBER_NAME}'
     , MEMBER_STATUS = '${body.MEMBER_STATUS}'
     , MEMBER_USERNAME = '${body.MEMBER_USERNAME}'
@@ -198,13 +164,10 @@ app.post('/updateMEMBER', async (req, res) => {
     , MEMBER_TELL = '${body.MEMBER_TELL}'
     , MEMBER_EMAIL = '${body.MEMBER_EMAIL}'
     , MEMBER_WORK = '${body.MEMBER_WORK}'
-    WHERE MEMBER_ID='${body.MEMBER_ID}';`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    WHERE MEMBER_ID='${body.MEMBER_ID}';`)
+    //console.log(query)
+    res.send(query)
+
 });
 
 
@@ -214,123 +177,82 @@ app.post('/deleteMEMBER', async (req, res) => {
         body
     } = req;
     //console.log(body);
-    mysqlConnection.query(`DELETE FROM member
-    WHERE MEMBER_ID = '${body.MEMBER_ID}'`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`DELETE FROM member
+    WHERE MEMBER_ID = '${body.MEMBER_ID}'`)
+    //console.log(query)
+    res.send(query)
+
 });
 
 
-app.post('/selectBRAND', (req, res) => {
+app.post('/selectBRAND', async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM brand`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`SELECT * FROM brand`)
+    //console.log(query)
+    res.send(query)
+
 });
 
-app.post('/selectTYPE', (req, res) => {
+app.post('/selectTYPE', async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM type`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`SELECT * FROM type`)
+    //console.log(query)
+    res.send(query)
+
 });
 
 
-app.post('/selectPRODUCT', (req, res) => {
+app.post('/selectPRODUCT', async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM product
+    var query = await query_command(`SELECT * FROM product
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
-     WHERE PRODUCT_ID = ${body.PRODUCT_ID}`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+     WHERE PRODUCT_ID = ${body.PRODUCT_ID}`)
+    //console.log(query)
+    res.send(query)
+
 });
 
-app.post('/commentsss', (req, res) => {
+app.post('/commentsss', async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM comments
+    var query = await query_command(`SELECT * FROM comments
     LEFT JOIN fix ON fix.FIX_ID = comments.FIX_ID
     LEFT JOIN fixhistory ON fixhistory.FIX_ID = fix.FIX_ID
     LEFT JOIN product ON product.PRODUCT_ID = fix.PRODUCT_ID
     LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
-    LEFT JOIN member ON member.MEMBER_ID = fix.MEMBER_ID`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-            // console.log('5555555555555555555');
-        } else {
-            console.log(err);
-        }
-    })
+    LEFT JOIN member ON member.MEMBER_ID = fix.MEMBER_ID`)
+    //console.log(query)
+    res.send(query)
+
 });
 
-app.post('/notification', (req, res) => {
+app.post('/notification', async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT *FROM product
+    var query = await query_command(`SELECT *FROM product
     LEFT JOIN type ON type.TYPE_ID = product.TYPE_ID
     LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
-    `, (err, rows, fields) => {
-        if (!err) {
-            var product = []
-            for (let index = 0; index < rows.length; index++) {
-                const element = rows[index];
-                // console.log(new Date() > new Date(element.PRODUCT_EXP));
-                if (new Date() > new Date(element.PRODUCT_EXP)) {
-                    console.log(element);
-                    product.push(element)
-                }
-            }
-
-            // //LINE 
-            // const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
-            // lineNotify.notify({
-            //     message: '\n' + 'เลขครุภัณฑ์' + ' ' + product.map((x) => {
-            //         return x.PRODUCT_CODE
-            //     }) + ' ' + 'หมดอายุ' + '\n' + 'วันที่หมดอายุ : ' + product.map((x) => {
-            //         return x.PRODUCT_EXP
-            //     }) + '\n' + 'ประเภท : ' + product.map((x) => {
-            //         return x.TYPE_NAME
-            //     }) + '\n' + 'ยี่ห้อ : ' + product.map((x) => {
-            //         return x.BRAND_NAME
-            //     }),
-            // }).then(() => {
-            //     console.log('send completed!');
-            // }).catch((err) => {
-            //     console.log(err);
-            // });
-            // //END
-
-            res.send(product);
-
-        } else {
-            console.log(err);
+    `)
+    //console.log(query) 
+    var product = []
+    for (let index = 0; index < query.length; index++) {
+        const element = query[index];
+        // console.log(new Date() > new Date(element.PRODUCT_EXP));
+        if (new Date() > new Date(element.PRODUCT_EXP)) {
+            console.log(element);
+            product.push(element)
         }
-    })
+    }
+    res.send(product)
 
 });
 
@@ -380,11 +302,11 @@ async function notificationLINE() {
 };
 
 
-app.post('/selectFIX', (req, res) => {
+app.post('/selectFIX',async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM fix 
+    var query = await query_command(`SELECT * FROM fix 
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID 
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID 
     LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
@@ -392,20 +314,17 @@ app.post('/selectFIX', (req, res) => {
     JOIN member ON fix.MEMBER_ID = member.MEMBER_ID 
 WHERE fixhistory.FIX_STATUS = 'รอการยืนยัน' OR fixhistory.FIX_STATUS = 'กำลังดำเนินการ' OR fixhistory.FIX_STATUS = 'เสร็จเเล้ว'
 ORDER BY fixhistory.DATE DESC
-    `, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    `)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/selectFIXSTATUS', (req, res) => {
+app.post('/selectFIXSTATUS',async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM fix 
+    var query = await query_command(`SELECT * FROM fix 
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID 
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID 
     LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
@@ -413,165 +332,130 @@ app.post('/selectFIXSTATUS', (req, res) => {
     JOIN member ON fix.MEMBER_ID = member.MEMBER_ID 
 WHERE fixhistory.FIX_STATUS = '${body.FIX_STATUS}'
 ORDER BY fixhistory.DATE DESC
-    `, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    `)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/selectfixcount', (req, res) => {
-    mysqlConnection.query(`SELECT * FROM fix 
+app.post('/selectfixcount',async (req, res) => {
+    var query = await query_command(`SELECT * FROM fix 
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
-    WHERE fixhistory.FIX_STATUS != 'การรับคืนสำเร็จ' AND fixhistory.FIX_STATUS != 'ไม่สามารถซ่อมได้' AND fixhistory.FIX_STATUS != 'จำหน่าย'`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    WHERE fixhistory.FIX_STATUS != 'การรับคืนสำเร็จ' AND fixhistory.FIX_STATUS != 'ไม่สามารถซ่อมได้' AND fixhistory.FIX_STATUS != 'จำหน่าย'`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/selectdistributor', (req, res) => {
-    mysqlConnection.query(`SELECT * FROM distributor
+app.post('/selectdistributor',async (req, res) => {
+    var query = await query_command(`SELECT * FROM distributor
     LEFT JOIN product ON distributor.PRODUCT_ID = product.PRODUCT_ID
     LEFT JOIN brand ON product.BRAND_ID = brand.BRAND_ID
-    ORDER BY distributor.DATE DESC`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    ORDER BY distributor.DATE DESC`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/selectprofileuser', (req, res) => {
+app.post('/selectprofileuser',async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM member WHERE MEMBER_ID = ${body.MEMBER_ID}`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`SELECT * FROM member WHERE MEMBER_ID = ${body.MEMBER_ID}`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/selectPRODUCTMEMBER', (req, res) => {
+app.post('/selectPRODUCTMEMBER',async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM product
+    var query = await query_command(`SELECT * FROM product
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
-     WHERE MEMBER_ID = ${body.MEMBER_ID} AND product.STATUS = '1' `, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+     WHERE MEMBER_ID = ${body.MEMBER_ID} AND product.STATUS = '1' `)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/insertFIX', (req, res) => {
+app.post('/insertFIX',async (req, res) => {
     const {
         body
     } = req;
     console.log(body);
-    mysqlConnection.query(`insert into fix (PRODUCT_ID,MEMBER_ID,FIX_DETAIL,BACK_MEMBER) 
-            values ('${body.PRODUCT_ID}','${body.MEMBER_ID}','${body.FIX_DETAIL}','${body.BACK_MEMBER}') `, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-            console.log(rows.insertId);
-            mysqlConnection.query(`insert into fixhistory (FIX_ID,FIX_STATUS) 
-            values (${rows.insertId},'${body.FIX_STATUS}') `)
-
-
-
-        } else {
-            console.log(err);
-        }
-    })
-
-
+    var query = await query_command(`insert into fix (PRODUCT_ID,MEMBER_ID,FIX_DETAIL,BACK_MEMBER) 
+    values ('${body.PRODUCT_ID}','${body.MEMBER_ID}','${body.FIX_DETAIL}','${body.BACK_MEMBER}') `)
+    console.log(query);
+    var query1 = await query_command(`insert into fixhistory (FIX_ID,FIX_STATUS) 
+    values (${query.insertId},'${body.FIX_STATUS}') `)
+    console.log(query1)
+    res.send(query)
+   
 });
 
-app.post('/selectPRODUCTFIX', (req, res) => {
+app.post('/selectPRODUCTFIX',async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM product
+    var query = await query_command(`SELECT * FROM product
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
-    JOIN type ON product.TYPE_ID = type.TYPE_ID WHERE MEMBER_ID = ${body.MEMBER_ID} AND PRODUCT_CODE LIKE '%${body.search}%'`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    JOIN type ON product.TYPE_ID = type.TYPE_ID WHERE MEMBER_ID = ${body.MEMBER_ID} AND PRODUCT_CODE LIKE '%${body.search}%'`)
+    //console.log(query)
+    res.send(query)
+  
 });
 
 
 
-app.post('/selectfixdetail', (req, res) => {
+app.post('/selectfixdetail', async(req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM fix
+    var query = await query_command(`SELECT * FROM fix
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
     WHERE fix.MEMBER_ID = ${body.MEMBER_ID} AND fixhistory.FIX_STATUS != "การรับคืนสำเร็จ"
-    ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    ORDER BY fixhistory.DATE DESC`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/selectfixdetailstatus', (req, res) => {
+app.post('/selectfixdetailstatus',async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM fix
+    var query = await query_command(`SELECT * FROM fix
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
     WHERE fix.MEMBER_ID = ${body.MEMBER_ID} AND fixhistory.FIX_STATUS = '${body.FIX_STATUS}'
-    ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    ORDER BY fixhistory.DATE DESC`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/selectfixdetails', (req, res) => {
+app.post('/selectfixdetails',async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT CONCAT(fix.FIX_ID) AS fixid,fix.PRODUCT_ID,fix.MEMBER_ID,fix.FIX_DETAIL,fix.BACK_MEMBER,fix.BACK_DATE,fix.BACK_DATE,BACK_ADMIN,fixhistory.*,product.*,brand.*,type.*,comments.* FROM fix
+    var query = await query_command(`SELECT CONCAT(fix.FIX_ID) AS fixid,fix.PRODUCT_ID,fix.MEMBER_ID,fix.FIX_DETAIL,fix.BACK_MEMBER,fix.BACK_DATE,fix.BACK_DATE,BACK_ADMIN,fixhistory.*,product.*,brand.*,type.*,comments.* FROM fix
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
     LEFT JOIN comments ON fix.FIX_ID = comments.FIX_ID
     WHERE fix.MEMBER_ID = ${body.MEMBER_ID} AND fixhistory.FIX_STATUS = "การรับคืนสำเร็จ"
-    ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    ORDER BY fixhistory.DATE DESC`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
 
@@ -580,15 +464,12 @@ app.post('/updatestatus', async (req, res) => {
         body
     } = req;
     //console.log(body);
-    mysqlConnection.query(`UPDATE fixhistory
+    var query = await query_command(`UPDATE fixhistory
     SET FIX_STATUS = '${body.FIX_STATUS}'
-    WHERE FIXHISTORY_ID='${body.FIXHISTORY_ID}';`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    WHERE FIXHISTORY_ID='${body.FIXHISTORY_ID}';`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
 app.post('/upprofile', async (req, res) => {
@@ -596,19 +477,16 @@ app.post('/upprofile', async (req, res) => {
         body
     } = req;
     //console.log(body);
-    mysqlConnection.query(`UPDATE member
+    var query = await query_command(`UPDATE member
     SET MEMBER_NAME = '${body.MEMBER_NAME}',
     MEMBER_TELL = '${body.MEMBER_TELL}',
     MEMBER_EMAIL = '${body.MEMBER_EMAIL}',
     MEMBER_USERNAME = '${body.MEMBER_USERNAME}',
     MEMBER_PASSWORD = '${body.MEMBER_PASSWORD}'
-    WHERE MEMBER_ID ='${body.MEMBER_ID}';`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    WHERE MEMBER_ID ='${body.MEMBER_ID}';`)
+    //console.log(query)
+    res.send(query)
+  
 });
 
 app.post('/updatestatus1', async (req, res) => {
@@ -616,78 +494,65 @@ app.post('/updatestatus1', async (req, res) => {
         body
     } = req;
     //console.log(body);
-    mysqlConnection.query(`UPDATE fixhistory
+    var query = await query_command(`UPDATE fixhistory
     SET FIX_STATUS = '${body.FIX_STATUS}'
-    WHERE FIXHISTORY_ID='${body.FIXHISTORY_ID}';`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-
-            //LINE
-            const lineNotify = require('line-notify-nodejs')('j0nFuC6Polr3iYD7fDD7DNed2jbyrIP4CO4MCqkycce');
-            lineNotify.notify({
-                message: '\n' + 'เลขครุภัณฑ์ : ' + ' ' + body.PRODUCT_CODE + '\n' + 'ประเภท : ' + ' ' + body.TYPE_NAME + '\n' + 'ยี่ห้อ : ' + ' ' + body.BRAND_NAME + '\n' + 'สถานะ : ' + body.FIX_STATUS
-            }).then(() => {
-                console.log('send completed!');
-            }).catch((err) => {
-                console.log(err);
-            });
-            //END
-        } else {
-            console.log(err);
-        }
-    })
+    WHERE FIXHISTORY_ID='${body.FIXHISTORY_ID}';`)
+    //console.log(query)
+     //LINE
+     const lineNotify = require('line-notify-nodejs')('j0nFuC6Polr3iYD7fDD7DNed2jbyrIP4CO4MCqkycce');
+     lineNotify.notify({
+         message: '\n' + 'เลขครุภัณฑ์ : ' + ' ' + body.PRODUCT_CODE + '\n' + 'ประเภท : ' + ' ' + body.TYPE_NAME + '\n' + 'ยี่ห้อ : ' + ' ' + body.BRAND_NAME + '\n' + 'สถานะ : ' + body.FIX_STATUS
+     }).then(() => {
+         console.log('send completed!');
+     }).catch((err) => {
+         console.log(err);
+     });
+     //END
+    res.send(query)
+  
 });
 app.post('/updatestatus2', async (req, res) => {
     const {
         body
     } = req;
-    // console.log(body+"updatestatus2");
-    mysqlConnection.query(`UPDATE fix
+    
+    var query = await query_command(`UPDATE fix
     SET BACK_MEMBER = '${body.BACK_MEMBER}',
     BACK_DATE = '${body.BACK_DATE}',
     BACK_ADMIN = ${body.BACK_ADMIN}
-    WHERE FIX_ID= ${body.FIX_ID};`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    WHERE FIX_ID= ${body.FIX_ID};`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
 
-app.post('/insertBRAND', (req, res) => {
+app.post('/insertBRAND',async (req, res) => {
     const {
         body
     } = req;
     // console.log(body);
-    mysqlConnection.query(`insert into brand (BRAND_NAME) 
-            values ('${body.BRAND_NAME}') `, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`insert into brand (BRAND_NAME) 
+    values ('${body.BRAND_NAME}') `)
+    //console.log(query)
+    res.send(query)
+  
 });
 
-app.post('/insertdistributor', (req, res) => {
+app.post('/insertdistributor',async (req, res) => {
     const {
         body
     } = req;
     // console.log(body);
-    mysqlConnection.query(`insert into distributor (NOTE,PRODUCT_ID) 
-            values ('${body.NOTE}',${body.PRODUCT_ID}) `, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-
-            mysqlConnection.query(`UPDATE product
-            SET STATUS = '${body.STATUS}'
-            WHERE PRODUCT_ID='${body.PRODUCT_ID}';`)
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`insert into distributor (NOTE,PRODUCT_ID) 
+    values ('${body.NOTE}',${body.PRODUCT_ID}) `)
+    console.log(query)
+    var query1 = await query_command(`UPDATE product
+    SET STATUS = '${body.STATUS}'
+    WHERE PRODUCT_ID='${body.PRODUCT_ID}';`)
+    console.log(query1)
+    res.send(query)
+   
 });
 
 app.post('/deleteBRAND', async (req, res) => {
@@ -695,14 +560,11 @@ app.post('/deleteBRAND', async (req, res) => {
         body
     } = req;
     //console.log(body);
-    mysqlConnection.query(`DELETE FROM brand
-    WHERE BRAND_ID = '${body.BRAND_ID}'`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`DELETE FROM brand
+    WHERE BRAND_ID = '${body.BRAND_ID}'`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
 app.post('/updateBRAND', async (req, res) => {
@@ -710,30 +572,24 @@ app.post('/updateBRAND', async (req, res) => {
         body
     } = req;
     console.log(body);
-    mysqlConnection.query(`UPDATE brand
+    var query = await query_command(`UPDATE brand
     SET BRAND_NAME = '${body.BRAND_NAME}'
-    WHERE BRAND_ID = '${body.BRAND_ID}';`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    WHERE BRAND_ID = '${body.BRAND_ID}';`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/insertTYPE', (req, res) => {
+app.post('/insertTYPE',async (req, res) => {
     const {
         body
     } = req;
     // console.log(body);
-    mysqlConnection.query(`insert into type (TYPE_NAME) 
-            values ('${body.TYPE_NAME}') `, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`insert into type (TYPE_NAME) 
+    values ('${body.TYPE_NAME}') `)
+    //console.log(query)
+    res.send(query)
+   
 });
 
 app.post('/deleteTYPE', async (req, res) => {
@@ -741,14 +597,11 @@ app.post('/deleteTYPE', async (req, res) => {
         body
     } = req;
     //console.log(body);
-    mysqlConnection.query(`DELETE FROM type
-    WHERE TYPE_ID = '${body.TYPE_ID}'`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    var query = await query_command(`DELETE FROM type
+    WHERE TYPE_ID = '${body.TYPE_ID}'`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
 app.post('/updateTYPE', async (req, res) => {
@@ -756,77 +609,63 @@ app.post('/updateTYPE', async (req, res) => {
         body
     } = req;
     console.log(body);
-    mysqlConnection.query(`UPDATE type
+    var query = await query_command(`UPDATE type
     SET TYPE_NAME = '${body.TYPE_NAME}'
-    WHERE TYPE_ID = '${body.TYPE_ID}';`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    WHERE TYPE_ID = '${body.TYPE_ID}';`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/selecthistoryfixadmin', (req, res) => {
+app.post('/selecthistoryfixadmin',async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM fix
+    var query = await query_command(`SELECT * FROM fix
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
     WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ"
-    ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    ORDER BY fixhistory.DATE DESC`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/selecthistoryfixadminnot', (req, res) => {
+app.post('/selecthistoryfixadminnot',async (req, res) => {
     const {
         body
     } = req;
-    mysqlConnection.query(`SELECT * FROM fix
+    var query = await query_command(`SELECT * FROM fix
     JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
     JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
     JOIN brand ON product.BRAND_ID = brand.BRAND_ID
     JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
     JOIN type ON product.TYPE_ID = type.TYPE_ID
     WHERE fixhistory.FIX_STATUS = "ไม่สามารถซ่อมได้"
-    ORDER BY fixhistory.DATE DESC`, (err, rows, fields) => {
-        if (!err) {
-            res.send(rows);
-        } else {
-            console.log(err);
-        }
-    })
+    ORDER BY fixhistory.DATE DESC`)
+    //console.log(query)
+    res.send(query)
+   
 });
 
-app.post('/selectfixdashboard', (req, res) => {
+app.post('/selectfixdashboard',async (req, res) => {
     const {
         body
     } = req;
     console.log(body);
     if (body.month == '0') {
-        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb FROM fix
-    LEFT JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
-    LEFT JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
-    WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
-    GROUP BY member.MEMBER_WORK`, (err, rows, fields) => {
-            if (!err) {
-                res.send(rows);
-                console.log(rows);
-            } else {
-                console.log(err);
-            }
-        })
+        var query = await query_command(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb FROM fix
+        LEFT JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
+        LEFT JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
+        WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
+        GROUP BY member.MEMBER_WORK`)
+        //console.log(query)
+        res.send(query)
     } else {
-        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb ,
+        var query = await query_command(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb ,
         CASE
           WHEN MONTH(fixhistory.DATE) = '1' THEN 'มกราคม'
           WHEN MONTH(fixhistory.DATE) = '2' THEN 'กุมภาพันธ์'
@@ -848,41 +687,33 @@ app.post('/selectfixdashboard', (req, res) => {
         WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" 
         AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
         AND MONTH(fixhistory.DATE) = '${body.month}'
-        GROUP BY member.MEMBER_WORK,fixhistory.DATE`, (err, rows, fields) => {
-            if (!err) {
-                res.send(rows);
-                console.log(rows);
-            } else {
-                console.log(err);
-            }
-        })
+        GROUP BY member.MEMBER_WORK,fixhistory.DATE`)
+        //console.log(query)
+        res.send(query)
+       
     }
 
 
 });
 
 
-app.post('/selectfixtype', (req, res) => {
+app.post('/selectfixtype',async (req, res) => {
     const {
         body
     } = req;
     console.log(body);
     if (body.month == '0') {
-        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)typefixcount,CONCAT(type.type_NAME)typename FROM fix
+        var query = await query_command(`SELECT COUNT(fix.FIX_ID)typefixcount,CONCAT(type.type_NAME)typename FROM fix
         LEFT JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
         LEFT JOIN product ON fix.PRODUCT_ID = product.PRODUCT_ID
         LEFT JOIN type ON product.TYPE_ID = type.TYPE_ID
         WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
-        GROUP BY typename`, (err, rows, fields) => {
-            if (!err) {
-                res.send(rows);
-                console.log(rows);
-            } else {
-                console.log(err);
-            }
-        })
+        GROUP BY typename`)
+        //console.log(query)
+        res.send(query)
+       
     } else {
-        mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)typefixcount,CONCAT(type.type_NAME)typename,
+        var query = await query_command(`SELECT COUNT(fix.FIX_ID)typefixcount,CONCAT(type.type_NAME)typename,
         CASE
           WHEN MONTH(fixhistory.DATE) = '1' THEN 'มกราคม'
           WHEN MONTH(fixhistory.DATE) = '2' THEN 'กุมภาพันธ์'
@@ -906,37 +737,12 @@ app.post('/selectfixtype', (req, res) => {
         WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" 
         AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
         AND MONTH(fixhistory.DATE) = '${body.month}'
-        GROUP BY type.type_NAME,fixhistory.DATE`, (err, rows, fields) => {
-            if (!err) {
-                res.send(rows);
-                console.log(rows);
-            } else {
-                console.log(err);
-            }
-        })
+        GROUP BY type.type_NAME,fixhistory.DATE`)
+        //console.log(query)
+        res.send(query)
+       
     }
 });
 
-// app.post('/selectfixdashboard1', (req, res) => {
-//     const {
-//         body
-//     } = req;
-//     console.log(body);
-//     mysqlConnection.query(`SELECT COUNT(fix.FIX_ID)fixcount,CONCAT(member.MEMBER_WORK)workmb,CONCAT(YEAR(fixhistory.DATE)+543)yearfix FROM fix
-//     LEFT JOIN member ON fix.MEMBER_ID = member.MEMBER_ID
-//     LEFT JOIN fixhistory ON fix.FIX_ID = fixhistory.FIX_ID
-//     WHERE fixhistory.FIX_STATUS = "การรับคืนสำเร็จ" AND CONCAT(YEAR(fixhistory.DATE)+543) = "${body.year}"
-//     GROUP BY member.MEMBER_WORK`, (err, rows, fields) => {
-//         if (!err) {
-//             res.send(rows);
-//             console.log(rows);
-//         } else {
-//             console.log(err);
-//         }
-//     })
-
-
-
-// });
 
 app.listen(port);
