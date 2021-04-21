@@ -5,8 +5,8 @@ var app = express();
 app.use(bodyparser.json());
 var path = require("path");
 require("dotenv").config();
-// const port = process.env.PORT || 5000;
-const port = 80;
+const port = process.env.PORT || 5000;
+// const port = 80;
 
 app.use(express.static(__dirname + "/dist/"));
 app.get(/.*/, function (req, res) {
@@ -29,6 +29,8 @@ const {
     query_command
 } = require("./utilities/query_command")
 
+
+
 console.log("Server started...");
 var mysqlConnection = mysql.createConnection({
     host: '128.199.214.155',
@@ -39,7 +41,12 @@ var mysqlConnection = mysql.createConnection({
     multipleStatements: true
 });
 
-
+app.post("/webhook", (req, res) => {
+    //console.log(req.body.events);
+    Promise
+      .all(req.body.events.map(handleEvent))
+      .then(result => res.json(result));
+  });
 
 app.post('/selecttype', async (req, res) => {
     var query = await query_command(`SELECT * FROM type`)
