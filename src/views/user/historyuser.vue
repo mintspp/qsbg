@@ -92,7 +92,6 @@
           <b-modal :id="infoModal3.id" size="lg" ref="modal-3" hide-footer>
             <b-container fluid>
               <!-- productdetail -->
-
               <div v-if="itemss[productdetail].COMMENT_TYPE == null">
                 <div align="center"><b>ให้คะเเนน</b></div>
                 <b-row>
