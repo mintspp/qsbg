@@ -263,50 +263,50 @@ app.post('/notification', async (req, res) => {
 
 });
 
-var cron = require('node-cron');
-notificationLINE();
-async function notificationLINE() {
-    mysqlConnection.query(`SELECT *FROM product
-    LEFT JOIN type ON type.TYPE_ID = product.TYPE_ID
-    LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
-    `, (err, rows, fields) => {
-        if (!err) {
-            var cron = require('node-cron');
-            //5 0 * * * คือ ให้ทำงานเมื่อเวลาผ่านไป 5นาที หลังเที่ยงคืน ในทุกๆ วัน
-            cron.schedule('5 0 * * *', () => {
-                var product = []
-                for (let index = 0; index < rows.length; index++) {
-                    const element = rows[index];
-                    // console.log(new Date() > new Date(element.PRODUCT_EXP));
-                    if (new Date() > new Date(element.PRODUCT_EXP)) {
-                        console.log(element);
-                        product.push(element)
-                    }
-                }
-                //LINE 
-                const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
-                lineNotify.notify({
-                    message: '\n' + 'เลขครุภัณฑ์' + ' ' + product.map((x) => {
-                        return x.PRODUCT_CODE
-                    }) + ' ' + 'หมดอายุ' + '\n' + 'วันที่หมดอายุ : ' + product.map((x) => {
-                        return x.PRODUCT_EXP
-                    }) + '\n' + 'ประเภท : ' + product.map((x) => {
-                        return x.TYPE_NAME
-                    }) + '\n' + 'ยี่ห้อ : ' + product.map((x) => {
-                        return x.BRAND_NAME
-                    }),
-                }).then(() => {
-                    console.log('send completed!');
-                }).catch((err) => {
-                    console.log(err);
-                });
-                //END
-            });
-        } else {
-            console.log(err);
-        }
-    })
-};
+// var cron = require('node-cron');
+// notificationLINE();
+// async function notificationLINE() {
+//     mysqlConnection.query(`SELECT *FROM product
+//     LEFT JOIN type ON type.TYPE_ID = product.TYPE_ID
+//     LEFT JOIN brand ON brand.BRAND_ID = product.BRAND_ID
+//     `, (err, rows, fields) => {
+//         if (!err) {
+//             var cron = require('node-cron');
+//             //5 0 * * * คือ ให้ทำงานเมื่อเวลาผ่านไป 5นาที หลังเที่ยงคืน ในทุกๆ วัน
+//             cron.schedule('5 0 * * *', () => {
+//                 var product = []
+//                 for (let index = 0; index < rows.length; index++) {
+//                     const element = rows[index];
+//                     // console.log(new Date() > new Date(element.PRODUCT_EXP));
+//                     if (new Date() > new Date(element.PRODUCT_EXP)) {
+//                         console.log(element);
+//                         product.push(element)
+//                     }
+//                 }
+//                 //LINE 
+//                 const lineNotify = require('line-notify-nodejs')('DDFt6k1KVs0Hpauk7B6yiYyz4l7FIcJO3q912rB4BMN');
+//                 lineNotify.notify({
+//                     message: '\n' + 'เลขครุภัณฑ์' + ' ' + product.map((x) => {
+//                         return x.PRODUCT_CODE
+//                     }) + ' ' + 'หมดอายุ' + '\n' + 'วันที่หมดอายุ : ' + product.map((x) => {
+//                         return x.PRODUCT_EXP
+//                     }) + '\n' + 'ประเภท : ' + product.map((x) => {
+//                         return x.TYPE_NAME
+//                     }) + '\n' + 'ยี่ห้อ : ' + product.map((x) => {
+//                         return x.BRAND_NAME
+//                     }),
+//                 }).then(() => {
+//                     console.log('send completed!');
+//                 }).catch((err) => {
+//                     console.log(err);
+//                 });
+//                 //END
+//             });
+//         } else {
+//             console.log(err);
+//         }
+//     })
+// };
 
 
 app.post('/selectFIX',async (req, res) => {
@@ -506,14 +506,14 @@ app.post('/updatestatus1', async (req, res) => {
     WHERE FIXHISTORY_ID='${body.FIXHISTORY_ID}';`)
     //console.log(query)
      //LINE
-     const lineNotify = require('line-notify-nodejs')('j0nFuC6Polr3iYD7fDD7DNed2jbyrIP4CO4MCqkycce');
-     lineNotify.notify({
-         message: '\n' + 'เลขครุภัณฑ์ : ' + ' ' + body.PRODUCT_CODE + '\n' + 'ประเภท : ' + ' ' + body.TYPE_NAME + '\n' + 'ยี่ห้อ : ' + ' ' + body.BRAND_NAME + '\n' + 'สถานะ : ' + body.FIX_STATUS
-     }).then(() => {
-         console.log('send completed!');
-     }).catch((err) => {
-         console.log(err);
-     });
+    //  const lineNotify = require('line-notify-nodejs')('j0nFuC6Polr3iYD7fDD7DNed2jbyrIP4CO4MCqkycce');
+    //  lineNotify.notify({
+    //      message: '\n' + 'เลขครุภัณฑ์ : ' + ' ' + body.PRODUCT_CODE + '\n' + 'ประเภท : ' + ' ' + body.TYPE_NAME + '\n' + 'ยี่ห้อ : ' + ' ' + body.BRAND_NAME + '\n' + 'สถานะ : ' + body.FIX_STATUS
+    //  }).then(() => {
+    //      console.log('send completed!');
+    //  }).catch((err) => {
+    //      console.log(err);
+    //  });
      //END
     res.send(query)
   
